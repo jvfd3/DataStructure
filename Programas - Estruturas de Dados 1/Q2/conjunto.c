@@ -97,12 +97,12 @@ void	InsertElement		(MainN* mainPointer, int numberToInsert){	//		b)	Inserir um 
 			mainPointer->last->next=NewElem;
 			mainPointer->last=NewElem;
 		}
-//		printf("Inserted element %d. List:\t", numberToInsert);
-//		ShowList(mainPointer);
+		printf("Inserted element %d. List:\t", numberToInsert);
+		ShowList(mainPointer);
 	//	ShowListPointers(mainPointer);
 			
 	} else {
-//		printf("The value %d already exists.\n", numberToInsert);
+		printf("The value %d already exists.\n", numberToInsert);
 	}
 }
 void	InsertElementsTest1	(MainN* mainPointer){						//		b)	Inserir elementos no conjunto.
