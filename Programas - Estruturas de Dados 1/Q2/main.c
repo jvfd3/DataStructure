@@ -44,7 +44,11 @@ void main(){
 /**/CheckEmpty(l1);					//		h)	Testar se o conjunto é vazio.
 	MainN* l6=CreateEmptyList();
 /**/CheckEmpty(l6);	
-//	Clean(l1);
-//	Clean(l2);
+	Clean(l1);
+	Clean(l2);
+	Clean(l3);
+	Clean(l4);
+	Clean(l5);
+	Clean(l6);
 
 }

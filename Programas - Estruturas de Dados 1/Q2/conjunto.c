@@ -321,11 +321,18 @@ void	CheckEmpty			(MainN* mainPointer){						//		h)	Testar se o conjunto e vazio
 }
 void	Clean				(MainN* mainPointer){
 	
+	printf("Cleaning list %d.\n", mainPointer);
 	int loopCounter;
 	N* nodePointer=mainPointer->first;
-	for(loopCounter=0;loopCounter<mainPointer->listLength;loopCounter++){
-		
+	N* lastNodePointer;
+	for(loopCounter=1;loopCounter<mainPointer->listLength;loopCounter++){
+		printf("(%d,%d)\n",loopCounter,nodePointer->intValue);
+		lastNodePointer=nodePointer;
 		nodePointer=nodePointer->next;
+		free(lastNodePointer);
 	}
 	free(mainPointer);
+	free(nodePointer);
+	free(lastNodePointer);
+	printf("Cleaned.\n");
 }
