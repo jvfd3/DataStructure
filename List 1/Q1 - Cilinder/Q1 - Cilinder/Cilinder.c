@@ -1,12 +1,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
-#include "Cilinder.h"
+
 // colocar o volume e área dentro do struct?
-struct cilindro {
+typedef struct cilindro {
 	int x,y;
 	float raio, altura;
-};
+}Cilindro;
 
 Cilindro* cil_cria (int x, int y, float alt, float r){
 	Cilindro* c = (Cilindro*) malloc ( sizeof (Cilindro) );
@@ -19,8 +19,7 @@ Cilindro* cil_cria (int x, int y, float alt, float r){
 	}
 	return c;
 }
-/* Criamos um ponteiro do tipo struct, alocamos a memória correspondente, e caso essa operação teve sucesso, atribuímos os respectivos valores.
-*/
+
 /*
 float cil_altura (Cilindro* c){
 	return c -> altura;
@@ -35,16 +34,13 @@ float cil_volume(Cilindro* c){
 	return 3.14*c->raio*c->raio*c->altura;
 }
 
-
 float cil_area(Cilindro* c){
 	return 6.28*c->raio*(c->raio+c->altura);
 }
 
-
 void cil_libera (Cilindro* c){
 	free(c);
 }
-
 
 void mostra_dados_cil(Cilindro* c, int n){
 	printf("Cilindro %d\n",n);

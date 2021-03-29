@@ -8,8 +8,8 @@
 int main(){
 	
 	Cilindro *c1, *c2;
-	c1= cil_cria(10,5);
-	c2= cil_cria(5,10);
+	c1= cil_cria(1,1,10,5);
+	c2= cil_cria(2,2,5,10);
 
 	mostra_dados_cil(c1,1);
 	mostra_dados_cil(c2,2);
