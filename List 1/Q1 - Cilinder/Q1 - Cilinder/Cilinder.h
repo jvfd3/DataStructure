@@ -1,13 +1,18 @@
 #include "Cilinder.c"
 
-Cilindro* cil_cria (int x, int y, float alt, float r);
+Cilinder* CreateCilinder ();
+void SetDateToCilinder (Cilinder* c, int x, int y, float alt, float r);
 
-//float cil_altura (Cilindro* c);
+//float ReturnCilinderHeight (Cilinder* c);
 
-//float cil_raio (Cilindro* c);
+//float ReturnCilinderRadius (Cilinder* c);
 
-float cil_volume (Cilindro* c);
+float ReturnCilinderVolume (Cilinder* c);
+//Should ReturnCilinderVolume and ReturnCilinderArea be put here in .h or just inside Cilinder.c?
+//I guess the idea is to let the user only use certain functions, and these returns should be just internal commands,
+//so they should be removed... but I'm not sure.
+float ReturnCilinderArea (Cilinder* c);
 
-float cil_area (Cilindro* c);
+void ShowCilinderData(Cilinder* c, int n);
 
-void cil_libera (Cilindro* c);
+void FreeCilinder (Cilinder* c);

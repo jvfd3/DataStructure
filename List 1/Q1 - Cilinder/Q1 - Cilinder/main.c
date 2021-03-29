@@ -7,13 +7,16 @@
 */
 int main(){
 	
-	Cilindro *c1, *c2;
-	c1= cil_cria(1,1,10,5);
-	c2= cil_cria(2,2,5,10);
+	Cilinder *c1, *c2;
+	c1= CreateCilinder();
+	c2= CreateCilinder();
+	
+	SetDataToCilinder(c1,1,1,10,5);
+	SetDataToCilinder(c2,2,2,5,10);
 
-	mostra_dados_cil(c1,1);
-	mostra_dados_cil(c2,2);
+	ShowCilinderData(c1,1);
+	ShowCilinderData(c2,2);
 
-	cil_libera(c1);
-	cil_libera(c2);	
+	FreeCilinder(c1);
+	FreeCilinder(c2);	
 }
