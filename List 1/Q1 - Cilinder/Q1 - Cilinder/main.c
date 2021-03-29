@@ -1,4 +1,4 @@
-#include "Cilindro.c"
+#include "Cilinder.h"
 /*
 	1.	Desenvolva e implemente um TAD que represente um cilindro.
 	Inclua as funções de inicializações necessárias e as operações que retornem a

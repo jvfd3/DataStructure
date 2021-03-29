@@ -1,5 +1,4 @@
-typedef struct ponto Ponto;
-
+#include "Point.c"
 //Cria um novo ponto
 Ponto* pto_cria (float x, float y);
 

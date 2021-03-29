@@ -1,12 +1,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
-#include "Ponto.h"
 
-struct ponto{
+typedef struct ponto {
 	float x;
 	float y;
-};
+} Ponto;
 
 //Aloca e retorna um ponto com coordenadas "x" e "y"
 Ponto* pto_cria(float x, float y){
@@ -18,9 +17,6 @@ Ponto* pto_cria(float x, float y){
 	return p;
 }
 
-void pto_libera(Ponto* p){
-	free(p);
-}
 
 void pto_acessa (Ponto* p, float* x, float* y){
 	*x = p->x;
@@ -38,15 +34,6 @@ float pto_distancia(Ponto* p1, Ponto* p2){
 	return sqrt(dx*dx+dy*dy);
 }
 
-int main(){
-	float d;
-	Ponto *p, *q;
-	p= pto_cria(10,21);
-	q= pto_cria(7,25);
-	d= pto_distancia(p,q);
-	printf("Distancia entre pontos: %f\n",d);
-	pto_libera(p);
-	pto_libera(q);	
+void pto_libera(Ponto* p){
+	free(p);
 }
-
-

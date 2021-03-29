@@ -1,3 +1,4 @@
+#include "Cilinder.c"
 typedef struct cilindro Cilindro;
 /*
 //Cria um novo cilindro
