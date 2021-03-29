@@ -291,7 +291,7 @@ void	CheckEquality		(MainN* mainPointer1, MainN* mainPointer2){	//		g)	Testar se
 			nodePointer2=nodePointer2->next;
 		}
 		
-		if(hasSameElement1==hasSameElement2){
+		if((hasSameElement1==hasSameElement2)&&((hasSameElement1>0)&&(hasSameElement2>0))){
 			printf("Lists are equal.\n");
 		} else{
 			printf("Lists are not equal.\n");
@@ -310,13 +310,13 @@ void	CheckEmpty			(MainN* mainPointer){						//		h)	Testar se o conjunto e vazio
 				printf("No Last (%d), ",mainPointer->last);
 				printf("So the list (%d) is empty. \n", mainPointer);
 			} else {
-				printf("List is not empty.\n");
+				printf("List (%d) has a last element (%d), so it's not empty.\n", mainPointer, mainPointer->last);
 			}
 		} else {
-			printf("List is not empty.\n");
+			printf("List (%d) has a first element (%d), so it's not empty.\n", mainPointer, mainPointer->first);
 		}	
 	} else {
-		printf("List is not empty.\n");
+		printf("List (%d) has length (%d), so it's not empty.\n", mainPointer, mainPointer->listLength);
 	}	
 }
 void	Clean				(MainN* mainPointer){
