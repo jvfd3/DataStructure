@@ -97,12 +97,12 @@ void	InsertElement		(MainN* mainPointer, int numberToInsert){	//		b)	Inserir um 
 			mainPointer->last->next=NewElem;
 			mainPointer->last=NewElem;
 		}
-		printf("Inserted element %d. List:\t", numberToInsert);
-		ShowList(mainPointer);
+//		printf("Inserted element %d. List:\t", numberToInsert);
+//		ShowList(mainPointer);
 	//	ShowListPointers(mainPointer);
 			
 	} else {
-		printf("The value %d already exists.\n", numberToInsert);
+//		printf("The value %d already exists.\n", numberToInsert);
 	}
 }
 void	InsertElementsTest1	(MainN* mainPointer){						//		b)	Inserir elementos no conjunto.
@@ -123,7 +123,7 @@ void	RemoveLastElement	(MainN* mainPointer){						//		c)	Remover um elemento do 
 	
 	if(mainPointer->listLength>0){
 		
-		printf("Removed  element %d. List:\t", mainPointer->last->intValue);
+//		printf("Removed  element %d. List:\t", mainPointer->last->intValue);
 		free(mainPointer->last);
 		mainPointer->listLength--;
 		
@@ -136,7 +136,7 @@ void	RemoveLastElement	(MainN* mainPointer){						//		c)	Remover um elemento do 
 		nodePointer->next=NULL;
 		mainPointer->last=nodePointer;
 				
-		ShowList(mainPointer);
+//		ShowList(mainPointer);
 	//	ShowListPointers(mainPointer);
 	} else {
 		printf("Nothing to be removed.\n");
@@ -159,17 +159,16 @@ void	RemoveElementsTest	(MainN* mainPointer){						//		c)	Remover  elementos do 
 	RemoveLastElement(mainPointer);			//		c)	Remover um elemento no conjunto.
 	RemoveLastElement(mainPointer);			//		c)	Remover um elemento no conjunto.
 }
-void	CheckNumberIndex	(MainN* mainPointer, int numberToCheck, int checkCounter){	//		d)	Testar se um numero pertence ao conjunto.
+void	CheckNumberIndex	(MainN* mainPointer, int numberToCheck){	//		d)	Testar se um numero pertence ao conjunto.
 	int loopCounter;
 	N* nodePointer=mainPointer->first;
-	printf("Found on index%s ", checkCounter>1?"es":"  ");
+	printf("Found on index ");
 	for(loopCounter=0;loopCounter<mainPointer->listLength;loopCounter++){
 		if(nodePointer->intValue==numberToCheck){	
-			printf("%d,", loopCounter);
+			printf("%d\n", loopCounter);
 		}
 		nodePointer=nodePointer->next;
 	}
-	printf("\n");
 }
 void	CheckNumber			(MainN* mainPointer, int numberToCheck){	//		d)	Testar se um numero pertence ao conjunto.
 	int loopCounter, checkCounter=0;
@@ -188,8 +187,8 @@ void	CheckNumber			(MainN* mainPointer, int numberToCheck){	//		d)	Testar se um 
 	if (checkCounter == 0){
 		printf("%d was not found in the list.\n", numberToCheck);
 	} else if (checkCounter>0){
-		printf("%d was found %d time%s in the list. ", numberToCheck, checkCounter, checkCounter>1?"s":" ");	//little trick to use in case of plural
-		CheckNumberIndex(mainPointer,numberToCheck,checkCounter);
+		printf("%d was found in the list. ", numberToCheck);
+		CheckNumberIndex(mainPointer, numberToCheck);
 	} else {
 		printf("How was it smaller than zero? Go check your code again!\n");
 	}
@@ -243,21 +242,90 @@ void	CheckEquality		(MainN* mainPointer1, MainN* mainPointer2){	//		g)	Testar se
 	
 	if (mainPointer1->listLength==mainPointer2->listLength){
 		
-		int loopCounter1, loopCounter2;
-		N* nodePointer1=mainPointer1->first;
-		N* nodePointer2=mainPointer2->first;
-		for(loopCounter1=0;loopCounter1<mainPointer1->listLength;loopCounter1++){
-			for(loopCounter2=0;loopCounter2<mainPointer1->listLength;loopCounter2++){
-				
+		int loopCounter1, loopCounter2, hasSameElement1=0, hasSameElement2=0;
+		N* nodePointer1;
+		N* nodePointer2;
+		
+		nodePointer1=mainPointer1->first;
+		nodePointer2=mainPointer2->first;
+		
+		for(loopCounter1=1;loopCounter1<=mainPointer1->listLength;loopCounter1++){
+			for(loopCounter2=1;loopCounter2<=mainPointer2->listLength;loopCounter2++){
+//				printf("(Leng1,Leng2)=(%d,%d)\t",mainPointer1->listLength,mainPointer2->listLength);
+//				printf("(L2,L1)=(%d,%d)=(%d,%d)\n", loopCounter2, loopCounter1, nodePointer2->intValue, nodePointer1->intValue);
+				if(nodePointer1->intValue==nodePointer2->intValue){
+					hasSameElement1+=1;
+					break;
+				}
 				nodePointer2=nodePointer2->next;
 			}
+			if(hasSameElement1==loopCounter1){
+//				printf("Element %d of list 1 matches with element on list 2.\n", nodePointer1->intValue);
+			} else {
+				printf("Element %d on list1 doesn't has a match on list2\n", nodePointer1->intValue);
+			}
+			nodePointer2=mainPointer2->first;
 			nodePointer1=nodePointer1->next;
-		}	
+		}
+		
+//		printf("\n\nEnd of first for pairs.\n\n");
+		
+		nodePointer1=mainPointer1->first;
+		nodePointer2=mainPointer2->first;
+		for(loopCounter2=1;loopCounter2<=mainPointer2->listLength;loopCounter2++){
+			for(loopCounter1=1;loopCounter1<=mainPointer1->listLength;loopCounter1++){
+//				printf("(Leng1,Leng2)=(%d,%d)\t",mainPointer1->listLength,mainPointer2->listLength);
+//				printf("(L2,L1)=(%d,%d)=(%d,%d)\n", loopCounter2, loopCounter1, nodePointer2->intValue, nodePointer1->intValue);
+				if(nodePointer1->intValue==nodePointer2->intValue){
+					hasSameElement2+=1;
+					break;
+				}
+				nodePointer1=nodePointer1->next;
+			}
+			if(hasSameElement2==loopCounter2){
+//				printf("Element %d of list 2 matches with element on list 1.\n", nodePointer2->intValue);
+			} else {
+				printf("Element %d on list2 doesn't has a match on list1\n", nodePointer2->intValue);
+			}
+			nodePointer1=mainPointer1->first;
+			nodePointer2=nodePointer2->next;
+		}
+		
+		if(hasSameElement1==hasSameElement2){
+			printf("Lists are equal.\n");
+		} else{
+			printf("Lists are not equal.\n");
+		}
 	} else {
 		printf("Lists are not equal. Different lengths: (list1Length, list2Length)=(%d, %d)\n", mainPointer1->listLength, mainPointer2->listLength);
 	}
+//	printf("end of equality.\n");
 }
 void	CheckEmpty			(MainN* mainPointer){						//		h)	Testar se o conjunto e vazio.
+	if (mainPointer->listLength==0){
+		printf("Contains zero elements (%d), ",mainPointer->listLength);
+		if (mainPointer->first==NULL){
+			printf("No First (%d), ", mainPointer->first);
+			if (mainPointer->last==NULL){
+				printf("No Last (%d), ",mainPointer->last);
+				printf("So the list (%d) is empty. \n", mainPointer);
+			} else {
+				printf("List is not empty.\n");
+			}
+		} else {
+			printf("List is not empty.\n");
+		}	
+	} else {
+		printf("List is not empty.\n");
+	}	
 }
 void	Clean				(MainN* mainPointer){
+	
+	int loopCounter;
+	N* nodePointer=mainPointer->first;
+	for(loopCounter=0;loopCounter<mainPointer->listLength;loopCounter++){
+		
+		nodePointer=nodePointer->next;
+	}
+	free(mainPointer);
 }

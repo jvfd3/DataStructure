@@ -4,6 +4,12 @@
 
 
 void main(){
+	/*	CLEAN VERSION	*/
+	
+	
+	
+	/*	VARIATIONS VERSION	*/
+	
 /**/MainN* l1=CreateEmptyList();	//		a)	Criar uma lista vazia.
 	
 /**/InsertElement(l1,111);			//		b)	Inserir um elemento no conjunto.
@@ -19,15 +25,25 @@ void main(){
 	MainN* l2=CreateEmptyList();
 	InsertElementsTest2(l2);
 	MainN* l3=CreateEmptyList();
-	ShowList(l1);
-	ShowList(l2);
-	ShowList(l3);
 /**/Concatenate(l1,l2,l3);				//		f)	União de dois conjuntos.
-	ShowList(l1);
-	ShowList(l2);
-	ShowList(l3);
-/**///	CheckEquality(l1,l2);			//		g)	Testar se os dois conjuntos são iguais.
-/**///	CheckEmpty(l1);					//		h)	Testar se o conjunto é vazio.
+/**/CheckEquality(l1,l2);			//		g)	Testar se os dois conjuntos são iguais.
+
+	MainN* l4=CreateEmptyList();
+	InsRemElementsTest1(l4);
+	ShowList(l4);
+	
+	MainN* l5=CreateEmptyList();
+	InsRemElementsTest1(l5);
+	ShowList(l5);
+	CheckEquality(l4,l5);
+	RemoveLastElement(l4);
+	InsertElement(l4,888);
+	ShowList(l4);
+	
+	CheckEquality(l4,l5);
+/**/CheckEmpty(l1);					//		h)	Testar se o conjunto é vazio.
+	MainN* l6=CreateEmptyList();
+/**/CheckEmpty(l6);	
 //	Clean(l1);
 //	Clean(l2);
 
