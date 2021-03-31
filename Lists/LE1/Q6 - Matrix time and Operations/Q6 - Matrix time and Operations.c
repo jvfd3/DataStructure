@@ -59,11 +59,7 @@ void matrixMultiplication	(int size, int a[size][size], int b[size][size], int c
 	}
 }
 void printTimer				(clock_t time){
-	double timeTaken = ((double)time)/CLOCKS_PER_SEC;
-    printf("func 1 Time taken: %.4f ms.\n", timeTaken*1000);
-}
-void printTimer1				(clock_t time){
-    printf("func 2 Time taken: %.4f ms.\n", (double)time*1000/CLOCKS_PER_SEC);
+    printf("Time taken: %.4f ms.\n", (double)time*1000/CLOCKS_PER_SEC);
 }
 
 int main(){
