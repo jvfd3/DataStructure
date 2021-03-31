@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <math.h>
 
 /*
@@ -18,9 +17,15 @@
 	S=0+1+1+2+3+1/2+1/3
 	S=7,5+1/3
 	S=7,8333...
+	
+	0->0
+	1->2
+	2->4.5
+	3->7.833
+	4->12.0833
 */
 
-int filterInput(){
+int		filterInput			(){
 	int num;
 	do{
 		printf("\nType a positive Integer:\t");
@@ -28,39 +33,23 @@ int filterInput(){
 	} while (num<0);
 	return num;
 }
-float serie(int n){
+float 	serie				(int n){
 	if (n>0){
-		printf("%d",n);
-		return ((1.0+n*n/n) + serie(n-1));
-	}else{
+		return ((1.0/n+n) + serie(n-1));
+	} else {
 		return 0;
+	}
+}
+void 	fixedResultsLoop	(){
+	int i;
+	for (i=0;i<50;i++){
+		printf("(%d,\t%.4f)\n", i, serie(i));
 	}
 }
 
 int main(){
-//	int num = -1;
-//	num=filterInput();
-//	float SerieResult=serie(num);
-//	printf("%.3f", SerieResult);
-
+	int num = filterInput();
+	printf("%.3f", serie(num));
 	
-	int i=3;
-	int j=2;
-	float k=i/j;
-	printf("II: %f\n",k);
-
-	float x=3;
-	int y=2;
-	float z=x/y;
-	printf("FI: %f\n",z);
-
-	int a=3;
-	float b=2;
-	float c=a/b;
-	printf("IF: %f\n",c);
-	
-	float u=3;
-	float v=2;
-	float w=u/v;
-	printf("FF: %f",w);
+//	fixedResultsLoop();
 }
