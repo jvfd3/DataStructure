@@ -19,91 +19,67 @@
 		ii)	O número de operações realizadas (somas + multiplicações) por cada algoritmo.
 */
 
-int main(){
-	
+void createMatrix			(int size, int m[size][size]){
+	int i, j;
+	for (i=0;i<size;i++){
+		for (j=0;j<size;j++){
+			m[i][j]= rand()%2;
+		}
+	}
+}
+void printMatrix			(int size, int m[size][size]){
+	int i, j;
 
-	
-	int size=3;
-	printf("Matrix A:\n");
-	int a[size][size];
-	int i, j, k;
-//	Creating Matrix A
 	for (i=0;i<size;i++){
 		for (j=0;j<size;j++){
-			a[i][j]= rand()%2;
-		}
-	}
-	
-//	Printing Matrix A
-	for (i=0;i<size;i++){
-		for (j=0;j<size;j++){
-			printf("%d\t",a[i][j]);
+			printf("%d\t",m[i][j]);
 		}
 		printf("\n");
 	}
 	printf("\n");
-	
-	
-//	Creating Matrix B
-	printf("Matrix 	B:\n");
-	int b[size][size];
-	for (i=0;i<size;i++){
-		for (j=0;j<size;j++){
-			b[i][j]= rand()%2;
-		}
-	}
-	
-//	Printing Matrix B
-	for (i=0;i<size;i++){
-		for (j=0;j<size;j++){
-			printf("%d\t",b[i][j]);
-		}
-		printf("\n");
-	}
-	printf("\n");
-	
-	
-	int c[size][size];
-	
-//	Creating Sum Matrix
+}
+void matrixSum				(int size, int a[size][size], int b[size][size], int c[size][size]){
+	int i, j;
 	for (i=0;i<size;i++){
 		for (j=0;j<size;j++){
 			c[i][j]=a[i][j]+b[i][j];
 		}
 	}
-	
-//	Printing Sum Matrix
-	printf("Sum Matrix:\n");
+}
+void matrixMultiplication	(int size, int a[size][size], int b[size][size], int c[size][size]){
+	int i, j, k;
 	for (i=0;i<size;i++){
 		for (j=0;j<size;j++){
-			printf("%d\t",c[i][j]);
-		}
-		printf("\n");
-	}
-	printf("\n");
-	
-//	Creating Matrix Multiplication
-	int d[size][size];
-	for (i=0;i<size;i++){
-		for (j=0;j<size;j++){
-			d[i][j]=0;
+			c[i][j]=0;
 			for (k=0;k<size;k++){
-				d[i][j]+=a[i][k]*b[k][j];
+				c[i][j]+=a[i][k]*b[k][j];
 			}
 		}
 	}
+}
+
+int main(){
+
+	int size=3;
 	
+	printf("Matrix A:\n");
+	int a[size][size];
+	createMatrix(size,a);	//	Creating Matrix A
+	printMatrix(size,a);		//	Printing Matrix A
 	
-//	Printing Multiplication Matrix
+	printf("Matrix 	B:\n");
+	int b[size][size];
+	createMatrix(size,b);	//	Creating Matrix B
+	printMatrix(size,b);		//	Printing Matrix B
+
+	printf("Sum Matrix:\n");
+	int c[size][size];
+	matrixSum(size,a,b,c);	//	Adding Matrixes A and B to C
+	printMatrix(size,c);		//	Printing Sum Matrix
+		
 	printf("Multiplication Matrix:\n");
-	for (i=0;i<size;i++){
-		for (j=0;j<size;j++){
-			printf("%d\t",d[i][j]);
-		}
-		printf("\n");
-	}
-	printf("\n");
-	
-	
+	int d[size][size];
+	matrixMultiplication(size,a,b,d);	//	Multiplicating Matrixes A and B to D
+	printMatrix(size,d);				//	Printing Multiplication Matrix
 		
 }
