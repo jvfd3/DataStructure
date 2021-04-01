@@ -37,11 +37,11 @@ void printingTable(){
 	}
 }
 int main (){
-	printf("a) fun3\t(7,9)=%d\n",Fun3(7,9));barrier();
-	printf("b) Fun3\t(5,3)=%d\n",Fun3(5,3));barrier();
-	printf("c) Fun3\t(4,7)=%d\n",Fun3(4,7));barrier();
-	printf("d) Fun3\t(6,6)=%d\n",Fun3(6,6));
+//	printf("a) fun3\t(7,9)=%d\n",Fun3(7,9));barrier();
+//	printf("b) Fun3\t(5,3)=%d\n",Fun3(5,3));barrier();
+//	printf("c) Fun3\t(4,7)=%d\n",Fun3(4,7));barrier();
+//	printf("d) Fun3\t(6,6)=%d\n",Fun3(6,6));
 	
-//	printingTable();
+	printingTable();
 
 }
