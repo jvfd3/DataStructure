@@ -1,8 +1,31 @@
-Vídeo 3 - Ordenação Bubblesort
+Vídeo 3 - Ordenação por bolha (Bubblesort)
 https://youtu.be/qU8N_bmebQ4
+Melhor caso: 	O(N)
+Pior caso:	O(N*N)
+Varre o vetor sempre trocando o elemento i com o elemento i+1.
+percorre até acabarem as trocas ou chegar ao índice 0
+197248
+172489
+124789
 
-Vídeo 4 - Ordenação por Inserção
+Vídeo 4 - Ordenação por Inserção (InsertionSort)
 https://youtu.be/79buQYoWszA
+Melhor caso: 	O(N)
+Pior caso:	O(N*N)
+Confere todos índices antes de i, se for maior que o elemento, passa o i para trás.
+197248
+179248
+127948
+124798
+124789
 
 Vídeo 5 - Ordenação por Seleção
 https://youtu.be/zjcGGqskf5s
+Melhor caso: 	O(N*N)
+Pior caso:	O(N*N)
+varre o array e busca o menor. Troca o menor encontrado com a posição inicial, aumenta em um a inicial e repete;
+197248
+127948
+124978
+124879
+124789
