@@ -1,0 +1,14 @@
+Vídeo 6 - Algoritmo de Ordenação MergeSort
+https://youtu.be/RZbg5oT5Fgw
+
+Vídeo 7 - Recursão
+https://youtu.be/T2gTc5u-i1o
+
+Vídeo 8 - Recursão Funcionamento
+https://youtu.be/FH5lCr-RVWE
+
+Vídeo 9 - Recursão Cuidados
+https://youtu.be/o3MPTEc3LD8
+
+Vídeo 10 - Soma até n
+https://youtu.be/YEeYk9uEqEI
