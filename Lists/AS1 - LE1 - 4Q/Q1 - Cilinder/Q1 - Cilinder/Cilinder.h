@@ -1,7 +1,7 @@
 #include "Cilinder.c"
 
 Cilinder* CreateCilinder ();
-void SetDateToCilinder (Cilinder* c, int x, int y, float alt, float r);
+void SetDataToCilinder (Cilinder* c, int x, int y, float alt, float r);
 
 //float ReturnCilinderHeight (Cilinder* c);
 
