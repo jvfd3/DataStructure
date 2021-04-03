@@ -11,8 +11,8 @@ int main(){
 	c1= CreateCilinder();
 	c2= CreateCilinder();
 	
-	SetDataToCilinder(c1,1,1,10,5);
-	SetDataToCilinder(c2,2,2,5,10);
+	SetDataToCilinder(c1,1,1,1,1);
+	SetDataToCilinder(c2,2,2,1,1);
 
 	ShowCilinderData(c1,1);
 	ShowCilinderData(c2,2);
