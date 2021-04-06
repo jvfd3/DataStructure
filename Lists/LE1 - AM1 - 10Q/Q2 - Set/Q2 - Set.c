@@ -35,14 +35,14 @@ MainN* 	CreateEmptyList(){												//		a)	Criar uma lista vazia.
 	printf("A new list was created at pointer: (%X)\n", pointer);
 	return pointer;
 }
-void 	ShowList			(MainN* pointer){							//		mostrar lista
+void 	ShowList			(MainN* mainPointer){						//		mostrar lista
 	int loopCounter;
-	N* nodePointer=pointer->first;
+	N* nodePointer=mainPointer->first;
 	printf("(");
-	for(loopCounter=0;loopCounter<pointer->listLength;loopCounter++){
+	for(loopCounter=0;loopCounter<mainPointer->listLength;loopCounter++){
 		
 		printf("%d", nodePointer->intValue);
-		if(loopCounter!=(pointer->listLength-1)){
+		if(loopCounter!=(mainPointer->listLength-1)){
 			printf("/");
 		}
 		nodePointer=nodePointer->next;
