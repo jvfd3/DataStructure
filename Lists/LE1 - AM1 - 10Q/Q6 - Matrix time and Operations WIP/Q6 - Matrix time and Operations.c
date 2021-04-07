@@ -72,46 +72,51 @@ double printTimer				(clock_t time){
     return timeTaken;
 }
 
-void Q6i(double timeSum, double timeMult){
-	printf("Questao 6i) Tempo de execucao de cada algoritmo em milissegundos:\n");
-	printf("Soma: \t\t%.2f ms\nMultiplicacao:\t%.2f ms\n\n", timeSum, timeMult);
+void Q6i(int size, double timeSum, double timeMult){
+	printf("\ti) Tempo de execucao de cada algoritmo em milissegundos:\n");
+	printf("\tPara matrizes quadradas de tamanho %d\n",size);
+	printf("\tSoma: \t\t%.2f ms\n\tMultiplicacao:\t%.2f ms\n\n", timeSum, timeMult);
 }
 
-void Q6ii(int OS, int OM){
-	printf("Questao 6ii) Numero de operacoes realizadas (somas + multiplicacoes) por cada algoritmo:\n");
-	printf("Soma: \t\t%d Operacoes\nMultiplicacao:\t%d Operacoes\n", OS, OM);
+void Q6ii(int size, int OS, int OM){
+	printf("\tii) Numero de operacoes realizadas (somas + multiplicacoes) por cada algoritmo:\n");
+	printf("\tPara matrizes quadradas de tamanho %d\n",size);
+	printf("\tSoma: \t\t%d Operacoes\n\tMultiplicacao:\t%d Operacoes\n", OS, OM);
+}
+void Q6 (int size, int timeSum, int timeMult, int OS, int OM){
+	printf("\n6) Implemente codigo para medir o desempenho desses algoritmos, considerando:\n");
+	Q6i		(size, timeSum, timeMult);
+	Q6ii	(size, OS, OM);
 }
 
 int main(){
 	
 	clock_t time;
-	int size=100;
+	int size=300;
 	
-	printf("Matrix A:\n");
+	printf("Matrix A\n");
 	int a[size][size];
 	createMatrix	(size,a);		//	Creating Matrix A
 //	printMatrix		(size,a);		//	Printing Matrix A
 	
-	printf("Matrix B:\n");
+	printf("Matrix B\n");
 	int b[size][size];
 	createMatrix(size,b);		//	Creating Matrix B
 //	printMatrix(size,b);		//	Printing Matrix B
 
 	time = clock();
-	printf("Sum Matrix:\n");
+	printf("Sum Matrix\n");
 	int c[size][size];
 	int OperacoesSoma = matrixSum(size,a,b,c);		//	Adding Matrixes A and B to C
 	double timeSum = printTimer		(clock()-time);
 //	printMatrix(size,c);		//	Printing Sum Matrix
 		
 	time = clock();
-	printf("Multiplication Matrix:\n");
+	printf("Multiplication Matrix\n");
 	int d[size][size];
 	int OperacoesMultiplicacao = matrixMultiplication(size,a,b,d);	//	Multiplicating Matrixes A and B to D
 	double timeMult = printTimer		(clock()-time);
 //	printMatrix(size,d);				//	Printing Multiplication Matrix
 	
-	Q6i(timeSum, timeMult);
-	Q6ii(OperacoesSoma,OperacoesMultiplicacao);
-	
+	Q6 (size, timeSum, timeMult, OperacoesSoma,OperacoesMultiplicacao);
 }
