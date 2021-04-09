@@ -13,24 +13,26 @@
 */
 
 typedef struct  dat{
+	char* stringData;
 	int dia;
 	int mes;
 	int ano;
-}d;
+}da;
 
 
-d* CreateStruct (){
-	d* data = (d*) malloc ( sizeof (d) );
+da* CreateStruct (){
+	da* data = (da*) malloc ( sizeof (da) );
 	if(data != NULL){
 		return data;
 	}
 	return NULL;
 }
 
-void setStruct(d* data, int d, int m, int a){
-	data->dia=d;
-	data->mes=m;
-	data->ano=a;
+void setStruct(int d, int m, int a, char* sData, da* structData){
+	structData->stringData=sData;
+	structData->dia=d;
+	structData->mes=m;
+	structData->ano=a;
 }
 
 int isBissexto(int a){
@@ -114,54 +116,70 @@ char* toString(int d, int m, int a){
 	}
 }
 
-void testingValidity(){
-	int dia,mes,ano;
-	for(ano=0;ano<101;ano++){
-		for(mes=1;mes<13;mes++){
-			for(dia=1;dia<32;dia++){
-				if (!isValid(dia,mes,ano)){
-					printf("%d/%d/%d\n",dia,mes,ano);
-				}
-			}
-		}	
+char* a(int d, int m, int a){
+//	OK	a.	Uma função que recebe como parâmetro o dia, o mês, e o ano;
+//	OK	verifica se a data for válida e
+//	OK	converte ela em uma string no formato DD/MM/AAAA.
+
+	if (isValid(d,m,a)) {
+		char* data=toString(d,m,a);
+//		printf("%s\n",data);
+		return data;
+	} else {
+		printf("Data invalida: (%d/%d/%d)\n",d,m,a);
 	}
 }
 
-//	OK	a.	Uma função que recebe como parâmetro o dia, o mês, e o ano;
-//	OK	verifica se a data for válida e
-//	WIP	converte ela em uma string no formato DD/MM/AAAA.
-void a(int d, int m, int a){
-	int i;
-//	if (isValid(d,m,a)) {
-//		printf("valido\n");
-//	} else {
-//		printf("invalido\n");
-//	}
-	char* data=toString(d,m,a);
-	printf("1) %s\n",data);
-}
-		
-int main () {		
-
-	a(9,12,20);
+char* substring(char *destination, const char *source, int beg, int n){
+//	FONT: https://www.techiedelight.com/implement-substring-function-c
+    while (n > 0)
+    {
+        *destination = *(source + beg);
+        destination++;
+        source++;
+        n--;
+    }
+    *destination = '\0';
+    return destination;
 }
 
+void b(char* sData, da* structData){
+	//	OK	Uma funcao que recebe como parametro uma data de tipo string (formato DD/MM/AAAA) e uma estrutura do tipo Data.
+	//	OK	Armazena os dados da string na estrutura.
+	
+	char dia[2];
+	char mes[2];
+	char ano[4];
+	substring(dia, sData, 0, 2);
+	substring(mes, sData, 3, 2);
+	substring(ano, sData, 6, 4);
 
+//	printf("%s = %s,%s,%s\n", sData,dia,mes,ano);
+	
+	int d=atoi(dia);
+	int m=atoi(mes);
+	int a=atoi(ano);
+	
+//	printf("%s = %d,%d,%d\n", sData,d,m,a);
+	
+	setStruct(d, m, a, sData, structData);
+//	printf("%d,%d,%d\n", structData->dia,structData->mes,structData->ano);
+	
+}
 
-//	setStruct(data,31,12,2021);
-//	d* data=CreateStruct();
+void c(da* sData, int d){	
+//	OK	c.	Uma função que recebe como parâmetro uma estrutura do tipo Data e um número de dias,
+//		e retorna a estrutura modificada com soma da data original mais o número de dias recebido.
+	
+	
 
-//	b();
-//	c();
+}
 
+int main () {
+	char* stringData=a(30,12,2000);
+	da* structData=CreateStruct();
+	b(stringData,structData);
+	c(structData,16);
+	
+}
 
-
-
-//void b(string stringData, d* data){
-//		b.	Uma função que recebe como parâmetro uma data de tipo string (formato DD/MM/AAAA)
-//		e uma estrutura do tipo Data. Armazena os dados da string na estrutura.
-//}
-//void c(){	
-//		c.	Uma função que recebe como parâmetro uma estrutura do tipo Data e um número de dias,
-//		e retorna a estrutura modificada comsoma da data original mais o número de dias recebido.
-//}
