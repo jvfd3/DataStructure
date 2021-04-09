@@ -27,18 +27,18 @@ int C(int n, int k){
 	}      
 }
 
-int branchLessC(int n, int k){
+int branchLessC(int n, int k){	//Sem o uso do if, porem nesse caso nao deve ser tao eficiente quanto o que tem if.
 	return (k==0 || n==k) + (n>k && k>0)*(C(n-1,k)+C(n-1,k-1));    
 }
 
 int main() {
-	// QUESTÃO
+	// QUESTAO 10
 	
 	printf("C(49,6)= %d\n",C(49,6));
 	
 	//	JV
 		
 //	int n=49, k=6;
-//	printf("\nO numero de combinacoes possiveis %d de %d:%d",n,k,C(n,k));
-//	printf("\nO numero de combinacoes possiveis %d de %d:%d",n,k,branchLessC(n,k));
+//	printf("O numero de combinacoes possiveis %d de %d:%d\n",n,k,C(n,k));
+//	printf("O numero de combinacoes possiveis %d de %d:%d\n",n,k,branchLessC(n,k));
 }

@@ -19,9 +19,6 @@ Implemente um algoritmo recursivo que utilize o método de Newton para calcular a
 
 */
 float squareRoot(float num, float ans, float tol){
-//	num: number
-//	
-//	
 	if (fabs(ans*ans-num)<=tol) {
 		return ans;
 	} else {
@@ -42,20 +39,10 @@ int main(){
 	// QUESTAO 9
 	printf("Raiz quadrada de 4:\t%.8f\n",squareRoot(4,2,0.01));
 	printf("Raiz quadrada de 5:\t%.8f\n",squareRoot(5,2,0.01));
-	
-	
-	
-	
-	
-	
-	
-	
 		
 	// JV
-//    printMatrix(4);
-//    printMatrix(5);
-//    printMatrix(6);
-//    printMatrix(7);
-//    printMatrix(8);
-//    printMatrix(9);
+//	int i, qtd=9;
+//	for (i=4;i<qtd;i++){
+//		printMatrix(i);
+//	}
 }

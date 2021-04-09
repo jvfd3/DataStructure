@@ -49,6 +49,7 @@ int 	matrixMultiplication	(int size, int a[size][size], int b[size][size], int c
 			for (k=0;k<size;k++){
 				c[i][j]+=a[i][k]*b[k][j];
 				OperacoesMultiplicacao+=2;
+//				ATTENTION HERE!!! IT'S ADDING 2 BECAUSE OF THE OPERATION OF SUM AND THE OPERATION OF MULTIPLICATION SO, INSTEAD OF N*N*N OPERATIONS IT'S CLOSER TO 2*N*N*N
 			}
 		}
 	}
@@ -59,8 +60,8 @@ double	printTimer				(clock_t time){
 //    printf("Time taken: %.2f ms.\n\n", timeTaken);
     return timeTaken;
 }
-void table (int size, int timeSum, int operationsSum, int timeMult, int operationsMult){
-	printf("%d,%d,%d,%d,%d\n", size, timeSum, operationsSum, timeMult, operationsMult);
+void 	table 					(int size, int timeSum, int operationsSum, int bigOsum, int timeMult, int operationsMult, int bigOmult){
+	printf("%d,%d,%d,%d,%d,%d,%d\n", size, timeSum, operationsSum, bigOsum, timeMult, operationsMult, bigOmult);
 
 }
 
@@ -80,7 +81,10 @@ void Q8(int size){
 	int operationsMult = matrixMultiplication(size,a,b,d);	//	Multiplicating Matrixes A and B to D
 	double timeMult = printTimer		(clock()-time);
 	
-	table (size, timeSum, operationsSum, timeMult, operationsMult);
+	int bigOsum= size*size;
+	int bigOmult= 2*size*size*size;	
+	//
+	table (size, timeSum, operationsSum, bigOsum, timeMult, operationsMult, bigOmult);
 }
 
 int main(){
@@ -89,6 +93,7 @@ int main(){
 	printf("\t soma\t Multiplicacao\n");
 	printf("tamanho, tempo, operacoes, tempo, operacoes\n");
 	
+//		For me it breaks at 321... Maybe it could handle more if it was a matrix of double instead of int... *thinking face*
 	for (size=1; size<=400;size++){
 		Q8 (size);
 	}
