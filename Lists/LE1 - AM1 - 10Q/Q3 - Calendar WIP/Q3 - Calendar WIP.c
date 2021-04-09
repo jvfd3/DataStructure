@@ -19,7 +19,6 @@ typedef struct  dat{
 	int ano;
 }da;
 
-
 da* CreateStruct (){
 	da* data = (da*) malloc ( sizeof (da) );
 	if(data != NULL){
@@ -33,6 +32,17 @@ void setStruct(int d, int m, int a, char* sData, da* structData){
 	structData->dia=d;
 	structData->mes=m;
 	structData->ano=a;
+}
+
+void printStruct(da* s){
+	printf("(%X) = (%d,%d,%d) = (%s)\n", s, s->dia,s->mes,s->ano, s->stringData);
+}
+
+void cpyStruct(da* s1, da* s2){
+	s1->dia=s2->dia;
+	s1->mes=s2->mes;
+	s1->ano=s2->ano;
+	s1->stringData=s2->stringData;
 }
 
 int isBissexto(int a){
@@ -143,10 +153,7 @@ char* substring(char *destination, const char *source, int beg, int n){
     return destination;
 }
 
-void b(char* sData, da* structData){
-	//	OK	Uma funcao que recebe como parametro uma data de tipo string (formato DD/MM/AAAA) e uma estrutura do tipo Data.
-	//	OK	Armazena os dados da string na estrutura.
-	
+void segmentaString(int* d, int* m, int* a, char* sData){
 	char dia[2];
 	char mes[2];
 	char ano[4];
@@ -156,30 +163,138 @@ void b(char* sData, da* structData){
 
 //	printf("%s = %s,%s,%s\n", sData,dia,mes,ano);
 	
-	int d=atoi(dia);
-	int m=atoi(mes);
-	int a=atoi(ano);
+	*d=atoi(dia);
+	*m=atoi(mes);
+	*a=atoi(ano);
 	
 //	printf("%s = %d,%d,%d\n", sData,d,m,a);
 	
+}
+
+void b(char* sData, da* structData){
+	//	OK	Uma funcao que recebe como parametro uma data de tipo string (formato DD/MM/AAAA) e uma estrutura do tipo Data.
+	//	OK	Armazena os dados da string na estrutura.
+	
+	int d,m,a;
+	
+	segmentaString(&d, &m, &a, sData);
+//	printf("%s = %d,%d,%d\n", sData,d,m,a);
+
 	setStruct(d, m, a, sData, structData);
-//	printf("%d,%d,%d\n", structData->dia,structData->mes,structData->ano);
+//	printStruct(structData);
 	
 }
 
-void c(da* sData, int d){	
+void simpleSumValidation(da* data, int dias){
+	int d,m,a;
+	
+	d=data->dia;
+	m=data->mes;
+	a=data->ano;
+	
+	d+=dias;
+	
+	while (d > 31){
+		d-=31;
+		m++;
+		while(m==13 ){
+			m-=12;
+			a++;
+		}
+	}
+	
+	data->dia=d;
+	data->mes=m;
+	data->ano=a;
+	
+	data->stringData=toString(data->dia,data->mes,data->ano);
+	
+}
+
+int checkMax(int m, int a){
+	int max;
+	
+	if (m==2){
+		if (isBissexto(a)){
+			max=29;
+		} else {
+			max=28;
+		}		
+	} else if (m>0 && m<8){
+		if (m%2){	
+			max=30;
+		} else {
+			max=31;
+		}
+	} else if (m>7 && m<13){
+		if (m%2){
+			max=31;
+		} else {
+			max=30;
+		}
+	}
+	
+	return max;
+}
+
+void advancedSumValidation(da* data, int dias){		//STILL NOT WORKING PROPERLY, BUT CLOSE ENOUGH
+	int d,m,a;
+	
+	d=data->dia;
+	m=data->mes;
+	a=data->ano;
+	
+	int max=checkMax(m,a);
+	
+	d+=dias;
+//	int cont=0;
+	
+//		printf("max/d/m/a\n");
+	while (d >= max){
+//		cont++;
+//		printf("%d/%d/%d/%d\n",max,d,m,a);
+		d-=max-1;
+		m++;
+		max=checkMax(m,a);
+		while(m==13 ){
+			m-=12;
+			a++;
+		}
+	}
+	
+//	printf("%d\n",cont);
+	
+	data->dia=d;
+	data->mes=m;
+	data->ano=a;
+	
+	data->stringData=toString(data->dia,data->mes,data->ano);
+}
+
+
+da* c(da* sData, int d){	
 //	OK	c.	Uma função que recebe como parâmetro uma estrutura do tipo Data e um número de dias,
 //		e retorna a estrutura modificada com soma da data original mais o número de dias recebido.
+	da* newData = CreateStruct();
 	
+	cpyStruct(newData,sData);
 	
+//	printStruct(sData);
+//	printStruct(newData);
+	
+//	simpleSumValidation(newData,d);
+	advancedSumValidation(newData,d);
 
+	return newData;
 }
 
 int main () {
 	char* stringData=a(30,12,2000);
 	da* structData=CreateStruct();
 	b(stringData,structData);
-	c(structData,16);
-	
+	da* structNewData = c(structData,55);
+	printStruct(structNewData);
+	structNewData = c(structData,56);
+	printStruct(structNewData);
 }
 
