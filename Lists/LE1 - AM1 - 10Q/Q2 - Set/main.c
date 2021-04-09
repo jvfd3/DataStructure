@@ -1,6 +1,6 @@
 //#include <stdio.h>
 //#include <stdlib.h>
-#include "conjunto.c"
+#include "Q2 - Set.c"
 void main(){
 	/*	CLEAN VERSION	*/
 	MainN* list1=CreateEmptyList();		//		a)	Criar um conjunto vazio.

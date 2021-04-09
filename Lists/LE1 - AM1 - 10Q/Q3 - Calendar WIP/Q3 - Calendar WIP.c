@@ -33,77 +33,117 @@ void setStruct(d* data, int d, int m, int a){
 	data->ano=a;
 }
 
-//int isValid(int d, int m, int a){
-//	int intValid=1;
-//	
-//	if(a<0 || m<0 || m>12 || d<0 || d>31){
-//		intValid=0;
-//	}
-//	if (){
-//		intValid=0;
-//	}
-//	
-//	if (m==2){
-//		
-//	} else if (m<8){
-//		
-//	}
-//	
-//	return intValid;
-//}
-char *insertZero(int n){
-//	char zero[1]="0";
-	if (n<10){
-//		return zero;
-		return "0";
-	} else {
-		return "";
-	}
+int isBissexto(int a){
+	return (( a % 4 == 0 && a % 100 != 0 ) || a % 400 == 0 );
 }
 
-char *toString(int d, int m, int a){
+int isValid (int d, int m, int a){
+	int intValid=1;
+	
+	if(a<0 || a>9999 || m<0 || m>12 || d<0 || d>31){
+		intValid=0;
+	} else {
+		if (m==2){
+			if (isBissexto(a)){
+				if (d>29){
+					intValid=0;
+//					printf("dia>29/02/bissexto\n");
+				}
+			} else {
+				if (d>28){
+					intValid=0;
+//					printf("dia>28/02/nao-bissexto\n");
+				}
+			}		
+		} else if (m>0 && m<8){
+			if (!(m%2) && d>30){	
+				intValid=0;
+//				printf ("dia>30/impares entre 1 e 7/ano\n");
+			}
+		} else if (m>7 && m<13){
+			if (m%2 && d>30){
+				intValid=0;
+//				printf("dia>30/pares entre 8 e 12/ano\n");
+			}
+		}
+	}
+	
+	
+	return intValid;
+}
+
+char* toString(int d, int m, int a){
 	char stringD[2], stringM[2], stringA[4];
 	char data[10]="";
-//	char *data="";
 	
-	printf("Inteiros:\t%d/%d/%d\n",d,m,a);
 	
 	sprintf(stringD,     "%d", d);
     sprintf(stringM,     "%d", m);
     sprintf(stringA,     "%d", a);
-//    TODO: COLOCAR 0 CASO MES<10
-	printf("Strings:\t%s/%s/%s\n",stringD,stringM,stringA);
 	
-    strcat(data, insertZero(d));
+	if (d<10){
+    	strcat(data, "0");
+	}
     strcat(data, stringD);
     strcat(data, "/");
-    strcat(data, insertZero(m));
+	if (m<10){
+    	strcat(data, "0");
+	}
     strcat(data, stringM);
     strcat(data, "/");
+    int qtdZeroAno=0;
+    if (a<10){
+    	qtdZeroAno=3;
+	} else if (a<100){
+		qtdZeroAno=2;
+	} else if (a<1000) {
+		qtdZeroAno=1;
+	}
+	int i;
+	for (i=0;i<qtdZeroAno;i++){
+	    strcat(data, "0");
+	}
     strcat(data, stringA);
     
-    printf("String:\t\t%s\n",data);
-//	printf("%d\n", data);
-//	return "test";
-	return data;
+	char* stringPointer = malloc(sizeof(data));
+	if(stringPointer != NULL) {
+		strcpy(stringPointer, data);
+		return stringPointer;
+	} else { 
+	  printf("malloc failed\n");
+	}
 }
 
-//		a.	Uma função que recebe como parâmetro o dia, o mês, e o ano;
-//		verifica se a data for válida e converte ela em uma string no formato DD/MM/AAAA.
+void testingValidity(){
+	int dia,mes,ano;
+	for(ano=0;ano<101;ano++){
+		for(mes=1;mes<13;mes++){
+			for(dia=1;dia<32;dia++){
+				if (!isValid(dia,mes,ano)){
+					printf("%d/%d/%d\n",dia,mes,ano);
+				}
+			}
+		}	
+	}
+}
+
+//	OK	a.	Uma função que recebe como parâmetro o dia, o mês, e o ano;
+//	OK	verifica se a data for válida e
+//	WIP	converte ela em uma string no formato DD/MM/AAAA.
 void a(int d, int m, int a){
-	
-//	if(isValid(d,m,a)){
-//		printf("%s", toString(d, m, a));
+	int i;
+//	if (isValid(d,m,a)) {
+//		printf("valido\n");
+//	} else {
+//		printf("invalido\n");
 //	}
-	const char* returnedString = toString(d, m, a);
-	printf("returned String:\t%s\n", returnedString);
-	
+	char* data=toString(d,m,a);
+	printf("1) %s\n",data);
 }
 		
-int main () {
-	
-	a(05,06,2021);
+int main () {		
 
+	a(9,12,20);
 }
 
 

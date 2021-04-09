@@ -88,7 +88,7 @@ void	InsertElement		(MainN* mainPointer, int numberToInsert){	//		b)	Inserir um 
 			mainPointer->last->next=NewElem;
 			mainPointer->last=NewElem;
 		}
-		printf("Inserted element %d. List:\t", numberToInsert);
+		printf("Inserted element %d on List (%X). New list: \t", numberToInsert, mainPointer);
 		ShowList(mainPointer);
 	//	ShowListPointers(mainPointer);
 			
@@ -253,7 +253,7 @@ void	CheckEquality		(MainN* mainPointer1, MainN* mainPointer2){	//		g)	Testar se
 			if(hasSameElement1==loopCounter1){
 //				printf("Element %d of list () matches with element on list ().\n", nodePointer1->intValue, nodePointer1, nodePointer2);
 			} else {
-				printf("Element %d on list () doesn't has a match on list ().\n", nodePointer1->intValue, nodePointer1, nodePointer2);
+				printf("Element %d on list (%X) doesn't has a match on list (%X).\n", nodePointer1->intValue, mainPointer1, mainPointer2);
 			}
 			nodePointer2=mainPointer2->first;
 			nodePointer1=nodePointer1->next;
@@ -276,7 +276,7 @@ void	CheckEquality		(MainN* mainPointer1, MainN* mainPointer2){	//		g)	Testar se
 			if(hasSameElement2==loopCounter2){
 //				printf("Element %d of list () matches with element on list ().\n", nodePointer2->intValue, nodePointer2, nodePointer1);
 			} else {
-				printf("Element %d on list () doesn't has a match on list ().\n", nodePointer2->intValue, nodePointer2, nodePointer1);
+				printf("Element %d on list (%X) doesn't has a match on list (%X).\n", nodePointer2->intValue, mainPointer2, mainPointer1);
 			}
 			nodePointer1=mainPointer1->first;
 			nodePointer2=nodePointer2->next;
