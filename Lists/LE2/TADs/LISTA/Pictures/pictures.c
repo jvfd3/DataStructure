@@ -1,50 +1,41 @@
-/*	This program maintains and displays a list of
-	Academy Awards Motion Pictures.
-	   Written by:
-	   Date:
+/*  This program maintains and displays a list of
+  Academy Awards Motion Pictures.
+     Written by:
+     Date:
 */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <cType.h>
 #include <stdbool.h>
 #include "linkListADT.h"
 
+//  Application Functions
+#include "pictures.h"    //junction
 
-//	Prototype Declarations 
-	void  printInstr (void);
-	LIST* buildList  (void);
-	void  process    (LIST* list);
-	char  getChoice  (void);
-	void  printList  (LIST* list);
-	void  search     (LIST* list);
+//  Prototype Declarations 
+void  printInstr (void);
+char  getChoice  (void);
+LIST* buildList  (void);
+void  process    (LIST* list);
+void  printList  (LIST* list);
+void  search     (LIST* list);
+int   cmpYear    (void* pYear1, void* pYear2);
 
-	int   cmpYear    (void* pYear1, void* pYear2);
 
-//	Application Functions
-	#include "pictures.h"		//junction
-	#include "P5-16.h"          // Data Structure
-	#include "P5-18.h"          // Academy Awards Functions
-	#include "P5-19.h" 
-	#include "P5-20.h" 
-	#include "P5-21.h" 
-	#include "P5-22.h" 
-	#include "P5-23.h" 
-	#include "P5-24.h" 
+int main (void) {
+  //  Local Definitions 
+  LIST* list;
 
-int main (void)
-{
-//	Local Definitions 
-	LIST* list;
+  //  Statements 
+  printInstr ();
+  list = buildList ();
+  process (list);
 
-//	Statements 
-	printInstr ();
-	list = buildList ();
-	process (list);
-
-	printf("End Best Pictures\n"
-	       "Hope you found your favorite!\n");
-	return 0;
-}	// main 
+  printf("End Best Pictures\n"
+         "Hope you found your favorite!\n");
+  return 0;
+}  // main 
 
 
 /* Results:
