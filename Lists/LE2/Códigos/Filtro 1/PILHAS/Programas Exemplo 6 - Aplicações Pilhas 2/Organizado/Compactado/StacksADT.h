@@ -3,7 +3,18 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-#include "StackADTTypeDefinitions.h"		/* Stack ADT Definitions */
+//	Stack ADT Type Defintions 
+	typedef struct node2 
+	   {
+	    void*        dataPtr;
+	    struct node2* link;
+	   } STACK_NODE;
+
+	typedef struct
+	   {
+	    int         count; 
+	    STACK_NODE* top; 
+	   } STACK;
 
 /*	ADT Prototype Declarations */
 STACK* createStack  (void);
@@ -15,11 +26,4 @@ bool   fullStack    (STACK* stack);
 int    stackCount   (STACK* stack);
 STACK* destroyStack (STACK* stack);
 
-#include "CreateStack.h"		/* Create Stack */
-#include "PushStack.h"		/* Push Stack */
-#include "PopStack.h"		/* Pop Stack */
-#include "RetrieveStackTop.h"		/* Retrieve Stack Top */
-#include "EmptyStack.h"		/* Empty Stack */
-#include "FullStack.h"		/* Full Stack */
-#include "StackCount.h"		/* Stack Count */
-#include "DestroyStack.h"		/* DestroyStack */
+#include "StackFunctions.h"     /*All Functions*/

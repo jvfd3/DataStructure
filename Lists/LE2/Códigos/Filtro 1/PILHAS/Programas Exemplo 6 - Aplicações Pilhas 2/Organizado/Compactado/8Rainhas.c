@@ -7,7 +7,7 @@
 */
 #include <stdio.h>
 #include <stdlib.h>
-#include "stacksADT.h" 
+#include "StacksADT.h" 
 
 /*	Structure Declarations */
 	typedef struct
