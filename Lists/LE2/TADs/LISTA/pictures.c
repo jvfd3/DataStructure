@@ -21,6 +21,7 @@
 	int   cmpYear    (void* pYear1, void* pYear2);
 
 //	Application Functions
+	#include "pictures.h"		//junction
 	#include "P5-16.h"          // Data Structure
 	#include "P5-18.h"          // Academy Awards Functions
 	#include "P5-19.h" 
