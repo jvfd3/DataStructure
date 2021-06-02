@@ -1,0 +1,25 @@
+﻿# Livro: Data Structures and Algorithms Using Python. Rance Necaise. 2011.
+# Teste_pylistqueue.py - 
+# Testa a implementação de uma TAD fila usando uma lista Python.
+
+
+from pylistqueue import Queue
+
+
+PROMPT = "Ingresse um valor inteiro (<0 para finalizar): "
+mFila = Queue()
+valor = int(input( PROMPT ))
+while valor >=0 :
+    mFila.enqueue( valor )
+    valor = int(input( PROMPT ))
+
+
+print("O comprimento da Fila é: ", len(mFila))
+
+
+while not mFila.isEmpty() :
+    valor = mFila.dequeue()
+    print( valor )
+
+
+print("O comprimento da Fila é: ", len(mFila))

@@ -1,0 +1,30 @@
+﻿# Livro: Data Structures and Algorithms Using Python. Rance Necaise. 2011.
+# Teste_arrayqueue.py - 
+# Testa a implementação uma TAD fila usando array circular.
+
+
+from arrayqueue import Queue
+
+
+PROMPT = "Ingresse um valor inteiro (<0 para finalizar): "
+tamMax = int(input("Ingrese o tamanho máximo da fila : "))
+mFila = Queue(tamMax)
+valor = int(input( PROMPT ))
+while valor >=0 :
+    mFila.enqueue( valor )
+    valor = int(input( PROMPT ))
+
+
+print("O comprimento da Fila é: ", len(mFila))
+if mFila.isFull() :
+   print("A fila está cheia")
+
+
+while not mFila.isEmpty() :
+    valor = mFila.dequeue()
+    print( valor )
+
+
+print("O comprimento da Fila é: ", len(mFila))
+if mFila.isEmpty() :
+   print("A fila está vazia")

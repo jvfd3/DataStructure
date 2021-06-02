@@ -1,0 +1,148 @@
+﻿#implement the MazeADT using a 2-D array
+from __future__ import print_function
+import sys
+sys.path.append('../')
+from TheArray import Array2D
+from lliststack import Stack
+
+
+class Maze:
+    #Define constants to represent cell content
+    MAZE_WALL = '*'
+    PATH_TOKEN = 'X'
+    TRIED_TOKEN = 'o'
+
+
+    #Creates a maze object
+    def __init__(self, numRows, numCols):
+        self._mazeCells = Array2D(numRows, numCols)
+        self._startCell = None
+        self._exitCell = None
+
+
+    #Returns the number of rows
+    def numRows(self):
+        return self._mazeCells.numLinhas()
+
+
+    #Returns the number of columns
+    def numCols(self):
+        return self._mazeCells.numColunas()
+
+
+    #Fills the indicated cell with a wall marker
+    def setWall(self, row, col):
+        assert row >= 0 and row < self.numRows() and \
+            col >= 0 and col < self.numCols(), "Cell index out of range"
+        self._mazeCells[row, col] = self.MAZE_WALL
+
+
+
+
+    #sets the starting cell position
+    def setStart(self, row, col):
+        assert row >= 0 and row < self.numRows() and \
+            col >= 0 and col < self.numCols(), "Cell index out of range"
+        self._startCell = _CellPosition(row, col)
+
+
+    #sets the exit cell position
+    def setExit(self, row, col):
+        assert row >= 0 and row < self.numRows() and \
+            col >= 0 and col < self.numCols(), "Cell index out of range"
+        self._exitCell = _CellPosition(row, col)
+
+
+    # Tenta resolver o labirinto encontrando um caminho do ponto de partida
+    # até a saida. Nesse caso retorna True. Caso contrário, False.
+    # A pilha contem as posições que conformam o caminho.
+    def findPath(self):
+        s = Stack()                 # Cria a Pilha
+        s.push(self._startCell)     # Guarda na pilha
+        self._markPath(self._startCell.row, self._startCell.col) # Marca caminho
+        while True:
+            #inside the loop where neighbor cell is checked for valid move
+            #same time, checked if we get the exit
+            if s.estaVazia():       # Voltamos até o ponto de partida 
+                return False        # Não existe caminho 
+            current_cell = s.peek() # Define a celula atual com o topo da pilha
+            row = current_cell.row
+            col = current_cell.col
+            if not self._exitFound(row, col): # Posição atual != Saída
+                # Procura a proxima posição valida
+                for r in [row-1, row, row+1]:          # Varia a linha        
+                    if not (current_cell.row == s.peek().row and \
+                            current_cell.col == s.peek().col):
+                        break
+                    for c in [col-1, col, col+1]:      # Varia a coluna 
+                        if ((r == row) ^ (c == col)):  # Operador ou exclusivo
+                            if self._validMove(r,c):       # Se movimento valido
+                                self._markPath(r,c)        # Marca como caminho 
+                                s.push(_CellPosition(r,c)) # Guarda na pilha
+                                break
+                # Se não encontramos uma posição valida, a celula atual é
+                # a mesma da pilha. Então voltar uma posição.
+                if current_cell.row == s.peek().row and \
+                   current_cell.col == s.peek().col:
+                    not_in_path = s.pop()                  # Remove da pilha
+                    # Marca a posição como tentativa falha
+                    self._markTried(not_in_path.row, not_in_path.col)
+                    
+            else:
+                return True # Achou o caminho
+
+
+    #Resets the maze by removing all "path" and "tried" tokens
+    def reset(self):
+        for r in range(self.numRows()):
+            for c in range(self.numCols()):
+                if self._mazeCells[r,c] == self.PATH_TOKEN or \
+                        self._mazeCells[r,c] == self.TRIED_TOKEN:
+                    self._mazeCells.limpar()
+
+
+    #prints a text represenation of the maze
+    def draw(self):
+        for r in range(self.numRows()):
+            for c in range(self.numCols()):
+                if self._mazeCells[r,c] is not None:
+                    print(self._mazeCells[r,c], sep = ' ', end= ' ')
+                else:
+                    if self._startCell.row == r and self._startCell.col == c:
+                        print('s', sep = ' ', end = ' ')
+                    elif self._exitCell.row == r and self._exitCell.col == c:
+                         print('e', sep = ' ', end = ' ')
+                    else:
+                        print('.', sep = ' ', end = ' ')
+            print ('\n')
+        print ("--------------------------")
+
+
+    #Returns True if the given cell position is a valid move
+    def _validMove(self, row, col):
+        return row >= 0 and row < self.numRows()\
+            and col >= 0 and col < self.numCols()\
+            and self._mazeCells[row, col] is None # Celula Vazia
+
+
+    #Helper method to find if exit was found
+    def _exitFound(self, row, col):
+        return row == self._exitCell.row and \
+            col == self._exitCell.col
+
+
+    #Drops a "tried" token at the given cell
+    def _markTried(self, row, col):
+        self._mazeCells[row, col] = self.TRIED_TOKEN
+
+
+    #Drops a "path" token at the given cell
+    def _markPath(self, row, col):
+        self._mazeCells[row, col] =self.PATH_TOKEN
+
+
+#Private storage class for holding a cell position
+class _CellPosition(object):
+    def __init__(self, row, col):
+        self.row = row
+        self.col = col

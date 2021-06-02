@@ -1,0 +1,118 @@
+﻿# Livro: Data Structures and Algorithms Using Python. Rance Necaise. 2011.
+# array.py - 
+# Implementa um TAD Array e um TAD Array2D.
+
+
+import ctypes
+
+
+class Array :
+    # Cria um array com numero de elementos igual a tamanho.
+    def __init__( self, tamanho ):
+       assert tamanho >0, " Tamanho do array deve ser >0 "
+       self._tamanho = tamanho
+       # Cria a estrutura do array usando o modulo ctypes.
+       tipoArrayPy = ctypes.py_object * tamanho
+       self._lmtos = tipoArrayPy()
+       # Inicializa cada elemento.
+       self.limpar( None)
+
+
+    # Retorna o tamanho do array.
+    def __len__( self ):
+       return self._tamanho
+
+
+    # Obtem o conteúdo do elemento na posição indice.
+    def __getitem__( self, indice ):
+       assert indice >=0 and indice < len(self), "Indice do array fora do intervalo"
+       return self._lmtos[ indice ]
+
+
+    # Fixa o conteúdo do elemento na posição indice em valor.
+    def __setitem__( self, indice, valor ):
+       assert indice >=0 and indice < len(self), "Indice do array fora do intervalo"
+       self._lmtos[ indice ] = valor
+
+
+    # Limpa o array fazendo cada elemento igual a valor.
+    def limpar( self, valor ):
+       for i in range(len(self) ): 
+          self._lmtos[i] = valor
+
+
+    # Retorna o iterador do array para percorrer os elementos.
+    def __iter__( self ):
+       return _iteradorArray( self._lmtos )
+
+
+# Um iterador para o TAD Array
+class _iteradorArray :
+
+
+    def __init__( self, Array ):
+        self._refArray = Array
+        self._ndzAtual = 0
+
+
+    def __iter__( self ):
+        return self
+
+
+    def __next__( self ):
+        if self._ndzAtual < len( self._refArray ):
+            entrada = self._refArray[ self._ndzAtual ]
+            self._ndzAtual +=1
+            return entrada
+        else :
+            raise StopIteration
+    
+# Implementação de um TAD Array2D usando um array de arrays
+class Array2D :
+    # Cria um array 2D de tamanho numLinhas x numColunas.
+    def __init__( self, numLinhas, numColunas ):
+       # Cria um array 1-D para armazenar referencias para array em cada linha. 
+       self._asLinhas = Array( numLinhas )
+       # Cria um array 1-D para cada linha do array 2-D.
+       for i in range( numLinhas ):
+          self._asLinhas[i] = Array( numColunas )
+
+
+    # Retorna o número de linhas no array 2D.
+    def numLinhas( self ):
+       return len( self._asLinhas ) 
+
+
+    # Retorna o número de colunas no array 2D.
+    def numColunas( self ):
+       return len( self._asLinhas[0] )
+
+
+    # Limpa o array fixando cada elemento em um valor dado.
+    def limpar( self, valor ):
+       for i in range( self.numLinhas() ): 
+          self._asLinhas[i].limpar( valor )  # Corrigido!!
+
+
+    # Obtem o conteúdo do elemento na posição [i,j]
+    def __getitem__( self, ndzTupla ):
+       assert len( ndzTupla ) == 2, "Número errado de subindices no array"
+       linha = ndzTupla[0]
+       coluna = ndzTupla[1]
+       assert linha >= 0 and linha < self.numLinhas() \
+          and coluna >= 0 and coluna < self.numColunas(), \
+              " Subindices do array fora do intervalo "
+       array1d = self._asLinhas[linha]
+       return array1d[coluna]            
+
+
+    # Fixa o conteúdo do elemento na posição [i,j] com valor
+    def __setitem__( self, ndzTupla, valor ):
+       assert len( ndzTupla ) == 2, "Número invalido de subindices no array"
+       linha = ndzTupla[0]
+       coluna = ndzTupla[1]
+       assert linha >= 0 and linha < self.numLinhas() \
+          and coluna >= 0 and coluna < self.numColunas(), \
+              " Subindices do array fora do intervalo "
+       array1d = self._asLinhas[linha]
+       array1d[coluna] = valor

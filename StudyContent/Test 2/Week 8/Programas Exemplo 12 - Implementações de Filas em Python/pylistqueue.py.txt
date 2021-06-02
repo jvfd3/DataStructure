@@ -1,0 +1,30 @@
+﻿# Livro: Data Structures and Algorithms Using Python. Rance Necaise. 2011.
+# pylistqueue.py - 
+# Implementa uma TAD fila usando uma list Python.
+
+
+class Queue :
+    # Cria uma fila vazia.
+    def __init__( self ):
+       self._qList = list()
+
+
+    # Retorna verdadeiro se a pilha esta vazia ou false caso contrário.
+    def isEmpty( self ):
+       return len( self ) == 0
+
+
+    # Retorna o número de elementos na fila.
+    def __len__( self ):
+       return len( self._qList )
+
+
+    # Insere o item no final da fila.
+    def enqueue( self, item ):
+       self._qList.append( item )
+
+
+    # Remove e retorna o primeiro elemento na fila.
+    def dequeue( self ):
+       assert not self.isEmpty(), "Não pode remover elementos de uma fila vazia"
+       return self._qList.pop(0)
