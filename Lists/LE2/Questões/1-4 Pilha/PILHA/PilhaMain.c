@@ -6,6 +6,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+//  The following includes are not shown in the text
+#include "PilhaFunctions.h"
 
 //  Structure Declarations
 typedef struct node {
@@ -14,16 +16,14 @@ typedef struct node {
 } STACK_NODE;
 
 //  Prototype Declarations
-void insertData (STACK_NODE **pStackTop);
-void print      (STACK_NODE **pStackTop);
-bool push       (STACK_NODE **pList, char  dataIn);
-bool pop        (STACK_NODE **pList, char *dataOut);
-// bool   emptyStack   (STACK* stack);
+void insertData(STACK_NODE **pStackTop);
+void print(STACK_NODE **pStackTop);
 
-//  The following includes are not shown in the text
-#include "PilhaTAD.h"
+bool push(STACK_NODE **pList, char dataIn);
+bool pop(STACK_NODE **pList, char *dataOut);
 
-// int main(void) {
+
+int main(void) {
 //  //  Local Definitions
 //  STACK_NODE *pStackTop;
 //
@@ -36,7 +36,7 @@ bool pop        (STACK_NODE **pList, char *dataOut);
 //
 //  printf("\n\nEnd Simple Stack Program\n");
 //  return 0;
-// } // main
+} // main
 
 /*  Results
 Beginning Simple Stack Program

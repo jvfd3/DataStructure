@@ -1,14 +1,16 @@
-//  Header file for stack ADT.
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 
-#include "StackFunctions.c"     /*All Functions*/
+//  Header file for stack ADT.
+#include "PilhaJV.C"
+
 
 //  Stack ADT Type Defintions 
-typedef struct node2 {
+typedef struct node {
   void*        dataPtr;
-  struct node2* link;
+  struct node* link;
 } STACK_NODE;
 
 typedef struct stack{
@@ -16,7 +18,9 @@ typedef struct stack{
   STACK_NODE* top; 
 } STACK;
 
-/*  ADT Prototype Declarations */
+//  Prototype Declarations
+void   print        (STACK* stack);
+
 STACK* createStack  (void);
 STACK* destroyStack (STACK* stack);
 int    stackCount   (STACK* stack);

@@ -1,3 +1,5 @@
+
+
 /*  =============== createStack ==============
   This algorithm creates an empty stack.
      Pre  Nothing
@@ -159,20 +161,21 @@ STACK *destroyStack(STACK *stack) {
 } // destroyStack
 
 
-
 /*  ===================== print ==================== 
-  This function prints a singly linked stack.
-     Pre     pStackTop is pointer to valid stack
-     Post    data in stack printed
+ This function prints a singly linked stack.
+    Pre     pStackTop is pointer to valid stack
+    Post    data in stack printed
 */
-void print (STACK_NODE** pStackTop) {
+void print (STACK* stack) {
   //  Local Definitions 
-  char printData;
+  // char printData;
 
   //  Statements 
   printf("Stack contained:     ");
-  while (pop(pStackTop, &printData)) {
-    printf("%c", printData);
+  while (!emptyStack(stack)) {
+    // &printData = (char*)popStack(stack);
+    // printf("%c", printData);
+    printf("%d", (int)popStack(stack));
   }
   // return;  // eh necessario esse return? imagino que nao
 }  // print 
