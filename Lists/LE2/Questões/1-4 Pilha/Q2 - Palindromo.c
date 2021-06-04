@@ -23,11 +23,11 @@ com os exemplos mostrados acima.
 
 */
 
-void printString  (char* string) {  // simply prints a string aesthetically
+void  printString      (char* string) {  // simply prints a string aesthetically
   printf("->%s<-\n", string);
 }
 
-void selectString    (int choice, char* string) {   //Create all strings that are going to be tested
+void  selectString     (int choice, char* string) {   //Create all strings that are going to be tested
 
   // Selecting which string will be chosen
 
@@ -41,15 +41,15 @@ void selectString    (int choice, char* string) {   //Create all strings that ar
 
 }
 
-bool isBetween (int n, int min, int max) {
+bool  isBetween        (int n, int min, int max) {
   return ((min <= n) && (n <= max));
 }
 
-bool isAlpha (int n) {
+bool  isAlpha          (int n) {
   return (isBetween(n,65,90)||isBetween(n,97,122));
 }
 
-void cleanSpecialChar (char* s) {     // turns punctuation into spaces " ' , . - { [ ( ) ] } @ ! #
+void  cleanSpecialChar (char* s) {     // turns punctuation into spaces " ' , . - { [ ( ) ] } @ ! #
   int i;
   for (i=0; i<=(int) strlen(s);i++) {  // Runs through all characters of the string
     // printf("%d\n",i);
@@ -86,7 +86,7 @@ void normalizeCharacter (char* s) {   // turns special characters into normal ch
 }
 */
 
-int alphaSize(char* s) {
+int   alphaSize        (char* s) {
   int i, cont=0;
   for (i=0; i<=(int) strlen(s);i++) {  // Runs through all characters of the string
     if (isAlpha(s[i])) {
@@ -96,7 +96,7 @@ int alphaSize(char* s) {
   return cont;
 }
 
-int spaceCount(char* s) {
+int   spaceCount       (char* s) {
   int i, cont=0;
   for (i=0; i<=(int) strlen(s);i++) {  // Runs through all characters of the string
     if (s[i]==' ') {
@@ -106,43 +106,13 @@ int spaceCount(char* s) {
   return cont;
 }
 
-void alphaCopy (char* newS, char* s) {
-  int i, j=0;
-  for (i=0; i<=(int) strlen(s);i++) {  // Runs through all characters of the string
-    if (isAlpha(s[i])) {
-      // printf(">%c< isAlpha. inserting...\n", s[i]);
-      newS[j] = s[i];
-      j++;
-    }
-  }
-  s=newS;
-}
-
-void spaceless1 (char* s) {            // remove all of the spaces
-  int newSize;
-
-  newSize = alphaSize(s);
-  printf("%d\n",newSize);
-  char newString[newSize];
-  // printString(s);
-  // printString(newString);
-  strcpy(newString,s);
-  // printString(s);
-  // printString(newString);
-  
-  // alphaCopy(newString, s);
-
-  printf("After spaceless\t\t");
-  printString(s);
-}
-
-void swap (int* a, int* b) {
+void  swap             (int* a, int* b) {
   *a = *a + *b;
   *b = *a - *b;
   *a = *a - *b;
 }
 
-void spacelessSwap (char* s) {            // remove all of the spaces
+void  spacelessSwap    (char* s) {            // remove all of the spaces
   // this part of the code is chaos. don't stare at him too much
   int i=0, j, spaces=spaceCount(s);
   do {
@@ -151,7 +121,7 @@ void spacelessSwap (char* s) {            // remove all of the spaces
     if (s[i]==' ') {
       for (j=i; j<(int) strlen(s);j++) {
         // swap (&(s[j]), &(s[j+1]));
-        // i'm sweeping dirty over the \0
+        // i'm sweeping dirt over the \0
         s[j]    = s[j] + s[j+1];
         s[j+1]  = s[j] - s[j+1];
         s[j]    = s[j] - s[j+1];
@@ -169,7 +139,7 @@ void spacelessSwap (char* s) {            // remove all of the spaces
   printString(s);
 }
 
-void turnLower (char* s) {              // turn all characters to minuscule
+void  turnLower        (char* s) {              // turn all characters to minuscule
   int i;
   for (i=0;i<(int) strlen(s);i++) {
     if (isBetween(s[i],65,90)) {
@@ -180,11 +150,11 @@ void turnLower (char* s) {              // turn all characters to minuscule
   printString(s);
 }
 
-void cleanString      (char* limpa, char* original) {   //Clean all non-"normal" characters of the strings
+void  cleanString      (char* limpa, char* original) {   //Clean all non-"normal" characters of the strings
   
   strcpy(limpa, original);
   
-  printf("Before cleanString\t");
+  printf("\n\n\nBefore cleanString\t");
   printString(limpa);
 
   // normalizeCharacter(limpa);    // turns special characters into normal characters ç á à â ã é ê í ó ô õ ú Ç Á À Â Ã É Ê Í Ó Ô Õ Ú 
@@ -196,36 +166,114 @@ void cleanString      (char* limpa, char* original) {   //Clean all non-"normal"
   // printString(limpa);
 }
 
-void invertString     (char* limpa, char* invertida) {
-  printString (limpa);
-  STACK* pilha;
-  pilha = createStack();
-  int i;
-  for (i=0;i<(int) strlen(limpa);i++) {
-    pushStack(pilha, (void*) &limpa[i]);
-    printf("Pushing: (%d, %d, %c)\n", &limpa[i], limpa[i], limpa[i]);
-  }
-    // invertida+=(*popStack(pilha));
-  void* dataPtr;
-  dataPtr = popStack(pilha);
-  int* temp = (int*) popStack(pilha);
-  printf("dataptr\t%d\n", ((int*) dataPtr));
-  printf("temp\t%d\n", temp);
-  printf("temp\t%d\n", (int*) popStack(pilha));
+void  pushInt          (STACK* pilha, int dec) { // Function that pushes an int
+  
+  // I'll try to push and pop;
+  // I'll need a dataPtr to malloc and then send it's pointer to be pushed.
+  int* dataPtr;
+  dataPtr =(int*) malloc (sizeof(int));
 
-  // do { } while (!emptyStack(pilha));
-  printString (invertida);
+  // Now I'll put a value 50 to the content of this pointer
+  *dataPtr = dec;
+
+  // Only now I can push it, but casting it to be a void
+  pushStack(pilha, (void*) dataPtr);
+  // printf("%c was pushed\n", *dataPtr);
 }
 
-/* 
-void palindromeCheck  (char* limpa, char* invertida) {
+int   popInt           (STACK* pilha) { // Function that pops an int
+   // I'll now pop the value inserted but for it i'll need a void* variable (or a casting to another variable)
+  void* aux;
+  aux = popStack(pilha);
 
-} */
+  int* intPtr = (int*) aux;  // Converting aux to a more accessible pointer
 
+  // printf("%c was popped\n", *intPtr);  // Now I'll print the interior of intPtr
+  // printf("%c", *intPtr);
+  return *intPtr;
+}
+
+void  empilha          (STACK* pilha, char* s) {
+  int i;
+  for (i=0;i<(int) strlen(s);i++) {
+    pushInt(pilha, s[i]);
+    // printf("Pushing: (%d, %d, %c)\n", &s[i], s[i], s[i]);
+  }
+}
+
+void  desempilha       (STACK* pilha, char* s) {
+  // printf("Popping->\n");
+
+  int i=0;
+  do {
+    // printf("(%d)\t", pilha->count);
+    s[i]=popInt(pilha);
+    s[i+1]='\0';
+    // printf("unpopped:\t%c\n", s[i]);
+    // printf("during desempilha:\t");
+    // printString (s);
+    i++;
+  } while (!emptyStack(pilha));
+
+  printf("after desempilha:\t");
+  printString (s);
+  // printf("\n<-Popping\n");
+}
+
+void  invertString     (char* limpa, char* invertida) {
+  STACK* pilha = createStack();
+  empilha     (pilha, limpa);
+  desempilha  (pilha, invertida);
+
+  // printf      ("After invertString\t");
+  // printString (invertida);
+
+}
+
+int   sameSize         (char* limpa, char* invertida) {
+  // printf("size limpa:\t%d\n", strlen(limpa));
+  // printf("size invertida:\t%d\n", strlen(invertida));
+  if (strlen(limpa)==strlen(invertida)) {
+    return 1;
+  }
+  printf("(strlen(limpa)=%d) != (strlen(invertida)=%d)", strlen(limpa), strlen(invertida));
+  return 0;
+}
+
+int   sameCharacters   (char* limpa, char* invertida) {
+  int i;
+  for (i=0; i<(int) strlen(limpa); i++) {
+    // printf("(%c==%c)\n",limpa[i],invertida[i]);
+    if (limpa[i]!=invertida[i]) {
+      printf("(%c) != (%c)\n", limpa[i], invertida[i]);
+      return 0;
+    }
+  }
+  return 1;
+}
+
+int   palindromeCheck  (char* limpa, char* invertida) {
+  // printf("samesize: %d\n", sameSize (limpa, invertida));
+  // printf("samecharacters: %d\n", sameCharacters (limpa, invertida));
+  if (sameSize(limpa, invertida) && sameCharacters(limpa, invertida)) {
+    return 1;
+  }
+  return 0;
+}
+
+void  isPalindrome     (char* original, char* limpa, char* invertida) {
+
+  // printf("isPalindrome:\t%d\n", isPalindrome(limpa, invertida));
+  if (palindromeCheck(limpa, invertida)) {
+    printf("\n\"%s\" is palindrome\n\n", original);
+  } else {
+    printf("\nis NOT palindrome\n\n");
+  }
+}
 
 int main () {
-  int size=50, choice=4;
-  char stringOriginal[size], stringLimpa[size] , stringInvertida[size] ;
+  int size=50, choice;
+  char stringOriginal[size], stringLimpa[size] , stringInvertida[size];
 
   /*
     Precisaremos de funcoes para
@@ -236,8 +284,10 @@ int main () {
 
   */
   
-  selectString    (choice,      stringOriginal);         //Create all strings that are going to be tested
-  cleanString     (stringLimpa, stringOriginal);         //Clean all non-"normal" characters of the strings
-  invertString    (stringLimpa, stringInvertida);
-  // palindromeCheck (stringLimpa, stringInvertida);
+  for (choice=1; choice <5; choice ++) {
+    selectString    (choice,      stringOriginal);         //Create all strings that are going to be tested
+    cleanString     (stringLimpa, stringOriginal);         //Clean all non-"normal" characters of the strings
+    invertString    (stringLimpa, stringInvertida);
+    isPalindrome    (stringOriginal, stringLimpa, stringInvertida);
+  }
 }

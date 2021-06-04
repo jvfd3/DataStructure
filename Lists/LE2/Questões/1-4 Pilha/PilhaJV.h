@@ -3,8 +3,6 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-
-
 //  Stack ADT Type Defintions 
 typedef struct node {
   void*        dataPtr;
@@ -15,7 +13,6 @@ typedef struct stack{
   int         count; 
   STACK_NODE* top; 
 } STACK;
-
 
 //  Header file for stack ADT.
 #include "PilhaJV.c"

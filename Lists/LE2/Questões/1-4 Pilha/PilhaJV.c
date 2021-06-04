@@ -166,13 +166,13 @@ STACK *destroyStack(STACK *stack) {
     Pre     pStackTop is pointer to valid stack
     Post    data in stack printed
 */
-void print (STACK* stack) {
+// void print (STACK* stack) {
 
-  printf("Inicio Pilha ->\t\n");
-  // printf("Ponteiro é %d", stack);
+  // printf("Inicio Pilha ->\t\n");
+  // // printf("Ponteiro é %d", stack);
 
 
-  printf("Fim Pilha ->\t");
+  // printf("Fim Pilha ->\t");
 
 
 
@@ -184,4 +184,4 @@ void print (STACK* stack) {
   //   value = *temp;
   //   printf("\n(%d, %c) ", *value, *value);
   // }
-}  // print 
+// }  // print 
