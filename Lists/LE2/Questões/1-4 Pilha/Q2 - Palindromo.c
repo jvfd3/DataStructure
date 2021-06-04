@@ -23,8 +23,22 @@ com os exemplos mostrados acima.
 
 */
 
-void insertStrings    (char teto, char argel, char adias, char marrocos) {
-  
+void printString  (char* string) {
+  printf("->\t%s\t<-\n", string);
+}
+
+void selectString    (char* string, int choice) {   //Create all strings that are going to be tested
+
+  // Selecting which string will be chosen
+
+  switch (choice) {
+    case 1:   strcpy(string,      "A base do teto desaba.");                    break;
+    case 2:   strcpy(string,      "A diva em Argel alegra-me a vida.");         break;
+    case 3:   strcpy(string,      "Adias a data da saida.");                    break;
+    case 4:   strcpy(string,      "Socorram-me, subi no onibus em Marrocos.");  break;
+    default:  strcpy(string,      ""); break;
+  }
+  printString(string);
 }
 
 void cleanString      (char original, char limpa) {
@@ -40,21 +54,20 @@ void palindromeCheck  (char limpa, char invertida) {
 }
 
 int main () {
-  int size=50;
+  int size=50, choice=1;
   char stringOriginal[size], stringLimpa[size], stringInvertida[size];
-  char teto[size], argel[size], adias[size], marrocos[size];
 
-    /*
-      Precisaremos de funcoes para
-      Filtrar (espacos, pontuacao, maiúscula, (acentuação))
-      Inserir caracteres na pilha
-      remover caracteres da pilha em uma outra string
-      comparar duas strings e retorne booleano (strcmp)
+  /*
+    Precisaremos de funcoes para
+    Filtrar (espacos, pontuacao, maiúscula, (acentuação))
+    Inserir caracteres na pilha
+    remover caracteres da pilha em uma outra string
+    comparar duas strings e retorne booleano (strcmp)
 
-    */
+  */
   
-  insertStrings   (teto, argel, adias, marrocos);   //Create all strings that are going to be tested
-  cleanString     (stringOriginal, stringLimpa);    //Clean all non-
+  selectString    (stringOriginal, choice);   //Create all strings that are going to be tested
+  cleanString     (stringOriginal, stringLimpa);    //Clean all non-"normal" characters of the strings
   invertString    (stringLimpa, stringInvertida);
   palindromeCheck (stringLimpa, stringInvertida);
 }
