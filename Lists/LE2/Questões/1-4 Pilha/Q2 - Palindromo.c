@@ -3,7 +3,8 @@
 #include <stdlib.h>
 #include <String.h>
 
-// #include <tadfile.c>
+// #include <PilhaJV.h>
+// #include "B:\HDExterno\UENF\4Periodo\Estruturas de Dados\GitHub_Repository\DataStructure\Lists\LE2\Questões\1-4 Pilha\PilhaJV.h"
 
 /*  Q2 - Palindromo
 
@@ -22,6 +23,38 @@ com os exemplos mostrados acima.
 
 */
 
+void insertStrings    (char teto, char argel, char adias, char marrocos) {
+  
+}
+
+void cleanString      (char original, char limpa) {
+
+}
+
+void invertString     (char limpa, char invertida) {
+
+}
+
+void palindromeCheck  (char limpa, char invertida) {
+
+}
+
 int main () {
-    
+  int size=50;
+  char stringOriginal[size], stringLimpa[size], stringInvertida[size];
+  char teto[size], argel[size], adias[size], marrocos[size];
+
+    /*
+      Precisaremos de funcoes para
+      Filtrar (espacos, pontuacao, maiúscula, (acentuação))
+      Inserir caracteres na pilha
+      remover caracteres da pilha em uma outra string
+      comparar duas strings e retorne booleano (strcmp)
+
+    */
+  
+  insertStrings   (teto, argel, adias, marrocos);   //Create all strings that are going to be tested
+  cleanString     (stringOriginal, stringLimpa);    //Clean all non-
+  invertString    (stringLimpa, stringInvertida);
+  palindromeCheck (stringLimpa, stringInvertida);
 }
