@@ -167,15 +167,16 @@ STACK *destroyStack(STACK *stack) {
     Post    data in stack printed
 */
 void print (STACK* stack) {
-  //  Local Definitions 
-  // char printData;
 
-  //  Statements 
-  printf("Stack contained:     ");
-  while (!emptyStack(stack)) {
-    // &printData = (char*)popStack(stack);
-    // printf("%c", printData);
-    printf("%d", (int)popStack(stack));
+  int* value;
+  int i;
+  int* temp;
+  printf("\nStack contained:     ");
+  for (i=0; i<2; i++){
+    temp = (int*) popStack(stack);
+    value = *temp;
+    // printf("\n(%d, %c) ", value, value);
+    printf("\n(%d, %c) ", *value, *value);
+    // printf("\n(%d, %c) ", &value, &value);
   }
-  // return;  // eh necessario esse return? imagino que nao
 }  // print 

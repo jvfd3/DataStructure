@@ -40,22 +40,26 @@ void checkValue (int value) {
 // }
 
 void dec2hex(int dec) {
-  int newDec=dec;
+
+  STACK *pilha = createStack();
+  int newDec=dec, temp;
   int* dataPtr;
+  
   printf("%d->\t", dec);
 
-  STACK *pilha;
-  while (newDec > 0) {
-  printf("1");
+  while (newDec > 15) {
+    temp = hexChar(newDec%16);
     dataPtr = malloc (sizeof(int));
-    *dataPtr = hexChar(newDec%16);
+    *dataPtr = temp;
     pushStack(pilha, (void*) &dataPtr);
+    printf("%c.", temp);
     newDec = newDec/16;
   }
-  printf("chega");
-  // dataPtr = malloc (sizeof(int));
-  // *dataPtr = hexChar(newDec);
-  // pushStack(pilha, (void*) &dataPtr);
+  temp = hexChar(newDec);
+  printf("%c.", temp);
+  dataPtr = malloc (sizeof(int));
+  *dataPtr = temp;
+  pushStack(pilha, (void*) &dataPtr);
   
   print(pilha);
 
@@ -63,10 +67,10 @@ void dec2hex(int dec) {
 }
 
 int main () {
-  int i;
-  /* for (i=1; i<17; i++) {
-    dec2hex(i);
-  } */
+  // int i;
+  // for (i=1; i<65; i++) {
+  //   dec2hex(i);
+  // }
   
-  dec2hex(2);
+  dec2hex(18);
 }
