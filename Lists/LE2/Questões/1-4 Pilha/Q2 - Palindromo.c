@@ -23,11 +23,11 @@ com os exemplos mostrados acima.
 
 */
 
-void printString  (char* string) {
+void printString  (char* string) {  // simply prints a string aesthetically
   printf("->\t%s\t<-\n", string);
 }
 
-void selectString    (char* string, int choice) {   //Create all strings that are going to be tested
+void selectString    (int choice, char* string) {   //Create all strings that are going to be tested
 
   // Selecting which string will be chosen
 
@@ -38,24 +38,145 @@ void selectString    (char* string, int choice) {   //Create all strings that ar
     case 4:   strcpy(string,      "Socorram-me, subi no onibus em Marrocos.");  break;
     default:  strcpy(string,      ""); break;
   }
-  printString(string);
-}
-
-void cleanString      (char original, char limpa) {
 
 }
 
-void invertString     (char limpa, char invertida) {
+bool isBetween (int n, int min, int max) {
+  return ((min <= n) && (n <= max));
+}
+
+bool isAlpha (int n) {
+  return (isBetween(n,65,90)||isBetween(n,97,122));
+}
+
+void cleanSpecialChar (char* s) {     // turns punctuation into spaces " ' , . - { [ ( ) ] } @ ! #
+  int i;
+  for (i=0; i<=(int) strlen(s);i++) {  // Runs through all characters of the string
+    // printf("%d\n",i);
+    if (!(isBetween(s[i],65,90)||isBetween(s[i],97,122)||s[i]=='\0')) {
+      s[i] = ' ';
+    }
+  }
+  printf("After cleanSpecialChar\t");
+  printString(s);
+}
+
+void normalizeCharacter (char* s) {   // turns special characters into normal characters ç á à â ã é ê í ó ô õ ú Ç Á À Â Ã É Ê Í Ó Ô Õ Ú
+  
+  int i;
+  for (i=0; i<=(int) strlen(s);i++) {  // Runs through all characters of the string
+    // it will now turn all of the ascii equivalent of vowels and c to it correspondent normal letter
+    if (isBetween(s[i],192,198)||isBetween(s[i],224,230)) {
+      s[i] = 'a';
+    } else if (isBetween(s[i],200,203)||isBetween(s[i],232,235)) {
+      s[i] = 'e';
+    } else if (isBetween(s[i],204,207)||isBetween(s[i],236,239)) {
+      s[i] = 'i';
+    } else if (isBetween(s[i],210,214)||isBetween(s[i],242,246)) {
+      s[i] = 'o';
+    } else if (isBetween(s[i],217,220)||isBetween(s[i],249,252)) {
+      s[i] = 'u';
+    } else if (s[i] == 199) {
+      s[i] = 'c';
+    }
+  }
+  printf("After normalizeCharacter\t");
+  printString(s);
+}
+
+int alphaSize(char* s) {
+  int i, cont=0;
+  for (i=0; i<=(int) strlen(s);i++) {  // Runs through all characters of the string
+    if (isAlpha(s[i])) {
+      cont++;
+    }
+  }
+  return cont;
+}
+
+void alphaCopy (char* newS, char* s) {
+  int i, j=0;
+  for (i=0; i<=(int) strlen(s);i++) {  // Runs through all characters of the string
+    if (isAlpha(s[i])) {
+      // printf(">%c< isAlpha. inserting...\n", s[i]);
+      newS[j] = s[i];
+      j++;
+    }
+  }
+  s=newS;
+}
+
+void spaceless1 (char* s) {            // remove all of the spaces
+  int newSize;
+
+  newSize = alphaSize(s);
+  printf("%d\n",newSize);
+  char newString[newSize];
+  // printString(s);
+  // printString(newString);
+  strcpy(newString,s);
+  // printString(s);
+  // printString(newString);
+  
+  // alphaCopy(newString, s);
+
+  printf("After spaceless\t\t");
+  printString(s);
+}
+
+void spacelessSwap (char* s) {            // remove all of the spaces
+  int i;
+  int size = (int) strlen(s);
+  for (i=0; i<=size; i++) {
+    if (s[i]) {
+
+    }
+  }
+
+  printf("After spaceless\t\t");
+  printString(s);
+}
+
+void turnLower (char* s) {              // turn all characters to minuscule
+  int i;
+  for (i=0;i<(int) strlen(s);i++) {
+    if (isBetween(s[i],65,90)) {
+      s[i] += 32;
+    }
+  }
+  printf("After turnLower\t\t");
+  printString(s);
+}
+
+void cleanString      (char* limpa, char* original) {   //Clean all non-"normal" characters of the strings
+  
+  strcpy(limpa, original);
+  
+  printf("Before cleanString\t");
+  printString(limpa);
+
+  // normalizeCharacter(limpa);    // turns special characters into normal characters ç á à â ã é ê í ó ô õ ú Ç Á À Â Ã É Ê Í Ó Ô Õ Ú 
+  cleanSpecialChar(limpa);      // turns punctuation into spaces " ' , . - { [ ( ) ] } @ ! #
+  turnLower(limpa);               // turn all characters to minuscule
+  // spaceless1(limpa);             // remove all of the spaces
+  spacelessSwap(limpa);             // remove all of the spaces
+  // printString(original);
+  // printString(limpa);
+}
+
+/* 
+void invertString     (char* limpa, char* invertida) {
 
 }
 
-void palindromeCheck  (char limpa, char invertida) {
+void palindromeCheck  (char* limpa, char* invertida) {
 
-}
+} */
+
 
 int main () {
-  int size=50, choice=1;
-  char stringOriginal[size], stringLimpa[size], stringInvertida[size];
+  int size=50, choice=2;
+  char stringOriginal[size], stringLimpa[size]/* , stringInvertida[size] */;
 
   /*
     Precisaremos de funcoes para
@@ -66,8 +187,9 @@ int main () {
 
   */
   
-  selectString    (stringOriginal, choice);   //Create all strings that are going to be tested
-  cleanString     (stringOriginal, stringLimpa);    //Clean all non-"normal" characters of the strings
-  invertString    (stringLimpa, stringInvertida);
-  palindromeCheck (stringLimpa, stringInvertida);
+  selectString    (choice,      stringOriginal);         //Create all strings that are going to be tested
+
+  cleanString     (stringLimpa, stringOriginal);         //Clean all non-"normal" characters of the strings
+  // invertString    (stringLimpa, stringInvertida);
+  // palindromeCheck (stringLimpa, stringInvertida);
 }
