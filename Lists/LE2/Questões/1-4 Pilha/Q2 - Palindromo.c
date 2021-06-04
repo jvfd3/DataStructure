@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <String.h>
 
-// #include <PilhaJV.h>
+#include "PilhaJV.h"
 // #include "B:\HDExterno\UENF\4Periodo\Estruturas de Dados\GitHub_Repository\DataStructure\Lists\LE2\Questões\1-4 Pilha\PilhaJV.h"
 
 /*  Q2 - Palindromo
@@ -24,7 +24,7 @@ com os exemplos mostrados acima.
 */
 
 void printString  (char* string) {  // simply prints a string aesthetically
-  printf("->\t%s\t<-\n", string);
+  printf("->%s<-\n", string);
 }
 
 void selectString    (int choice, char* string) {   //Create all strings that are going to be tested
@@ -61,6 +61,7 @@ void cleanSpecialChar (char* s) {     // turns punctuation into spaces " ' , . -
   printString(s);
 }
 
+/*
 void normalizeCharacter (char* s) {   // turns special characters into normal characters ç á à â ã é ê í ó ô õ ú Ç Á À Â Ã É Ê Í Ó Ô Õ Ú
   
   int i;
@@ -83,11 +84,22 @@ void normalizeCharacter (char* s) {   // turns special characters into normal ch
   printf("After normalizeCharacter\t");
   printString(s);
 }
+*/
 
 int alphaSize(char* s) {
   int i, cont=0;
   for (i=0; i<=(int) strlen(s);i++) {  // Runs through all characters of the string
     if (isAlpha(s[i])) {
+      cont++;
+    }
+  }
+  return cont;
+}
+
+int spaceCount(char* s) {
+  int i, cont=0;
+  for (i=0; i<=(int) strlen(s);i++) {  // Runs through all characters of the string
+    if (s[i]==' ') {
       cont++;
     }
   }
@@ -124,14 +136,34 @@ void spaceless1 (char* s) {            // remove all of the spaces
   printString(s);
 }
 
-void spacelessSwap (char* s) {            // remove all of the spaces
-  int i;
-  int size = (int) strlen(s);
-  for (i=0; i<=size; i++) {
-    if (s[i]) {
+void swap (int* a, int* b) {
+  *a = *a + *b;
+  *b = *a - *b;
+  *a = *a - *b;
+}
 
+void spacelessSwap (char* s) {            // remove all of the spaces
+  // this part of the code is chaos. don't stare at him too much
+  int i=0, j, spaces=spaceCount(s);
+  do {
+  // printf("%dspaces\n", spaces);
+        // printString(s);
+    if (s[i]==' ') {
+      for (j=i; j<(int) strlen(s);j++) {
+        // swap (&(s[j]), &(s[j+1]));
+        // i'm sweeping dirty over the \0
+        s[j]    = s[j] + s[j+1];
+        s[j+1]  = s[j] - s[j+1];
+        s[j]    = s[j] - s[j+1];
+
+        // printString(s);
+      }
+      spaces--;
+      i--;
     }
-  }
+    i++;
+  } while (spaces!=0);
+
 
   printf("After spaceless\t\t");
   printString(s);
@@ -164,19 +196,36 @@ void cleanString      (char* limpa, char* original) {   //Clean all non-"normal"
   // printString(limpa);
 }
 
-/* 
 void invertString     (char* limpa, char* invertida) {
+  printString (limpa);
+  STACK* pilha;
+  pilha = createStack();
+  int i;
+  for (i=0;i<(int) strlen(limpa);i++) {
+    pushStack(pilha, (void*) &limpa[i]);
+    printf("Pushing: (%d, %d, %c)\n", &limpa[i], limpa[i], limpa[i]);
+  }
+    // invertida+=(*popStack(pilha));
+  void* dataPtr;
+  dataPtr = popStack(pilha);
+  int* temp = (int*) popStack(pilha);
+  printf("dataptr\t%d\n", ((int*) dataPtr));
+  printf("temp\t%d\n", temp);
+  printf("temp\t%d\n", (int*) popStack(pilha));
 
+  // do { } while (!emptyStack(pilha));
+  printString (invertida);
 }
 
+/* 
 void palindromeCheck  (char* limpa, char* invertida) {
 
 } */
 
 
 int main () {
-  int size=50, choice=2;
-  char stringOriginal[size], stringLimpa[size]/* , stringInvertida[size] */;
+  int size=50, choice=4;
+  char stringOriginal[size], stringLimpa[size] , stringInvertida[size] ;
 
   /*
     Precisaremos de funcoes para
@@ -188,8 +237,7 @@ int main () {
   */
   
   selectString    (choice,      stringOriginal);         //Create all strings that are going to be tested
-
   cleanString     (stringLimpa, stringOriginal);         //Clean all non-"normal" characters of the strings
-  // invertString    (stringLimpa, stringInvertida);
+  invertString    (stringLimpa, stringInvertida);
   // palindromeCheck (stringLimpa, stringInvertida);
 }

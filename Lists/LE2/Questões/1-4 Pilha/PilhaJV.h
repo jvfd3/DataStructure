@@ -21,7 +21,7 @@ typedef struct stack{
 #include "PilhaJV.c"
 
 //  Prototype Declarations
-void   print        (STACK* stack);
+// void   print        (STACK* stack);
 
 STACK* createStack  (void);
 STACK* destroyStack (STACK* stack);
