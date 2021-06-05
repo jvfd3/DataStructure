@@ -61,7 +61,7 @@ void  cleanSpecialChar (char* s) {     // turns punctuation into spaces " ' , . 
   printString(s);
 }
 
-/*
+/* 
 void normalizeCharacter (char* s) {   // turns special characters into normal characters ç á à â ã é ê í ó ô õ ú Ç Á À Â Ã É Ê Í Ó Ô Õ Ú
   
   int i;
@@ -77,14 +77,14 @@ void normalizeCharacter (char* s) {   // turns special characters into normal ch
       s[i] = 'o';
     } else if (isBetween(s[i],217,220)||isBetween(s[i],249,252)) {
       s[i] = 'u';
-    } else if (s[i] == 199) {
+    } else if ((s[i] == 199)||(s[i] == 231)) {
       s[i] = 'c';
     }
   }
   printf("After normalizeCharacter\t");
   printString(s);
 }
-*/
+ */
 
 int   alphaSize        (char* s) {
   int i, cont=0;
@@ -157,11 +157,10 @@ void  cleanString      (char* limpa, char* original) {   //Clean all non-"normal
   printf("\n\n\nBefore cleanString\t");
   printString(limpa);
 
-  // normalizeCharacter(limpa);    // turns special characters into normal characters ç á à â ã é ê í ó ô õ ú Ç Á À Â Ã É Ê Í Ó Ô Õ Ú 
-  cleanSpecialChar(limpa);      // turns punctuation into spaces " ' , . - { [ ( ) ] } @ ! #
+  cleanSpecialChar(limpa);        // turns punctuation into spaces " ' , . - { [ ( ) ] } @ ! #
   turnLower(limpa);               // turn all characters to minuscule
-  // spaceless1(limpa);             // remove all of the spaces
-  spacelessSwap(limpa);             // remove all of the spaces
+  spacelessSwap(limpa);           // remove all of the spaces
+  // normalizeCharacter(limpa);   // turns special characters into normal characters ç á à â ã é ê í ó ô õ ú Ç Á À Â Ã É Ê Í Ó Ô Õ Ú 
   // printString(original);
   // printString(limpa);
 }
@@ -193,7 +192,7 @@ int   popInt           (STACK* pilha) { // Function that pops an int
   return *intPtr;
 }
 
-void  empilha          (STACK* pilha, char* s) {
+void  empilha          (STACK* pilha, char* s) {  //  insert all characters of a string in a stack
   int i;
   for (i=0;i<(int) strlen(s);i++) {
     pushInt(pilha, s[i]);
