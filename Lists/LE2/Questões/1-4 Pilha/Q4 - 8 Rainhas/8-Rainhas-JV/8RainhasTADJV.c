@@ -114,52 +114,6 @@ void fillBoard (STACK* stack, int boardSize) {
 }  // fillBoard 
 
 
-/*  =================== fillBoardMulti ====================
-  Position chess queens on game board so that no queen 
-  can capture any other queen.
-    Pre  boardSize number of rows & columns on board
-    Post Queens positions filled
-*/
-void fillBoardMulti (STACK* stack, int boardSize) {
-  //  Local Definitions
-  int  row;
-  int  col;
-  int  board[9][9] = {0};  // 0 no queen: 1 queen 
-                           // row 0 & col 0 !used 
-  POSITION* pPos;
-
-  //  Statements 
-  row = 1;    //why do rows starts at 1 but not columns?  Because chess starts with row 1
-  col = 0;
-  
-  while (row <= boardSize) {    //Can I remove this while?
-    while (col <= boardSize && row <= boardSize) {
-      col++;    //can I take it out and start columns as 1? NO.
-                // but could I postpone it?
-      if (!guarded(board, row, col, boardSize)) {
-        board[row][col] = 1;
-
-        pPos = (POSITION*)malloc(sizeof(POSITION));
-        pPos->row = row;
-        pPos->col = col;
-          
-        pushStack(stack, pPos);
-        
-        row++;
-        col = 0;  // can I make it equal to 1?
-      } // if 
-      while (col >= boardSize) {  //could it be an if?
-        pPos = popStack(stack);
-        row  = pPos->row;
-        col  = pPos->col;
-        board[row][col] = 0;
-        free (pPos);
-      } // while col 
-    } // while col 
-  } // while row 
-  // return; // do I need it here? I guess not
-}  // fillBoard 
-
 
 /*  =================== printBoard ====================
   Print positions of chess queens on a game board 
@@ -206,3 +160,50 @@ void printBoard (STACK* stack, int boardSize) {
   return;   //Is it needed? I guess it's not
 }  // printBoard 
 
+//  ===================== MY LITTLE MESS ============================
+
+void placeQueen (int board[][9], int* row, int* col, STACK* stack) {
+  board[*row][*col] = 1;  //is it necessary? Yes, "Guarded" will use this to compare
+
+  POSITION* pPos = (POSITION*)malloc(sizeof(POSITION));
+  pPos->row = *row;
+  pPos->col = *col;
+    
+  pushStack(stack, pPos);
+}
+
+void removeQueen  (int board[][9], int* row, int* col, STACK* stack)  {
+  POSITION* pPos = popStack(stack);
+  *row  = pPos->row;
+  *col  = pPos->col;
+  board[*row][*col] = 0;
+  free (pPos);
+}
+
+
+/*  =================== fillBoardMulti ====================
+  Position chess queens on game board so that no queen 
+  can capture any other queen.
+    Pre  boardSize number of rows & columns on board
+    Post Queens positions filled
+*/
+void fillBoardMulti (STACK* stack, int boardSize) {
+  //  Local Definitions
+  int  row = 1;
+  int  col = 0;
+  int  board[9][9] = {0};  // 0 no queen: 1 queen 
+                           // row 0 & col 0 !used 
+
+  while (row <= boardSize) {  //is this "col" useless?
+    col++;    //can I take it out and start columns as 1? NO.
+              // but could I postpone it?
+    if (!guarded  (board,  row,   col, boardSize)) {
+      placeQueen  (board, &row,  &col, stack);
+      row++;
+      col = 0;  // can I make it equal to 1?  
+    } // if 
+    while (col >= boardSize) {  //could it be an if? No. But why?
+      removeQueen (board, &row,  &col, stack);
+    } // while col 
+  } // while col 
+}  // fillBoard 
