@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <String.h>
 
+#include "../PilhaJV/PilhaJV.h"
 #include "./8-Rainhas-JV/8RainhasTADJV.h"         /* Eight Queens everything*/
 
 /*  Q4 - 8 rainhas
@@ -51,20 +52,22 @@ int   popInt           (STACK* pilha) { // Function that pops an int
 
 int main (void) {
   /*  Local Definitions */
-  int  boardSize;
-  
-  STACK* stack ;
 
-  /*  Statements */
-  boardSize = getSize ();
-  stack     = createStack ();
+  // int     boardSize = getSize ();
+  int     boardSize = 4;
+  STACK*  stack     = createStack ();
+
+  /*  Statements */  
+
+  // fillBoard    (stack, boardSize);
+  // printBoard   (stack, boardSize);
   
-  fillBoard    (stack, boardSize);
+  fillBoardMulti    (stack, boardSize);
   printBoard   (stack, boardSize);
-  destroyStack (stack);
 
+  destroyStack (stack);
   printf("\nWe hope you enjoyed Eight Queens.\n");
-  return 0;
+  
 }  /* main */
 
 /*  Results

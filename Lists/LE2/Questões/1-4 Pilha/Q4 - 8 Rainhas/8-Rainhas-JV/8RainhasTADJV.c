@@ -40,30 +40,25 @@ int getSize (void) {
 bool guarded (int board[][9], int chkRow, int chkCol, int boardSize) {
   //  Local Definitions 
   int row;
-  int col;
+  int col = chkCol;
   
   //  Statements 
 
   // Check current col for a queen 
-  col = chkCol;
   for (row = 1; row <= chkRow; row++) {
     if (board[row][col] == 1) {
       return true;
     }
   }
   // Check diagonal right-up 
-  for (row = chkRow - 1, col = chkCol + 1;
-       row > 0 && col <= boardSize;
-       row--, col++){
+  for (row = chkRow - 1, col = chkCol + 1; row > 0 && col <= boardSize; row--, col++) {
     if (board[row][col] == 1) {
       return true;
     }
   }
 
   // Check diagonal left-up 
-  for (row = chkRow - 1, col = chkCol - 1;
-       row > 0 && col > 0;
-       row--, col--) {
+  for (row = chkRow - 1, col = chkCol - 1; row > 0 && col > 0; row--, col--) {
     if (board[row][col] == 1) {
       return true;
     }
@@ -71,11 +66,12 @@ bool guarded (int board[][9], int chkRow, int chkCol, int boardSize) {
   return false;
 }  // guarded 
 
+
 /*  =================== fillBoard ====================
   Position chess queens on game board so that no queen 
   can capture any other queen.
-     Pre  boardSize number of rows & columns on board
-     Post Queens� positions filled
+    Pre  boardSize number of rows & columns on board
+    Post Queens positions filled
 */
 void fillBoard (STACK* stack, int boardSize) {
   //  Local Definitions
@@ -86,12 +82,13 @@ void fillBoard (STACK* stack, int boardSize) {
   POSITION* pPos;
 
   //  Statements 
-  row = 1;
+  row = 1;    //why do rows starts at 1 but not columns?  Because chess starts with row 1
   col = 0;
   
-  while (row <= boardSize) {
+  while (row <= boardSize) {    //Can I remove this while?
     while (col <= boardSize && row <= boardSize) {
-      col++;
+      col++;    //can I take it out and start columns as 1? NO.
+                // but could I postpone it?
       if (!guarded(board, row, col, boardSize)) {
         board[row][col] = 1;
 
@@ -102,9 +99,9 @@ void fillBoard (STACK* stack, int boardSize) {
         pushStack(stack, pPos);
         
         row++;
-        col = 0;
+        col = 0;  // can I make it equal to 1?
       } // if 
-      while (col >= boardSize) {
+      while (col >= boardSize) {  //could it be an if?
         pPos = popStack(stack);
         row  = pPos->row;
         col  = pPos->col;
@@ -113,8 +110,56 @@ void fillBoard (STACK* stack, int boardSize) {
       } // while col 
     } // while col 
   } // while row 
-  return;
+  // return; // do I need it here? I guess not
 }  // fillBoard 
+
+
+/*  =================== fillBoardMulti ====================
+  Position chess queens on game board so that no queen 
+  can capture any other queen.
+    Pre  boardSize number of rows & columns on board
+    Post Queens positions filled
+*/
+void fillBoardMulti (STACK* stack, int boardSize) {
+  //  Local Definitions
+  int  row;
+  int  col;
+  int  board[9][9] = {0};  // 0 no queen: 1 queen 
+                           // row 0 & col 0 !used 
+  POSITION* pPos;
+
+  //  Statements 
+  row = 1;    //why do rows starts at 1 but not columns?  Because chess starts with row 1
+  col = 0;
+  
+  while (row <= boardSize) {    //Can I remove this while?
+    while (col <= boardSize && row <= boardSize) {
+      col++;    //can I take it out and start columns as 1? NO.
+                // but could I postpone it?
+      if (!guarded(board, row, col, boardSize)) {
+        board[row][col] = 1;
+
+        pPos = (POSITION*)malloc(sizeof(POSITION));
+        pPos->row = row;
+        pPos->col = col;
+          
+        pushStack(stack, pPos);
+        
+        row++;
+        col = 0;  // can I make it equal to 1?
+      } // if 
+      while (col >= boardSize) {  //could it be an if?
+        pPos = popStack(stack);
+        row  = pPos->row;
+        col  = pPos->col;
+        board[row][col] = 0;
+        free (pPos);
+      } // while col 
+    } // while col 
+  } // while row 
+  // return; // do I need it here? I guess not
+}  // fillBoard 
+
 
 /*  =================== printBoard ====================
   Print positions of chess queens on a game board 
@@ -158,6 +203,6 @@ void printBoard (STACK* stack, int boardSize) {
     printf("\n");
   } // while 
   destroyStack(pOutStack);
-  return;
+  return;   //Is it needed? I guess it's not
 }  // printBoard 
 
