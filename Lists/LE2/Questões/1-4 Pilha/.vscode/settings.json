@@ -1,0 +1,14 @@
+{
+  "files.associations": {
+    "8rainhas.h": "c",
+    "stdbool.h": "c",
+    "string.h": "c",
+    "8rainhas.c": "cpp",
+    "8rainhastad-jv.c": "cpp",
+    "stdlib.h": "c",
+    "stdio.h": "c",
+    "8rainhastad-jv.h": "c",
+    "8rainhastadjv.h": "c",
+    "pilhajv.h": "c"
+  }
+}
