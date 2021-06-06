@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "PilhaJV.h"
+#include "../PilhaJV/PilhaJV.h"
 
 /*  Q1 - DEC2HEX
 

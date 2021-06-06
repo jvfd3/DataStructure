@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <String.h>
 
-#include "PilhaJV.h"
+#include "../PilhaJV/PilhaJV.h"
 // #include "B:\HDExterno\UENF\4Periodo\Estruturas de Dados\GitHub_Repository\DataStructure\Lists\LE2\Questões\1-4 Pilha\PilhaJV.h"
 
 /*  Q2 - Palindromo
