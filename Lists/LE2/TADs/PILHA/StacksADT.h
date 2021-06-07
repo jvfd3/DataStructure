@@ -11,7 +11,7 @@ typedef struct node2 {
   struct node2* link;
 } STACK_NODE;
 
-typedef struct {
+typedef struct stack{
   int         count; 
   STACK_NODE* top; 
 } STACK;

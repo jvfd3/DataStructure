@@ -158,3 +158,21 @@ STACK *destroyStack(STACK *stack) {
   return NULL;
 } // destroyStack
 
+
+
+/*  ===================== print ==================== 
+  This function prints a singly linked stack.
+     Pre     pStackTop is pointer to valid stack
+     Post    data in stack printed
+*/
+void print (STACK_NODE** pStackTop) {
+  //  Local Definitions 
+  char printData;
+
+  //  Statements 
+  printf("Stack contained:     ");
+  while (pop(pStackTop, &printData)) {
+    printf("%c", printData);
+  }
+  // return;  // eh necessario esse return? imagino que nao
+}  // print 

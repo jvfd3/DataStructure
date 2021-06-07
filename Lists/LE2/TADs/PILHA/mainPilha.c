@@ -14,29 +14,29 @@ typedef struct node {
 } STACK_NODE;
 
 //  Prototype Declarations
-void insertData(STACK_NODE **pStackTop);
-void print(STACK_NODE **pStackTop);
-
-bool push(STACK_NODE **pList, char dataIn);
-bool pop(STACK_NODE **pList, char *dataOut);
+void insertData (STACK_NODE **pStackTop);
+void print      (STACK_NODE **pStackTop);
+bool push       (STACK_NODE **pList, char  dataIn);
+bool pop        (STACK_NODE **pList, char *dataOut);
+// bool   emptyStack   (STACK* stack);
 
 //  The following includes are not shown in the text
 #include "PilhaTAD.h"
 
-int main(void) {
-  //  Local Definitions
-  STACK_NODE *pStackTop;
-
-  //  Statements
-  printf("Beginning Simple Stack Program\n\n");
-
-  pStackTop = NULL;
-  insertData(&pStackTop);
-  print(&pStackTop);
-
-  printf("\n\nEnd Simple Stack Program\n");
-  return 0;
-} // main
+// int main(void) {
+//  //  Local Definitions
+//  STACK_NODE *pStackTop;
+//
+//  //  Statements
+//  printf("Beginning Simple Stack Program\n\n");
+//
+//  pStackTop = NULL;
+//  insertData(&pStackTop);
+//  print(&pStackTop);
+//
+//  printf("\n\nEnd Simple Stack Program\n");
+//  return 0;
+// } // main
 
 /*  Results
 Beginning Simple Stack Program
