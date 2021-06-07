@@ -172,7 +172,7 @@ void placeQueen (int board[][9], int row, int col, STACK* stack) {
   pushStack(stack, pPos);
 }
 
-void removeQueen  (int board[][9], int* row, int* col, STACK* stack, int* stop)  {
+void removeQueen  (int board[][9], int* row, int* col, STACK* stack, int* keepRepeating)  {
   if (!emptyStack(stack)) {
     POSITION* pPos = popStack(stack);
     *row  = pPos->row;
@@ -180,7 +180,7 @@ void removeQueen  (int board[][9], int* row, int* col, STACK* stack, int* stop) 
     board[*row][*col] = 0;
     free (pPos);
   } else {
-    *stop=0;
+    *keepRepeating=0;
   }
 }
 
@@ -292,55 +292,125 @@ void nonDestructivePrintBoard (STACK* stack, int boardSize) {
     Pre  boardSize number of rows & columns on board
     Post Queens positions filled
 */
-void fillBoardMulti (STACK* stack, int boardSize) {
+void fillBoardMultiOld (STACK* stack, int boardSize) {
   //  Local Definitions
   int  row = 1;
   int  col = 0;
   int  board[9][9] = {0};  // 0 no queen: 1 queen row 0 & col 0 !used 
   int cont=0;
-  int continue = 1;
+  int keepRepeating = 1;
 
-  printf("\n\n\n\n\n");
+  printf("\n\n\n");
   printf("##########################################################\n");
   printf("STARTING THE FUNCTION FOR BOARDSIZE = %d!!!\n\n", boardSize);
-  while (continue) {
+
+  while ((cont<94)&&keepRepeating) {
 
     while (row <= boardSize && col<=boardSize) {  //is this "col" useless?
       col++;    //can I take it out and start columns as 1? NO. but could I postpone it?
 
       if (!guarded  (board, row, col, boardSize)) {
         placeQueen  (board, row, col, stack);
-        // printf("P(%d, %d) ", row, col);
+        printf("P(%d, %d) ", row, col);
         row++;
         col = 0;  // can I make it equal to 1?  
       } // if 
 
       if (row>boardSize) {
         cont++;
-        printf("\nLayout %d:", cont);
-        nonDestructivePrintBoard (stack, boardSize);
+        printf("\nLayout %d:\t", cont);
+        if (cont>8) {
+          nonDestructivePrintBoard (stack, boardSize);
+        }
       }
-
-      while ((col >= boardSize)&&continue) {  //could it be an if? No. But why?
-        // printf("r(%d, %d) ", row, col);
-        removeQueen (board, &row,  &col, stack,&continue);
-        // printf("R(%d, %d) ", row, col);
+        if (cont>8) {
+          printf(" (%d, %d) ", row, col);
+        }
+      while ((col >= boardSize)&&keepRepeating) {  //could it be an if? No. But why?
+        printf("(%d, %d)->R->", row, col);
+        removeQueen (board, &row,  &col, stack,&keepRepeating);
+        printf("(%d, %d) ", row, col);
       } // while col 
-      // printf("(%d, %d) ",row, col);
     } // while col 
     
-    if (row!=boardSize) {
-    printf("<");
-    printf("r(%d, %d) %d ", row, col, continue);
-    removeQueen (board, &row,  &col, stack, &continue);
-
-    printf("R(%d, %d) %d ", row, col, continue);
-    printf(">");
+    if ((row>=boardSize)&&keepRepeating) {
+        printf("(%d, %d)->X->", row, col);
+        removeQueen (board, &row,  &col, stack,&keepRepeating);
+        printf("(%d, %d) ", row, col);
     }
   }
   printf("\n\nThere were %d total different layouts\n", cont);
 
   printf("ENDING THE FUNCTION FOR BOARDSIZE = %d!!!\n\n", boardSize);
   printf("##########################################################\n");
-  printf("\n\n\n\n\n");
+  printf("\n\n\n");
+}  // fillBoard 
+
+
+
+/*  =================== fillBoardMulti ====================
+  Position chess queens on game board so that no queen 
+  can capture any other queen.
+    Pre  boardSize number of rows & columns on board
+    Post Queens positions filled
+*/
+void fillBoardMulti (STACK* stack, int boardSize) {
+  //  Local Definitions
+  int  row = 1;
+  int  col = 0;
+  int  board[9][9] = {0};  // 0 no queen: 1 queen row 0 & col 0 !used 
+  int cont=0;
+  int keepRepeating = 1;
+
+  printf("\n\n\n");
+  printf("##########################################################\n");
+  printf("STARTING THE FUNCTION FOR BOARDSIZE = %d!!!\n\n", boardSize);
+
+  while ((cont<94)&&keepRepeating) {
+
+    while (row <= boardSize && col<=boardSize) {  //is this "col" useless?
+      col++;    //can I take it out and start columns as 1? NO. but could I postpone it?
+      
+      //  If it's not guarded by any previous queen, place a new Queen
+      if (!guarded  (board, row, col, boardSize)) {
+        placeQueen  (board, row, col, stack);
+        printf("P(%d, %d) ", row, col);
+        row++;
+        col = 0;  // can I make it equal to 1?  
+      } // if 
+      // then row++ and col=0
+
+      //  if a queen was placed in the last row (row>boardSize and col==0
+      //  add one layout and print it
+      if ((row>boardSize) && (col==0)) {
+        cont++;
+        printf("\nLayout %d:\t", cont);
+        if (cont>8) { //temp
+          nonDestructivePrintBoard (stack, boardSize);
+        }
+      }
+      //This part doesn't seem weird at all
+
+      if (cont>8) {
+        printf(" (%d, %d) ", row, col);
+      }
+
+      while ((col >= boardSize)&&keepRepeating) {  //could it be an if? No. But why?
+        printf("(%d, %d)->R->", row, col);
+        removeQueen (board, &row,  &col, stack,&keepRepeating);
+        printf("(%d, %d) ", row, col);
+      } // while col 
+    } // while col 
+    
+    if ((row>=boardSize)&&keepRepeating) {
+        printf("(%d, %d)->X->", row, col);
+        removeQueen (board, &row,  &col, stack,&keepRepeating);
+        printf("(%d, %d) ", row, col);
+    }
+  }
+  printf("\n\nThere were %d total different layouts\n", cont);
+
+  printf("ENDING THE FUNCTION FOR BOARDSIZE = %d!!!\n\n", boardSize);
+  printf("##########################################################\n");
+  printf("\n\n\n");
 }  // fillBoard 

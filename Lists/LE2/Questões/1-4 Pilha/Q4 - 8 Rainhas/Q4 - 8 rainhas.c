@@ -27,10 +27,10 @@ int main (void) {
   /*  Local Definitions */
 
   // int     boardSize = getSize ();
-  int     boardSize = 4;
+  int     boardSize;
   STACK*  stack;
 
-  for (boardSize=4; boardSize<8; boardSize++) {
+  for (boardSize=5; boardSize<=5; boardSize++) {
     stack     = createStack ();
     fillBoardMulti    (stack, boardSize);
     destroyStack (stack);
