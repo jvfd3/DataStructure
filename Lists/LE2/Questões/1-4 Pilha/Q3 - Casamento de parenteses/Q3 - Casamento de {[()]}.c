@@ -167,7 +167,7 @@ int   main (void) {
 //  Local Definitions 
   char    fileID[30];   //  string for the name of the file
   FILE*   filePointer;  //  pointer to the file
-  int     lineCount, isWrong, manualInput = 0;  //line counter, check if is wronge and toggle manual input 
+  int     lineCount, isWrong, manualInput = 0;  //line counter, check if is wrong and toggle manual input 
   int     choice;
   // choice=3;     //  test Options: 1) open;2) close;3) no-error;
 

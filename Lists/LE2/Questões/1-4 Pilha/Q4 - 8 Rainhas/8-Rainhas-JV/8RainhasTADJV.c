@@ -1,6 +1,7 @@
+//  ===================== 8QUEENS TADFILES =====================
 
-
-/*  ===================== getSize ======================
+// not used at all
+/*  ===================== getSize =====================
   Prompt user for a valid board size.
     Pre  nothing 
     Post valid board size returned 
@@ -28,8 +29,8 @@ int getSize (void) {
   return boardSize;
 }  // getSize 
 
-
-/*  ===================== guarded ==================
+// really important but a little forgotten
+/*  ===================== guarded =====================
   Checks rows, columns, diagonals for guarding queens 
 
      Pre  board contains current positions for queens
@@ -66,8 +67,8 @@ bool guarded (int board[][9], int chkRow, int chkCol, int boardSize) {
   return false;
 }  // guarded 
 
-
-/*  =================== fillBoard ====================
+// not used: it only runs once
+/*  =================== fillBoard =====================
   Position chess queens on game board so that no queen 
   can capture any other queen.
     Pre  boardSize number of rows & columns on board
@@ -113,8 +114,8 @@ void fillBoard (STACK* stack, int boardSize) {
   // return; // do I need it here? I guess not
 }  // fillBoard 
 
-
-/*  =================== printBoard ====================
+// not used: it empties the stack, I don't want my stack gone
+/*  =================== printBoard =====================
   Print positions of chess queens on a game board 
   Pre  stack contains positions of queen
        boardSize is the number of rows and columns
@@ -160,10 +161,12 @@ void printBoard (STACK* stack, int boardSize) {
 }  // printBoard 
 
 
-//  ===================== MY LITTLE MESS ============================
+//  =================== MY LITTLE MESS =====================
 
 
-//  it places a 1 in the board and stacks the position of the queen
+/*  =================== placeQueen =====================
+    it places a 1 in the board and stacks the position of the queen
+*/
 void placeQueen (int board[][9], int row, int col, STACK* stack) {
   board[row][col] = 1;  //is it necessary? Yes, "Guarded" will use this to compare
 
@@ -175,7 +178,8 @@ void placeQueen (int board[][9], int row, int col, STACK* stack) {
 }
 
 
-/*  if the stack is not empty,  it unstacks the queen and set its position as the
+/*  =================== removeQueen =====================
+    if the stack is not empty,  it unstacks the queen and set its position as the
     new position so that the code can keep running from its last location
     if the stack is empty, it is set to stop repeating, because if it is empty
     it means that all the queens are gone, and the queen from the first row is gone
@@ -194,111 +198,110 @@ void removeQueen  (int board[][9], int* row, int* col, STACK* stack, int* keepRe
 }
 
 
-/*  =================== printBoard ====================
-  Print positions of chess queens on a game board 
-  Pre  stack contains positions of queen
-       boardSize is the number of rows and columns
-  Post Queens� positions printed
+/*  =================== nonDestructivePrintBoard =====================
+  Prints the layout of the queens that are stacked, but without losing the stack
+  so the function cocktails all the popped pointers back in the stack
+  It's similar to a printStack function in a way.
 */
 void nonDestructivePrintBoard (STACK* stack, int boardSize) {
-  //  Local Definitions 
+
+
   int col;
-  
   POSITION* pPos;
-  STACK*    pOutStack;
-  
-  //  Statements 
+  STACK*    pOutStack = createStack ();
+  // if everything is right, you'll only see it when boardSize==2 or ==3
   if (emptyStack(stack)) {
     printf("There are no positions on this board\n");
     return;
-  } // if 
-      
-  // printf("\nPlace queens in following positions:\n");
-  
-  
+  }
 
-  // Reverse stack for printing 
-  pOutStack = createStack ();
+  // Reverse stack for printing (get ready for the cocktail)
   while (!emptyStack (stack)) {
-    pPos = popStack (stack);
-    // printf("outta stack (%X)\n",pPos);
-    pushStack (pOutStack, pPos);
-  } // while 
-  
+    pushStack (pOutStack, popStack (stack));
+  }
+
   // Now print board 
   while (!emptyStack (pOutStack)) {
     pPos = popStack (pOutStack);
     printf("Row %d-Col %d: \t|", pPos->row, pPos->col);
     for (col = 1; col <= boardSize; col++) {
-      if (pPos->col == col){
-        printf(" Q |");
-      } else {
-        printf("   |");
-      }
-    } // for 
+      // Ternary operators FTW
+      printf("%s", (pPos->col == col)?" Q |":"   |");
+      
+      //  If you don't like ternary operators, here is the equivalent if else statement 
+      /*  
+        if (pPos->col == col){
+          printf(" Q |");
+        } else {
+          printf("   |");
+        }
+      */
+
+    }
+    // who doesn't like some space?
     printf("\n");
-    // printf("into stack (%X)",pPos);
+    
+    // Here is your cocktail
     pushStack (stack, pPos);
-  } // while 
+    // probably that is the most significant change from the other code
+  }
+
   destroyStack(pOutStack);
-  return;   //Is it needed? I guess it's not
+
 }  // printBoard 
 
 
-/*  =================== fillBoardMulti ====================
-  Position chess queens on game board so that no queen 
-  can capture any other queen.
-    Pre  boardSize number of rows & columns on board
-    Post Queens positions filled
+/*  =================== fillBoardMulti =====================
+    It prints multiple layouts from 4 to 8 queens.
 */
 void fillBoardMulti (STACK* stack, int boardSize) {
-  //  Local Definitions
-  int   row = 1;
-  int   col = 0;
-  int   board[9][9] = {0};  // 0 no queen: 1 queen row 0 & col 0 !used 
-  int   cont=0;
-  int   keepRepeating = 1;
+  
+  // I would like to start the column as 1, but failed everytime
+  int   row = 1, col = 0, cont=0, keepRepeating = 1, board[9][9] = {0};
+  // I think using "keepReapting" was kinda cheat, but it worked *shrug*
 
-  printf("\n\n\n");
-  printf("##########################################################\n");
-  printf("STARTING THE FUNCTION FOR BOARDSIZE = %d!!!\n\n", boardSize);
+  printf("\n\n### STARTING THE FUNCTION FOR BOARDSIZE = %d!!! ###\n\n", boardSize);
 
+  while (keepRepeating) {   // Maybe another condition could be better
+    while (row <= boardSize && col<=boardSize) {  //it is better to stay inside, kids
+      col++;
 
-
-  while ((cont<94)&&keepRepeating) {
-
-    while (row <= boardSize && col<=boardSize) {  //is this "col" useless?
-      col++;    //can I take it out and start columns as 1? NO. but could I postpone it?
-      
-      //  If it's not guarded by any previous queen and col <=boardsize, 
-      //  place a new Queen
+      /*  If it's not guarded by any previous queen and col <=boardsize, 
+        place a new Queen */
       if ((!guarded  (board, row, col, boardSize)) && col<=boardSize) {
         placeQueen  (board, row, col, stack);
-        // printf("P(%d, %d) ", row, col);
         row++;
-        col = 0;  // can I make it equal to 1?  
+        col = 0;
       }
-
       //  if a queen was placed in the last row (row>boardSize and col==0)
-      //  add one layout and print it
+
+      //  if row>boardSize, and col was just reseted, add one layout and print it
       if ((row>boardSize) && (col==0)) {
         cont++;
         printf("\n\t\tLayout %d:\t\n", cont);
         nonDestructivePrintBoard (stack, boardSize);
       }
-      //This part doesn't seem weird at all
 
-      while ((col >= boardSize)&&keepRepeating) {  //could it be an if? No. But why?
+      /*  this will unstack queens when a valid layout was not achieved and absorb
+          her position so that the code resumes at it
+          but if the stack goes empty, "keepRepeating" turns 0 and it stops
+      */
+      while ((col >= boardSize)&&keepRepeating) {
         removeQueen (board, &row,  &col, stack,&keepRepeating);
       }
+
     }
     
+    /*  I'm not really sure what I actully did here.
+        if I'm not wrong, when a valid layout was found, the last Queen is popped
+        and by doing so, the code can keep running after it.
+        and will only stop when the Queen from the first row reached col>boardSize
+    */
     if ((row>=boardSize)&&keepRepeating) {
         removeQueen (board, &row,  &col, stack,&keepRepeating);
     }
   }
 
-  printf("\nThere were %d total different layouts\n", cont);
-  printf("ENDING THE FUNCTION FOR BOARDSIZE = %d!!!", boardSize);
-  printf("\n##########################################################");
+  printf("\nThere were %d total different layouts.\n", cont);
+  printf("\n\n### ENDING THE FUNCTION FOR BOARDSIZE = %d!!! ###\n\n", boardSize);
 }  // fillBoard 

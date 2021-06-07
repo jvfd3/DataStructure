@@ -15,48 +15,15 @@
 
 */
 
-/*  This program tests the eight queens algorithm. Eight 
-  queens is a classic chess problem in which eight 
-  queens are placed on a chess board in positions 
-  such that no queen can capture another queen.
-     Written by:
-     Date:
-*/
-
 int main (void) {
-  /*  Local Definitions */
 
-  // int     boardSize = getSize ();
-  int     boardSize;
+  int     boardSize /* = getSize () */;
   STACK*  stack;
 
-  // tests for all of the boardsizes available
+  // test for all of the boardsizes available
   for (boardSize=4; boardSize<=8; boardSize++) {
     stack = createStack ();
     fillBoardMulti  (stack, boardSize);
     destroyStack    (stack);
   }
-
-  // printf("\nCodigo confuso e com duas gambiarrinhas.\n");
-  
-}  /* main */
-
-/*  Results
-Welcome to Eight Queens. You may select
-a board size from 4 x 4 to 8 x 8. I will
-then position a queen in each row of the
-board so no queen may capture another
-queen. Note: There are no solutions for
-boards less than 4 x 4.
-
-Please enter the board size: 4
-
-Place queens in following positions:
-Row 1-Col 2:    | Q |   |   |
-Row 2-Col 4:    |   |   | Q |
-Row 3-Col 1:  Q |   |   |   |
-Row 4-Col 3:    |   | Q |   |
-
-We hope you enjoyed Eight Queens.
-*/
-
+}
