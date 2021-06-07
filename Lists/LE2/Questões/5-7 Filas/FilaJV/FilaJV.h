@@ -26,6 +26,6 @@
   bool  emptyQueue    (QUEUE* queue);
   bool  fullQueue     (QUEUE* queue); 
   int   queueCount    (QUEUE* queue);
-  // void  printQueue    (QUEUE* queue);
+  void  printQueue    (QUEUE* queue);
 
 //End of Queue ADT Definitions

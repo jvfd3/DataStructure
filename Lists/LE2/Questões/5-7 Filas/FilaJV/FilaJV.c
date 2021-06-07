@@ -62,21 +62,26 @@ bool dequeue (QUEUE* queue, void** itemPtr) {
   //  Local Definitions 
   QUEUE_NODE* deleteLoc;
 
+  // printf("1");
   //  Statements 
   if (!queue->count) {
     return false;
   }
 
+  // printf("2");
   *itemPtr  = queue->front->dataPtr;
   deleteLoc = queue->front;
   
+  // printf("3");
   if (queue->count == 1){
      // Deleting only item in queue 
      queue->rear  = queue->front = NULL;
-  }
-  else{
+  // printf("4");
+  } else {
     queue->front = queue->front->next;
+  // printf("5");
   }
+  // printf("5");
   (queue->count)--;
   free (deleteLoc);
 
@@ -187,9 +192,47 @@ QUEUE* destroyQueue (QUEUE* queue) {
   return NULL;
 }  // destroyQueue 
 
+/*  ===================== my little mess ===================
+
+*/
+
+
+void  pushFilaInt          (QUEUE* fila, int dec) { // Function that pushes an int
+  int* p = (int*) malloc (sizeof(int));
+  *p = dec;
+  enqueue(fila, p);
+}
+
+int   popFilaInt           (QUEUE* fila) { // Function that pops an int
+   // I'll now pop the value inserted but for it i'll need a void* variable (or a casting to another variable)
+  int *p = (int*) malloc (sizeof(int));
+  dequeue(fila, (void*)&p);
+  return *p;
+}
+
+
 /*  ======================== printing without destroying =========================
 */
 
 void  printQueue    (QUEUE* queue) {
-  queue->count
+
+  QUEUE* tempQ = createQueue();
+  int temp;
+  printf("Lista:\t( ");
+    // printf("a");
+  while (!emptyQueue(queue)) {
+    temp = popFilaInt(queue);
+    printf("%d ", temp);
+    pushFilaInt (tempQ, temp);
+  }
+  printf(")\t\t( ");
+  
+  while(!emptyQueue(tempQ)) {
+    temp = popFilaInt(tempQ);
+    printf("%d ", temp);
+    pushFilaInt(queue, temp);
+  }
+  destroyQueue(tempQ);
+  printf(")\n");
 }
+

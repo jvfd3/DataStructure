@@ -8,7 +8,7 @@
 int main() {
   
   // Definicoes locais
-  int *p;
+  int* p;
   int  feito = false;
   QUEUE* fila_inteiros;
 
@@ -27,12 +27,18 @@ int main() {
   } // while 
 
 //  Imprime os numeros da fila 
-  printf ("\n\n A lista de numeros da fila:\n");
+  // printf ("\n\n A lista de numeros da fila:\n");
+  
+  printQueue(fila_inteiros);
+  printQueue(fila_inteiros);
+  
+/*
   while (!emptyQueue(fila_inteiros)) {
     dequeue(fila_inteiros, (void*)&p);
     printf ("%3d\n", *p);
     free (p);
   } // while 
+*/
 
 //  Destroi Fila
   destroyQueue(fila_inteiros);
