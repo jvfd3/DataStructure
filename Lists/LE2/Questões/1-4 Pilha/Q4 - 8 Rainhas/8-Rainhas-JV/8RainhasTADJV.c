@@ -162,23 +162,128 @@ void printBoard (STACK* stack, int boardSize) {
 
 //  ===================== MY LITTLE MESS ============================
 
-void placeQueen (int board[][9], int* row, int* col, STACK* stack) {
-  board[*row][*col] = 1;  //is it necessary? Yes, "Guarded" will use this to compare
+void placeQueen (int board[][9], int row, int col, STACK* stack) {
+  board[row][col] = 1;  //is it necessary? Yes, "Guarded" will use this to compare
 
   POSITION* pPos = (POSITION*)malloc(sizeof(POSITION));
-  pPos->row = *row;
-  pPos->col = *col;
+  pPos->row = row;
+  pPos->col = col;
     
   pushStack(stack, pPos);
 }
 
-void removeQueen  (int board[][9], int* row, int* col, STACK* stack)  {
-  POSITION* pPos = popStack(stack);
-  *row  = pPos->row;
-  *col  = pPos->col;
-  board[*row][*col] = 0;
-  free (pPos);
+void removeQueen  (int board[][9], int* row, int* col, STACK* stack, int* stop)  {
+  if (!emptyStack(stack)) {
+    POSITION* pPos = popStack(stack);
+    *row  = pPos->row;
+    *col  = pPos->col;
+    board[*row][*col] = 0;
+    free (pPos);
+  } else {
+    *stop=0;
+  }
 }
+
+/*  =================== printBoard ====================
+  Print positions of chess queens on a game board 
+  Pre  stack contains positions of queen
+       boardSize is the number of rows and columns
+  Post Queens� positions printed
+*/
+void printBoardMuli (STACK* stack, int boardSize, int* row2, int* col2) {
+  //  Local Definitions 
+  int col;
+
+
+  POSITION* pPos = stackTop (stack);;
+  STACK*    pOutStack;
+
+  
+  *row2=pPos->row;
+  *col2=pPos->col;
+  
+  //  Statements 
+  if (emptyStack(stack)) {
+    printf("There are no positions on this board\n");
+    return;
+  } // if 
+      
+  printf("\nPlace queens in following positions:\n");
+  
+  // Reverse stack for printing 
+  pOutStack = createStack ();
+  while (!emptyStack (stack)) {
+    pPos = popStack (stack);
+    pushStack (pOutStack, pPos);
+  } // while 
+  
+  // Now print board 
+  while (!emptyStack (pOutStack)) {
+    pPos = popStack (pOutStack);
+    printf("Row %d-Col %d: \t|", pPos->row, pPos->col);
+    for (col = 1; col <= boardSize; col++) {
+      if (pPos->col == col){
+        printf(" Q |");
+      } else {
+        printf("   |");
+      }
+    } // for 
+    printf("\n");
+  } // while 
+  destroyStack(pOutStack);
+  return;   //Is it needed? I guess it's not
+}  // printBoard 
+
+
+/*  =================== printBoard ====================
+  Print positions of chess queens on a game board 
+  Pre  stack contains positions of queen
+       boardSize is the number of rows and columns
+  Post Queens� positions printed
+*/
+void nonDestructivePrintBoard (STACK* stack, int boardSize) {
+  //  Local Definitions 
+  int col;
+  
+  POSITION* pPos;
+  STACK*    pOutStack;
+  
+  //  Statements 
+  if (emptyStack(stack)) {
+    printf("There are no positions on this board\n");
+    return;
+  } // if 
+      
+  printf("\nPlace queens in following positions:\n");
+  
+  
+
+  // Reverse stack for printing 
+  pOutStack = createStack ();
+  while (!emptyStack (stack)) {
+    pPos = popStack (stack);
+    // printf("outta stack (%X)\n",pPos);
+    pushStack (pOutStack, pPos);
+  } // while 
+  
+  // Now print board 
+  while (!emptyStack (pOutStack)) {
+    pPos = popStack (pOutStack);
+    printf("Row %d-Col %d: \t|", pPos->row, pPos->col);
+    for (col = 1; col <= boardSize; col++) {
+      if (pPos->col == col){
+        printf(" Q |");
+      } else {
+        printf("   |");
+      }
+    } // for 
+    printf("\n");
+    // printf("into stack (%X)",pPos);
+    pushStack (stack, pPos);
+  } // while 
+  destroyStack(pOutStack);
+  return;   //Is it needed? I guess it's not
+}  // printBoard 
 
 
 /*  =================== fillBoardMulti ====================
@@ -191,19 +296,51 @@ void fillBoardMulti (STACK* stack, int boardSize) {
   //  Local Definitions
   int  row = 1;
   int  col = 0;
-  int  board[9][9] = {0};  // 0 no queen: 1 queen 
-                           // row 0 & col 0 !used 
+  int  board[9][9] = {0};  // 0 no queen: 1 queen row 0 & col 0 !used 
+  int cont=0;
+  int continue = 1;
 
-  while (row <= boardSize) {  //is this "col" useless?
-    col++;    //can I take it out and start columns as 1? NO.
-              // but could I postpone it?
-    if (!guarded  (board,  row,   col, boardSize)) {
-      placeQueen  (board, &row,  &col, stack);
-      row++;
-      col = 0;  // can I make it equal to 1?  
-    } // if 
-    while (col >= boardSize) {  //could it be an if? No. But why?
-      removeQueen (board, &row,  &col, stack);
+  printf("\n\n\n\n\n");
+  printf("##########################################################\n");
+  printf("STARTING THE FUNCTION FOR BOARDSIZE = %d!!!\n\n", boardSize);
+  while (continue) {
+
+    while (row <= boardSize && col<=boardSize) {  //is this "col" useless?
+      col++;    //can I take it out and start columns as 1? NO. but could I postpone it?
+
+      if (!guarded  (board, row, col, boardSize)) {
+        placeQueen  (board, row, col, stack);
+        // printf("P(%d, %d) ", row, col);
+        row++;
+        col = 0;  // can I make it equal to 1?  
+      } // if 
+
+      if (row>boardSize) {
+        cont++;
+        printf("\nLayout %d:", cont);
+        nonDestructivePrintBoard (stack, boardSize);
+      }
+
+      while ((col >= boardSize)&&continue) {  //could it be an if? No. But why?
+        // printf("r(%d, %d) ", row, col);
+        removeQueen (board, &row,  &col, stack,&continue);
+        // printf("R(%d, %d) ", row, col);
+      } // while col 
+      // printf("(%d, %d) ",row, col);
     } // while col 
-  } // while col 
+    
+    if (row!=boardSize) {
+    printf("<");
+    printf("r(%d, %d) %d ", row, col, continue);
+    removeQueen (board, &row,  &col, stack, &continue);
+
+    printf("R(%d, %d) %d ", row, col, continue);
+    printf(">");
+    }
+  }
+  printf("\n\nThere were %d total different layouts\n", cont);
+
+  printf("ENDING THE FUNCTION FOR BOARDSIZE = %d!!!\n\n", boardSize);
+  printf("##########################################################\n");
+  printf("\n\n\n\n\n");
 }  // fillBoard 
