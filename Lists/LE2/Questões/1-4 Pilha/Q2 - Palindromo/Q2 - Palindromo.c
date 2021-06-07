@@ -254,8 +254,11 @@ int   sameCharacters   (char* limpa, char* invertida) {
 int   palindromeCheck  (char* limpa, char* invertida) {
   // printf("samesize: %d\n", sameSize (limpa, invertida));
   // printf("samecharacters: %d\n", sameCharacters (limpa, invertida));
-  if (sameSize(limpa, invertida) && sameCharacters(limpa, invertida)) {
-    return 1;
+  // samesize may be useless
+  if (sameSize(limpa, invertida)) {
+    if (sameCharacters(limpa, invertida)) {
+      return 1;
+    }
   }
   return 0;
 }
@@ -266,7 +269,7 @@ void  isPalindrome     (char* original, char* limpa, char* invertida) {
   if (palindromeCheck(limpa, invertida)) {
     printf("\n\"%s\" is palindrome\n\n", original);
   } else {
-    printf("\nis NOT palindrome\n\n");
+    printf("\n\"%s\" is NOT palindrome\n\n", original);
   }
 }
 

@@ -286,8 +286,8 @@ void fillBoardMulti (STACK* stack, int boardSize) {
           her position so that the code resumes at it
           but if the stack goes empty, "keepRepeating" turns 0 and it stops
       */
-      while ((col >= boardSize)&&keepRepeating) {
-        removeQueen (board, &row,  &col, stack,&keepRepeating);
+      while ((col >= boardSize) && keepRepeating) {
+        removeQueen (board, &row,  &col, stack, &keepRepeating);
       }
 
     }
@@ -297,7 +297,7 @@ void fillBoardMulti (STACK* stack, int boardSize) {
         and by doing so, the code can keep running after it.
         and will only stop when the Queen from the first row reached col>boardSize
     */
-    if ((row>=boardSize)&&keepRepeating) {
+    if ((row>=boardSize) && keepRepeating) {
         removeQueen (board, &row,  &col, stack,&keepRepeating);
     }
   }
