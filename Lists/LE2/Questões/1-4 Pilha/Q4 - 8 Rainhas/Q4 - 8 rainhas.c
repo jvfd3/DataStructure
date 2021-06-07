@@ -30,13 +30,14 @@ int main (void) {
   int     boardSize;
   STACK*  stack;
 
-  for (boardSize=5; boardSize<=5; boardSize++) {
-    stack     = createStack ();
-    fillBoardMulti    (stack, boardSize);
-    destroyStack (stack);
+  // tests for all of the boardsizes available
+  for (boardSize=4; boardSize<=8; boardSize++) {
+    stack = createStack ();
+    fillBoardMulti  (stack, boardSize);
+    destroyStack    (stack);
   }
 
-  printf("\nWe hope you enjoyed Eight Queens.\n");
+  // printf("\nCodigo confuso e com duas gambiarrinhas.\n");
   
 }  /* main */
 
