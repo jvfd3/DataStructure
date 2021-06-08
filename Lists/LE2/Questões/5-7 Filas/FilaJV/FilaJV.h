@@ -1,5 +1,9 @@
 #include <stdlib.h>
 #include <stdbool.h>
+/*
+    QUEUE* fila_inteiros = createQueue();
+    int manual=0, size=5;
+*/
 
 // Queue ADT Type Defintions 
 
@@ -24,8 +28,9 @@
   bool  queueFront    (QUEUE* queue, void** itemPtr);
   bool  queueRear     (QUEUE* queue, void** itemPtr);
   bool  emptyQueue    (QUEUE* queue);
-  bool  fullQueue     (QUEUE* queue); 
+  bool  fullQueue     (QUEUE* queue);
   int   queueCount    (QUEUE* queue);
+  void  fillQueueInt     (QUEUE* queue, int manual, int size);
+  void  fillQueue     (QUEUE* queue, int manual);
   void  printQueue    (QUEUE* queue);
-
 //End of Queue ADT Definitions

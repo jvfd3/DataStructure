@@ -196,13 +196,16 @@ QUEUE* destroyQueue (QUEUE* queue) {
 
 */
 
-
+/*  pushing integers to a queue
+*/
 void  pushFilaInt          (QUEUE* fila, int dec) { // Function that pushes an int
   int* p = (int*) malloc (sizeof(int));
   *p = dec;
   enqueue(fila, p);
 }
 
+/*  pushing integers to a queue
+*/
 int   popFilaInt           (QUEUE* fila) { // Function that pops an int
    // I'll now pop the value inserted but for it i'll need a void* variable (or a casting to another variable)
   int *p = (int*) malloc (sizeof(int));
@@ -210,29 +213,72 @@ int   popFilaInt           (QUEUE* fila) { // Function that pops an int
   return *p;
 }
 
+/*  =========== fillQueue ==========
+*/
+void  fillQueueInt     (QUEUE* queue, int manual, int size) {
+  int* p;
+  int  feito = false;
+  if (manual) {
+    while (!feito) {
+      p = (int*) malloc (sizeof(int));
+      printf ("Ingresse um numero: <0> para terminar: ");
+      scanf("%d", p);
+      if ( *p == 0 ) /* || fullQueue(fila_inteiros)) */ { // EOF igual a ctrl+Z 
+        feito = true;
+      } else {
+        enqueue(queue, p);
+      }
+    } // while 
+  } else {
+    int i;
+    printf("inserting: ( ");
+    for (i=0; i<=size; i++) {
+      p = (int*) malloc (sizeof(int));
+      *p = i;
+      printf("%d ", i);
+      enqueue(queue, p);
+    }
+    printf(")\n\n");
+  }
+}
+
+
+/*  =========== fillQueue ==========
+*/
+void  fillQueue     (QUEUE* queue, int manual) {
+  int* p;
+  int  feito = false;
+  if (manual) {
+    /*
+    while (!feito) {
+      p = (int*) malloc (sizeof(int));
+      printf ("Ingresse um numero: <0> para terminar: ");
+      scanf("%d", p);
+      if ( *p == 0 )  { // EOF igual a ctrl+Z 
+        feito = true;
+      } else {
+        enqueue(queue, p);
+      }
+    } // while 
+     */
+
+  } else {
+    
+    
+  }
+}
+
 
 /*  ======================== printing without destroying =========================
 */
-
 void  printQueue    (QUEUE* queue) {
-
-  QUEUE* tempQ = createQueue();
-  int temp;
+  int temp, cont=0;
   printf("Lista:\t( ");
-    // printf("a");
-  while (!emptyQueue(queue)) {
+  while (cont<queueCount(queue)) {
     temp = popFilaInt(queue);
     printf("%d ", temp);
-    pushFilaInt (tempQ, temp);
-  }
-  printf(")\t\t( ");
-  
-  while(!emptyQueue(tempQ)) {
-    temp = popFilaInt(tempQ);
-    printf("%d ", temp);
-    pushFilaInt(queue, temp);
-  }
-  destroyQueue(tempQ);
+    pushFilaInt (queue, temp);
+    cont++;
+  }  
   printf(")\n");
 }
-
