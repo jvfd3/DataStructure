@@ -235,18 +235,27 @@ void runQueue          (QUEUE* queue) {
     printf("Vazia ");
   } else {
     tempCount=queueCount(queue);
+    printf("%d", tempCount);
     while (cont<tempCount) {
-      if ((queueCount(worm)==0) && ((queueCount(queue)-cont)>=3)) {
+      if ((queueCount(worm)==0) && ((tempCount-cont)>=3)) {
         printf("3 at once\n");
         fillWorm(worm, queue);
         printWormQueue(worm,queue);
+      printf("=>Cont1: %d<=\n", cont);
         cont+=3;
+      } else if ((tempCount-cont)<3) {
+        while (cont!=tempCount) {
+          pushFilaInt(queue,popFilaInt(queue));
+          printf("=>Cont2: %d<=\n", cont);
+          cont++;
+        }
+        cont=0;
       }
       if (isValidOperation(worm)) {
         printf("Vomiting\n");
         pushFilaInt(queue, doOperation(worm));
         printWormQueue(worm,queue);
-      } else {
+      } else if(queueCount(worm)==3) {
         printf("Cagando e andando:\n");
         
         // printWormQueue(worm, queue);
@@ -255,7 +264,7 @@ void runQueue          (QUEUE* queue) {
         temp= popFilaInt(worm);   /* printf("w->(%d,%c)->Q\n", temp, temp); */   pushFilaInt(queue, temp);
         printWormQueue(worm,queue);
       }
-      printf("Cont++\n");
+      printf("=>Cont3: %d<=\n", cont);
       printWormQueue(worm, queue);
       cont++;
       if (cont==tempCount) {
