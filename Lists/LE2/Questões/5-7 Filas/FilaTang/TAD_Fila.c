@@ -20,7 +20,6 @@ QUEUE* createQueue (void){
   return queue;
 }  // createQueue 
 
-
 /*  ================= enqueue ================
   This algorithm inserts data into a queue.
      Pre    queue has been created 
@@ -49,7 +48,6 @@ bool enqueue (QUEUE* queue, void* itemPtr) {
   queue->rear = newPtr;
   return true;
 }  // enqueue 
-
 
 /*  ================= dequeue ================
   This algorithm deletes a node from the queue.
@@ -83,7 +81,6 @@ bool dequeue (QUEUE* queue, void** itemPtr) {
   return true;
 }  // dequeue 
 
-
 /*  ================== queueFront =================
   This algorithm retrieves data at front of the queue
   queue without changing the queue contents. 
@@ -100,7 +97,6 @@ bool queueFront (QUEUE* queue, void** itemPtr) {
     return true;
   } // else 
 }  // queueFront 
-
 
 /*  ================== queueRear =================
   Retrieves data at the rear of the queue
