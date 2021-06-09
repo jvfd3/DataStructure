@@ -81,7 +81,7 @@ int isOperator (int token) {
 /*  ============ isNumber ===============
 */
 int isNumber (int token) {
-  return ((token>='0')&&(token<='9'));  //Boolean return
+  return ((token>=0)&&(token<=9));  //Boolean return
   // (probably the parentheses are useless, but I like them that way)
 
   /* //if return
@@ -185,10 +185,10 @@ void  cleanString      (char* limpa, char* original) {   //Clean all non-"normal
 int   doOperation      (QUEUE* worm) {
   int a = popFilaInt(worm), b = popFilaInt(worm), c = popFilaInt(worm);
   switch (a) {
-    case '+': return ((b-48)+(c-48));
-    case '-': return ((b-48)-(c-48));
-    case '*': return ((b-48)*(c-48));
-    case '/': return ((b-48)/(c-48));
+    case '+': return b+c;
+    case '-': return b-c;
+    case '*': return b*c;
+    case '/': return b/c;
   }
   return 0;
 }
@@ -249,10 +249,10 @@ void runQueue          (QUEUE* queue) {
       } else {
         printf("Cagando e andando:\n");
         
-        printWormQueue(worm, queue);
-        temp= popFilaInt(queue);  printf("Q->(%d,%c)->W\n", temp, temp);   pushFilaInt(worm, temp);
-        printWormQueue(worm, queue);
-        temp= popFilaInt(worm);   printf("w->(%d,%c)->Q\n", temp, temp);   pushFilaInt(queue, temp);
+        // printWormQueue(worm, queue);
+        temp= popFilaInt(queue);  /* printf("Q->(%d,%c)->W\n", temp, temp); */   pushFilaInt(worm, temp);
+        // printWormQueue(worm, queue);
+        temp= popFilaInt(worm);   /* printf("w->(%d,%c)->Q\n", temp, temp); */   pushFilaInt(queue, temp);
         printWormQueue(worm,queue);
       }
       printf("Cont++\n");

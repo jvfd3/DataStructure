@@ -224,10 +224,10 @@ void  printQueue    (QUEUE* queue, int modo) {
   } else {
     while (cont<queueCount(queue)) {
       temp = popFilaInt(queue);
-      if (modo=='d') {
-        printf("%d ", temp);
-      } else if (modo=='c') {
+      if ((temp=='+')||(temp=='-')||(temp=='*')||(temp=='/')) {
         printf("%c ", temp);
+      } else {
+        printf("%d ", temp);
       }
       pushFilaInt (queue, temp);
       cont++;
