@@ -193,7 +193,6 @@ int   doOperation      (QUEUE* worm) {
   return 0;
 }
 
-
 void  worm2Temp         (QUEUE* worm, int* x, int* y, int* z) {
 
   *x = popFilaInt(worm);
@@ -225,31 +224,44 @@ void fillWorm (QUEUE* worm, QUEUE* queue) {
   }
 }
 
+void printCounters (int c, int tcm, int ce, int w) {
+  printf("==>Counter: %d\tTempCounter: %d\tCounterEnq: %d\tCounterWorm: %d<==\n", c, tcm, ce, w);
+}
 
 void runQueue          (QUEUE* queue) {
   printf("RunningQueue.\n");
   int cont=0, temp;
-  int tempCount;
+  int tempCount=queueCount(queue);
   QUEUE* worm = createQueue();
   if (queueCount(queue)==0) {
     printf("Vazia ");
   } else {
-    tempCount=queueCount(queue);
-    printf("%d", tempCount);
-    while (cont<tempCount) {
-      if ((queueCount(worm)==0) && ((tempCount-cont)>=3)) {
-        printf("3 at once\n");
-        fillWorm(worm, queue);
-        printWormQueue(worm,queue);
-      printf("=>Cont1: %d<=\n", cont);
-        cont+=3;
-      } else if ((tempCount-cont)<3) {
-        while (cont!=tempCount) {
-          pushFilaInt(queue,popFilaInt(queue));
-          printf("=>Cont2: %d<=\n", cont);
-          cont++;
+    
+    printCounters (cont, tempCount, queueCount(enqueue), queueCount(worm));
+    while ((cont<=tempCount)&&(tempCount!=1)) {
+      cont++;
+      if (queueCount(worm)==0) {
+        if ((tempCount-cont)>=3) {
+          printf("3 at once\n");
+          fillWorm(worm, queue);
+          printWormQueue(worm,queue);
+          printf("=>Cont1: <=\n");
+          cont+=2;
+          printCounters (cont, tempCount, queueCount(queue), queueCount(worm));
+        } else {
+          while (cont<=tempCount) {
+            pushFilaInt(queue,popFilaInt(queue));
+            printf("preparing new round.\n");
+            printWormQueue(worm,queue);
+            printf("=>Cont2: <=\n");
+            printCounters (cont, tempCount, queueCount(queue), queueCount(worm));
+            cont++;
+          }
+          tempCount=queueCount(queue);
+          cont=0;
+          printWormQueue(worm, queue);
+          printf("XXXXXXXXXXXXX END OF RUN XXXXXXXXXXXXX\n");
         }
-        cont=0;
       }
       if (isValidOperation(worm)) {
         printf("Vomiting\n");
@@ -259,17 +271,18 @@ void runQueue          (QUEUE* queue) {
         printf("Cagando e andando:\n");
         
         // printWormQueue(worm, queue);
-        temp= popFilaInt(queue);  /* printf("Q->(%d,%c)->W\n", temp, temp); */   pushFilaInt(worm, temp);
+        temp= popFilaInt(queue);     pushFilaInt(worm, temp);
         // printWormQueue(worm, queue);
-        temp= popFilaInt(worm);   /* printf("w->(%d,%c)->Q\n", temp, temp); */   pushFilaInt(queue, temp);
+        temp= popFilaInt(worm);      pushFilaInt(queue, temp);
         printWormQueue(worm,queue);
+        // cont++;
       }
-      printf("=>Cont3: %d<=\n", cont);
+      printf("=>Cont3: <=\n");
+    printCounters (cont, tempCount, queueCount(queue), queueCount(worm));
       printWormQueue(worm, queue);
-      cont++;
-      if (cont==tempCount) {
-        tempCount=queueCount(queue);
-      }
+      // if (cont==tempCount) {
+      //   tempCount=queueCount(queue);
+      // }
     }
     printf("Out of the loop.\n");
     printWormQueue(worm,queue);
