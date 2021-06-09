@@ -41,12 +41,20 @@ Apos a quarta avaliacao, temos:
 */
 
 
+bool  isBetween        (int n, int min, int max) {
+  return ((min <= n) && (n <= max));
+}
+
 /*  =========== fillQueue ==========
 */
 void  fillQueue     (QUEUE* queue, char* cExpression) {
   int i;  
   for (i=0; i<(int)strlen(cExpression);i++) {
-    pushFilaInt(queue, cExpression[i]);
+    if (isBetween(cExpression[i],48,57)) {
+      pushFilaInt(queue, cExpression[i]-48);
+    } else {
+      pushFilaInt(queue, cExpression[i]);
+    }
     // printQueue(queue, 'c');
   }
   printf("Queue filled:\t");
@@ -95,10 +103,6 @@ void fillPrefix (int manual, char* prefix) {
 
 void  printString      (char* string) {  // simply prints a string aesthetically
   printf("->%s<-\n", string);
-}
-
-bool  isBetween        (int n, int min, int max) {
-  return ((min <= n) && (n <= max));
 }
 
 /* 
@@ -181,10 +185,10 @@ void  cleanString      (char* limpa, char* original) {   //Clean all non-"normal
 int   doOperation      (QUEUE* worm) {
   int a = popFilaInt(worm), b = popFilaInt(worm), c = popFilaInt(worm);
   switch (a) {
-    case '+': return (b-48)+(c-48);
-    case '-': return (b-48)-(c-48);
-    case '*': return (b-48)*(c-48);
-    case '/': return (b-48)/(c-48);
+    case '+': return ((b-48)+(c-48));
+    case '-': return ((b-48)-(c-48));
+    case '*': return ((b-48)*(c-48));
+    case '/': return ((b-48)/(c-48));
   }
   return 0;
 }
@@ -192,7 +196,7 @@ int   doOperation      (QUEUE* worm) {
 
 void  worm2Temp         (QUEUE* worm, int* x, int* y, int* z) {
 
-  *x;
+  *x = popFilaInt(worm);
   *y = popFilaInt(worm);
   *z = popFilaInt(worm);
       pushFilaInt(worm, *x);
@@ -200,18 +204,18 @@ void  worm2Temp         (QUEUE* worm, int* x, int* y, int* z) {
       pushFilaInt(worm, *z);
 }
 
+void printWormQueue (QUEUE* worm, QUEUE* queue) {
+  printf("Worm:\t");
+  printQueue(worm, 'd');
+  printf("\nQueue:\t");
+  printQueue(queue, 'd');
+  printf("\n");
+}
+
 int   isValidOperation         (QUEUE* worm) {
   int a, b, c;
   worm2Temp (worm, &a, &b, &c);
   return (isOperator(a)&&isNumber(b)&&isNumber(c));
-}
-
-void printWormQueue (QUEUE* worm, QUEUE* queue) {
-  printf("Worm:\t");
-  printQueue(worm, 'c');
-  printf("\nQueue:\t");
-  printQueue(queue, 'c');
-  printf("\n");
 }
 
 void fillWorm (QUEUE* worm, QUEUE* queue) {
@@ -243,24 +247,22 @@ void runQueue          (QUEUE* queue) {
         pushFilaInt(queue, doOperation(worm));
         printWormQueue(worm,queue);
       } else {
-        printf("Cagando e andando\t");
-        temp= popFilaInt(worm);
-        printf("sai da worm: %c\t", temp);
-        temp= popFilaInt(worm);
-        printf("sai da worm: %c\t", temp);
-        temp= popFilaInt(worm);
-        printf("sai da worm: %c\t", temp);
-        temp= popFilaInt(worm);
-        printf("sai da worm: %c\t", temp);
-        pushFilaInt(queue, temp);
-        temp= popFilaInt(queue);
-        printf("sai da fila: %c\n", temp);
-        pushFilaInt(worm, popFilaInt(queue));
+        printf("Cagando e andando:\n");
+        
+        printWormQueue(worm, queue);
+        temp= popFilaInt(queue);  printf("Q->(%d,%c)->W\n", temp, temp);   pushFilaInt(worm, temp);
+        printWormQueue(worm, queue);
+        temp= popFilaInt(worm);   printf("w->(%d,%c)->Q\n", temp, temp);   pushFilaInt(queue, temp);
         printWormQueue(worm,queue);
       }
+      printf("Cont++\n");
+      printWormQueue(worm, queue);
       cont++;
+      if (cont==tempCount) {
+        tempCount=queueCount(queue);
+      }
     }
-
+    printf("Out of the loop.\n");
     printWormQueue(worm,queue);
   }
   printf("\n");

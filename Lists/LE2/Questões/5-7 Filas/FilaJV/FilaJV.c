@@ -209,9 +209,9 @@ void  pushFilaInt          (QUEUE* queue, int dec) { // Function that pushes an 
 */
 int   popFilaInt           (QUEUE* queue) { // Function that pops an int
    // I'll now pop the value inserted but for it i'll need a void* variable (or a casting to another variable)
-  int *p = (int*) malloc (sizeof(int));
-  dequeue(queue, (void*)&p);
-  return *p;
+  void* p = malloc (sizeof(int));
+  dequeue(queue, &p);
+  return *((int*) p);
 }
 
 /*  ======================== printing without destroying =========================
