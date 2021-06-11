@@ -12,7 +12,7 @@ int main() {
   int manual=0, size=5;
   
   fillQueue     (fila_inteiros, manual, size); // Preenche a fila 
-  printQueue    (fila_inteiros);               //  Imprime os numeros da fila
+  printQueue    (fila_inteiros, 'd');               //  Imprime os numeros da fila
 
   
   destroyQueue  (fila_inteiros);               //  Destroi Fila

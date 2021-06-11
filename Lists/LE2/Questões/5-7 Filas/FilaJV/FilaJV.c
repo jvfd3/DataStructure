@@ -240,6 +240,8 @@ void  printQueue    (QUEUE* queue, int modo) {
 /*  =========== fillQueue ==========
 */
 void  fillQueueRandInt     (QUEUE* queue, int manual, int size) {
+  
+  srand(time(0));
   int* p;
   int  feito = false;
   if (manual) {
@@ -258,7 +260,7 @@ void  fillQueueRandInt     (QUEUE* queue, int manual, int size) {
     printf("inserting: ( ");
     for (i=0; i<=size; i++) {
       p = (int*) malloc (sizeof(int));
-      *p = i;
+      *p = rand()%10;
       printf("%d ", i);
       enqueue(queue, p);
     }

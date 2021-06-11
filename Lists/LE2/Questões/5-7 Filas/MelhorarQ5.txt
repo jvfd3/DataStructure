@@ -1,0 +1,10 @@
+isso aqui pra mim
++ * 42 43 45
+
+viraria:
++*424345
+
+que seria:
+4*2+4 (OPERADOR FALTANDO) 3 ... 4 ... 5
+
+separar de fato por espaços.

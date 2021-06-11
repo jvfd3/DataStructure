@@ -4,6 +4,7 @@
     "8rainhastadjv.h": "c",
     "filajv.h": "c",
     "stdlib.h": "c",
-    "string.h": "c"
+    "string.h": "c",
+    "time.h": "c"
   }
 }

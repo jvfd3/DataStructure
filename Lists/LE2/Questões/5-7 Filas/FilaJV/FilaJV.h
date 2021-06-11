@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdbool.h>
+#include <time.h>
 /*
     QUEUE* fila_inteiros = createQueue();
     int manual=0, size=5;
