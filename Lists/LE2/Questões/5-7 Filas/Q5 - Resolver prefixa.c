@@ -5,6 +5,7 @@
 
 #include "FilaJV/FilaJV.h"
 
+
 /*  Q5 - Resolver prefixa
 
   Escreva um programa em C para avaliar o resultado de uma expressao prefixa.
@@ -62,8 +63,6 @@ void  fillQueue     (QUEUE* queue, char* cExpression) {
   printf("\n");
 }
 
-/*  =========== isOperator ============
-*/
 int isOperator (int token) {
   return ((token=='+')||(token=='-')||(token=='*')||(token=='/'));  //boolean return
   
