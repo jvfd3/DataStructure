@@ -32,7 +32,7 @@
   bool  fullQueue         (QUEUE* queue);
   int   queueCount        (QUEUE* queue);
   int   popFilaInt        (QUEUE* queue);
-  void  printQueue        (QUEUE* queue, int mode);
+  void  printQueue        (QUEUE* queue);
   void  pushFilaInt       (QUEUE* queue, int dec);
   void  fillQueueRandInt  (QUEUE* queue, int manual, int size);
 //End of Queue ADT Definitions

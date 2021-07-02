@@ -5,6 +5,8 @@
     "filajv.h": "c",
     "stdlib.h": "c",
     "string.h": "c",
-    "time.h": "c"
+    "time.h": "c",
+    "cstdio": "cpp",
+    "fstream": "cpp"
   }
 }

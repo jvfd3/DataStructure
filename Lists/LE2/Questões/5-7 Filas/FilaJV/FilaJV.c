@@ -216,7 +216,7 @@ int   popFilaInt           (QUEUE* queue) { // Function that pops an int
 
 /*  ======================== printing without destroying =========================
 */
-void  printQueue    (QUEUE* queue, int modo) {
+void  printQueue    (QUEUE* queue) {
   int temp, cont=0;
   printf("( ");
   if (queueCount(queue)==0) {
@@ -224,11 +224,11 @@ void  printQueue    (QUEUE* queue, int modo) {
   } else {
     while (cont<queueCount(queue)) {
       temp = popFilaInt(queue);
-      if ((temp=='+')||(temp=='-')||(temp=='*')||(temp=='/')) {
-        printf("%c ", temp);
-      } else {
+      // if ((temp=='+')||(temp=='-')||(temp=='*')||(temp=='/')) {
+      //   printf("%c ", temp);
+      // } else {
         printf("%d ", temp);
-      }
+      // }
       pushFilaInt (queue, temp);
       cont++;
     }
