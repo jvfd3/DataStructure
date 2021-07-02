@@ -5,6 +5,10 @@
 
 #include "./FilaJV/FilaJV.h"
 
+
+#include "../../StringManipulationJV.c"
+
+
 /*  Q7 - Separar palavras em txt
   Escreva um programa em C
   que classifique as palavras em um texto, disponivel na forma de arquivo,
@@ -64,7 +68,7 @@ void  openFile          (char* fileID, FILE** filePointer) {  //opens a file
 
 void  checkMatchUp      (int* isWrong, int* lineCount, FILE* filePointer) { //checks if all tokens are paired correctly
   int token;
-  STACK*  pilha = createStack (); //creates a stack to deal with stackin' and poppin' 
+  QUEUE*  fila = createStack (); //creates a stack to deal with stackin' and poppin' 
   // variables need to be started somewhere
   *lineCount=1;
   *isWrong=0;
@@ -76,16 +80,16 @@ void  checkMatchUp      (int* isWrong, int* lineCount, FILE* filePointer) { //ch
 
       case  '(' : 
       case  '[' : 
-      case  '{' : pushInt(pilha, token);                      break;
+      case  '{' : pushInt(fila, token);                      break;
       // if it is any of the opening tokens, the token is pushed in the stack as an integer
 
       case ')'  : 
       case ']'  : 
-      case '}'  : poppingTokens(pilha, *lineCount, token, isWrong);    break;
+      case '}'  : poppingTokens(fila, *lineCount, token, isWrong);    break;
       // if it is any of the closing tokens, the token is popped from the stack and some magic happens
     }
   }
-  destroyStack    (pilha);
+  destroyQueue    (fila);
   // destroying the stack in case you want to use this function again with no problem
 }
 
