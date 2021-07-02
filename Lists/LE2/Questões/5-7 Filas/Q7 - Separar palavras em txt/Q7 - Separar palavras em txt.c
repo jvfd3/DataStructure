@@ -33,8 +33,13 @@ ler um arquivo:
 
 */
 
+/*  WIP
+Eu parei após conseguir obter uma string. Consegui também (eu acho) colocar essa string em uma fila, porém estou tendo dificuldades
+em colocar essa fila dentro de outra fila.
+*/
+
 void  selectString      (char* string, int choice) {   //Selects the string that is going to be used
-  // selects which string will be chosen
+  // selects which string wiqq be chosen
   switch (choice) {
     case 1:   strcpy(string,      "palavras.txt");   break;
     // case 4:   strcpy(string,      "./testes.txt");    break;         // use this if you want to add something different
@@ -43,10 +48,10 @@ void  selectString      (char* string, int choice) {   //Selects the string that
 }
 
 void  fileNameToRead    (char* fileID, int manualInput, int choice) {
-  if (manualInput) {  //if you set to manualInput, you'll need to write the fileID in the prompt
+  if (manualInput) {  //if you set to manualInput, you'qq need to write the fileID in the prompt
     printf ("Enter file ID for file to be parsed: ");
     scanf  ("%s", fileID);
-  } else {            //if you didn't, a string will be selected by your choice (or automatic choice)
+  } else {            //if you didn't, a string wiqq be selected by your choice (or automatic choice)
     selectString (fileID, choice);
   }
   
@@ -59,12 +64,12 @@ void  openFile          (char* fileID, FILE** filePointer) {  //opens a file
   if (!*filePointer) {
     printf("Error opening %s\n", fileID), exit(100);
   } else {
-    printf("File %s successfully opened\n", fileID);
+    printf("File %s successfuqqy opened\n", fileID);
   }
   // fclose(fileID); //does this works?
 }
 
-/* void  checkMatchUp      (int* isWrong, int* lineCount, FILE* filePointer) { //checks if all tokens are paired correctly
+/* void  checkMatchUp      (int* isWrong, int* lineCount, FILE* filePointer) { //checks if aqq tokens are paired correctly
   int token;
   QUEUE*  fila = createStack (); //creates a stack to deal with stackin' and poppin' 
   // variables need to be started somewhere
@@ -97,22 +102,56 @@ void getString (char** str, int* token) {
   // printf(" Size: %d ; Pointer: %d ; partial: %s ;\n", sizeof(*str), *str,  *str);
 }
 
-void insertStringIntoLists (char** str, QUEUE* ll) {
-  char firstChar = *str[0];
-  printf("Completed String: <%c> %s\n", firstChar, *str);
+void*   checkQueueChar (QUEUE* qq) {  //should return the first char of the first string of a queue of strings
+  return (qq->front->dataPtr);
+}
 
+void insertSTRintoQintoQQ (char** str, QUEUE* qq) {   //should insert the first element of the first queue of the qq
+
+}
+
+void insertStringIntoLists (char** str, QUEUE* qq) {
+  //THIS FUNCTION SHOULD INSERT THE string in a queue and then the queue in the queue of queues
+  printf("(%s)   \n", *str);
+/*   if (queueCount(qq) == 0) {
+    insertSTRintoQintoQQ(str,qq); 
+  } else {
+    while (checkQueueChar(qq)==(*str)[0]) {
+      
+    }
+  } */
+
+  // printf("Completed String: <%c> %s\n", *str[0], *str);
+ /*  printf("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n");
+  printf("(%s) *str (can be string)   \n", *str);
+  printf("(%d) **str\t\t(%d) *str\t\t(%d) str\t(%d) &str\t   \n", **str, *str, str, &str);
   
+  QUEUE* newList = createQueue();
+  printf("(%d) *newList\t\t(%d) newList\t\t(%d) &newList\n", *newList, newList, &newList);
+
+  enqueue(newList, *str);
+  printf("(%d) *newList\t(%d) newList\t(%d) &newList\n", *newList, newList, &newList);
+  printf("(%d) *nlfront\t(%d) nlfront\t\t(%d) &nlfront\n", *(newList->front), newList->front, &(newList->front));
+  printf("(XXXXXXXXXX) XXXXXXXXX\t(%d) nldtptr\t(%d) &nldtptr \n", newList->front->dataPtr, &(newList->front->dataPtr));
+
+  printf("(%d) *str == \t(%d) nldtptr\n", *str, newList->front->dataPtr);
+  //  newList->front->dataPtr == *str
+  printf("(%d) *qq\t\t(%d) qq\t\t(%d) &qq\t    \n", *qq, qq, &qq);
+  enqueue(qq, &newList);
+  printf("(%d) *qq\t\t(%d) qq\t\t(%d) &qq\t    \n", *qq, qq, &qq);
+  printf("(%d) *qqfront\t(%d) qqfront\t(%d) &qqfront\t    \n", *(qq->front), qq->front, &(qq->front));
+  printf("(XX) XXXXXXXXXXX\t(%d) qqfrontdata\t(%d) &qqfrontdata\t    \n", qq->front->dataPtr, &(qq->front->dataPtr));
+   */
   // free(str);
   *str = (char *) malloc(sizeof(char));
   strcpy(*str, "");
 
 }
 
-void  fillListOfLists      (FILE* filePointer, QUEUE* ll) { //Fills list with lists
+void  fillListOfLists      (FILE* filePointer, QUEUE* qq) { //Fills queue with queues
   printf("Starting the process\n");
   // char token;
   int token;
-  int strSize=0, firstChar;
   
   char* str = (char*) malloc (sizeof(char));
   strcpy (str, "");
@@ -123,7 +162,7 @@ void  fillListOfLists      (FILE* filePointer, QUEUE* ll) { //Fills list with li
       getString(&str, &token);
     } else {
       if (strlen(str)!=0) {
-        insertStringIntoLists(&str, ll);
+        insertStringIntoLists(&str, qq);
       }
     }
   }
@@ -132,20 +171,20 @@ void  fillListOfLists      (FILE* filePointer, QUEUE* ll) { //Fills list with li
 }
 
 /* 
-void  printListOfLists  (QUEUE* ll) {
+void  printListOfLists  (QUEUE* qq) {
  
   QUEUE* tempQ = createQueue();     // temp must be a type of pointer to queue
   
   int cont=0;
   printf("( ");
-  if (queueCount(ll)==0) {
+  if (queueCount(qq)==0) {
     printf("Vazia ");
   } else {
-    while (cont<queueCount(ll)) {
+    while (cont<queueCount(qq)) {
       //CHECK LATER IF THE TYPES ARE MATCHING (I GUESS THEY ARE NOT)
-      dequeue     (ll, tempQ);
+      dequeue     (qq, tempQ);
       printQueue  (    tempQ);
-      enqueue     (ll, tempQ);
+      enqueue     (qq, tempQ);
       cont++;
     }
   }
@@ -162,10 +201,10 @@ void q7 () {
   
   fileNameToRead    (fileID,  manualInput, choice);       // sets the name of the file to fileID
   openFile          (fileID,  &filePointer);              // opens a file
-  QUEUE* ListOfLists = createQueue();
-  fillListOfLists   (filePointer, ListOfLists);
+  QUEUE* QueueOfQueues = createQueue();
+  fillListOfLists   (filePointer, QueueOfQueues);
 
-  // printListOfLists  (ListOfLists);
+  // printListOfLists  (QueueOfQueues);
 }
 
 int main () {q7();}
