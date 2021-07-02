@@ -61,7 +61,7 @@ void  openFile          (char* fileID, FILE** filePointer) {  //opens a file
   } else {
     printf("File %s successfully opened\n", fileID);
   }
-  fclose(fileID); //does this works?
+  // fclose(fileID); //does this works?
 }
 
 /* void  checkMatchUp      (int* isWrong, int* lineCount, FILE* filePointer) { //checks if all tokens are paired correctly
@@ -87,21 +87,51 @@ void  openFile          (char* fileID, FILE** filePointer) {  //opens a file
 }
  */
 
-
-void  fillListOfLists      (FILE* filePointer, QUEUE* ll) { //checks if all tokens are paired correctly
-  int token;
-  QUEUE*  fila = createStack (); //creates a stack to deal with stackin' and poppin' 
-
-
-  // while token is not the end of file...
-  while ((token = fgetc (filePointer)) != EOF ) {
-    
-  }
-  destroyQueue    (fila);
-  // destroying the stack in case you want to use this function again with no problem
+void getString (char** str, int* token) {
+  
+  char* strTemp = (char *) malloc(sizeof(*str)++);
+  strcpy(strTemp, *str);
+  strncat(strTemp, token, 1);
+  // free(*str);
+  *str = strTemp;
+  // printf(" Size: %d ; Pointer: %d ; partial: %s ;\n", sizeof(*str), *str,  *str);
 }
 
+void insertStringIntoLists (char** str, QUEUE* ll) {
+  char firstChar = *str[0];
+  printf("Completed String: <%c> %s\n", firstChar, *str);
 
+  
+  // free(str);
+  *str = (char *) malloc(sizeof(char));
+  strcpy(*str, "");
+
+}
+
+void  fillListOfLists      (FILE* filePointer, QUEUE* ll) { //Fills list with lists
+  printf("Starting the process\n");
+  // char token;
+  int token;
+  int strSize=0, firstChar;
+  
+  char* str = (char*) malloc (sizeof(char));
+  strcpy (str, "");
+  printf("Starting to get strings\n");
+  while ((token = fgetc (filePointer)) != EOF ) {
+    // printf("<%d>", token);
+    if ((token!=' ')&&(token!='\n')) {
+      getString(&str, &token);
+    } else {
+      if (strlen(str)!=0) {
+        insertStringIntoLists(&str, ll);
+      }
+    }
+  }
+  free(str);
+  printf("Finish\n");
+}
+
+/* 
 void  printListOfLists  (QUEUE* ll) {
  
   QUEUE* tempQ = createQueue();     // temp must be a type of pointer to queue
@@ -121,7 +151,7 @@ void  printListOfLists  (QUEUE* ll) {
   }
   printf(")");
 }
-
+ */
 
 void q7 () {
   
@@ -134,7 +164,8 @@ void q7 () {
   openFile          (fileID,  &filePointer);              // opens a file
   QUEUE* ListOfLists = createQueue();
   fillListOfLists   (filePointer, ListOfLists);
-  printListOfLists  (ListOfLists);
+
+  // printListOfLists  (ListOfLists);
 }
 
 int main () {q7();}
