@@ -3,9 +3,9 @@
 #include <stdlib.h>
 #include <String.h>
 
-// #include <tadfile.c>
+#include "../TAD_BinaryTreeSearch/JV/Compacted/BST_ADT.h"
 
-/*
+/* Q2 - 
 
 
 

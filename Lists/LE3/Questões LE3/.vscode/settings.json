@@ -1,0 +1,7 @@
+{
+  "files.associations": {
+    "stdlib.h": "c",
+    "bst_functions_using_recursives.c": "cpp",
+    "bst_other_functions.c": "cpp"
+  }
+}
