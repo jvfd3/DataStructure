@@ -4,7 +4,7 @@
 #include <String.h>
 
 #include "FilaJV/FilaJV.h"
-#include "../StringManipulationJV.c"
+// #include "../StringManipulationJV.c"
 
 /*  Q5 - Resolver prefixa
 
@@ -41,6 +41,11 @@ Apos a quarta avaliacao, temos:
 
 */
 
+/*
+Infelizmente quando fiz o código, apenas considerei um caractere por vez, então qualquer número acima de 9 na expressão inicial resultará em bug
+Além disso, se valores alcançarem os valores ascii de +, -, / e *, as coisas podem ficar um pouco confusas também;
+Funciona, mas da forma errada.
+*/
 
 bool  isBetween        (int n, int min, int max) {
   return ((min <= n) && (n <= max));
@@ -210,7 +215,7 @@ void advanceOnce ( QUEUE* worm, QUEUE* queue) {
 
 void runQueue          (QUEUE* queue) {
   printf("RunningQueue.\n");
-  int cont=0, temp, numOperations=0;
+  int cont=0, numOperations=0;
   int tempCount=queueCount(queue);
   QUEUE* worm = createQueue();
                                                       debugPrinting(worm, queue, cont, tempCount);
@@ -241,14 +246,14 @@ void runQueue          (QUEUE* queue) {
       } else {
         printf("************%d****************\n", isValidOperation(worm));
         if (isValidOperation(worm)) {
-          printf("Vomiting\n");
+          printf("Outputting Everything\n");
                                                       debugPrinting(worm, queue, cont, tempCount);
           pushFilaInt(queue, doOperation(worm));
           numOperations++;
                                                       debugPrinting(worm, queue, cont, tempCount);
         } else {
           if ((tempCount-cont)>0) {
-            printf("Cagando e andando:\n");
+            printf("Outputting and advancing once:\n");
                                                       debugPrinting(worm, queue, cont, tempCount);
             advanceOnce(worm, queue);
             cont++;
@@ -256,12 +261,12 @@ void runQueue          (QUEUE* queue) {
           }
         }
       }
-      printf("=====================RIEPIETIECO=========\n");
+      printf("=====================REPEAT=========\n");
     }
                                                       debugPrinting(worm, queue, cont, tempCount);
     printf("Out of the loop.\n");
   }
-  printf("\n");
+  printf("Final result is: %d\n", popFilaInt(queue));
 }
 
 void solvePrefix (char* cExpression) {
