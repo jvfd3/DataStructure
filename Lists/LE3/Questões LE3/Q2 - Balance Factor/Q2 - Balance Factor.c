@@ -14,7 +14,7 @@
       cujo fator de balanceamento será calculado.
 */
 
-//	Prototype Declarations 
+//  Prototype Declarations 
 int   compareInt (void* num1, void* num2);
 void  printBST   (void* num1);
 
@@ -36,10 +36,10 @@ int main () {
 }
 
 
-/*	==================== compareInt ====================  
-	Compare two integers and return low, equal, high.
-	    Pre  num1 and num2 are valid pointers to integers
-	    Post return low (-1), equal (0), or high (+1)
+/*  ==================== compareInt ====================  
+  Compare two integers and return low, equal, high.
+      Pre  num1 and num2 are valid pointers to integers
+      Post return low (-1), equal (0), or high (+1)
 */
 int compareInt (void* num1, void* num2) {
   int key1 = *((int*) num1);
@@ -54,10 +54,10 @@ int compareInt (void* num1, void* num2) {
   return +1;
 }
 
-/*	====================== printBST ======================  
-	Print one integer from BST.
-	    Pre  num1 is a pointer to an intger
-	    Post integer printed and line advanced
+/*  ====================== printBST ======================  
+  Print one integer from BST.
+      Pre  num1 is a pointer to an intger
+      Post integer printed and line advanced
 */
 void printBST (void* num1) {
   printf("%4d\n", *(int*)num1);
@@ -65,7 +65,8 @@ void printBST (void* num1) {
 }
 
 
-void insertInt (BST_TREE* RootPointer, int num) {
+void insertInt       (BST_TREE* RootPointer, int num) {
+  // int x;  //would this do the same as the one below?
   int* x = (int*) malloc (sizeof(int));
   //Not really sure of what this if does. I guess it's not necessary in most cases
   if (!x) {
@@ -76,14 +77,18 @@ void insertInt (BST_TREE* RootPointer, int num) {
   BST_Insert (RootPointer, x);
 }
 
-void autoFillTree1 (BST_TREE* RootPointer) {
+void autoFillTree1   (BST_TREE* RootPointer) {
  // 5 3 2 1 4 6 7 9 8 10
- /*
-                      5
-                  3       6
-               2    4       7
-            1                  8 
-                            9     10
+ /* Balance: -1
+      5
+     / \
+    3   6
+   / \   \
+  2   4   7
+ /         \
+1           8
+           / \ 
+          9   10
  
  */
   insertInt (RootPointer, 5);
@@ -99,14 +104,20 @@ void autoFillTree1 (BST_TREE* RootPointer) {
   
 }
 
-void autoFillTree2 (BST_TREE* RootPointer)  {
+void autoFillTree2   (BST_TREE* RootPointer)  {
  // 8 6 7 2 1 4 3 5 9 13 11 10 12 14
- /*
-                     8
-                   6  9
-               2    7        13
-              1  4       11    14
-                3 5    10  12  
+ /* balance: 0
+        8
+       / \
+      /   \
+     /     \
+    6       9
+   / \       \
+  2   7       13
+ / \         /  \
+1   4      11    14
+   / \    /  \
+  3   5 10    12
 
  */
 
@@ -130,14 +141,14 @@ void autoFillTree2 (BST_TREE* RootPointer)  {
   
 }
 
-void autoFillTree (BST_TREE* RootPointer, int choice) {
+void autoFillTree    (BST_TREE* RootPointer, int choice) {
   switch (choice) {
     case 1: autoFillTree1(RootPointer); break;
     case 2: autoFillTree2(RootPointer); break;
   }
 }
 
-void manualFillTree (BST_TREE* RootPointer) {
+void manualFillTree  (BST_TREE* RootPointer) {
   int num=0;
 
   printf("Enter a list of positive integers;\n");
@@ -164,22 +175,21 @@ void printTree(BST_TREE* tree) {
   printf("\n");
 }
 
-int bigger (int Left, int Right) {
+int  bigger (int Left, int Right) {
   return ((Left>=Right)?Left:Right);
 }
 
-int _longestBranch (NODE* rootPointer) {
+int  _longestBranch (NODE* rootPointer) {
   if (rootPointer == NULL) {
     return 0;
   }
   return bigger(_longestBranch(rootPointer->left), _longestBranch(rootPointer->right)) + 1;
 }
 
-int SolveBinaryTreeBalanceFactor (BST_TREE* tree, NODE* treeRoot) { //WHY DO I NEED BST_TREE?
+int  SolveBinaryTreeBalanceFactor (BST_TREE* tree, NODE* treeRoot) { //WHY DO I NEED BST_TREE?
   // return _longestBranch(treeRoot->left) - _longestBranch(treeRoot->right);
   // return _longestBranch(tree->root->left) - _longestBranch(tree->root->right);
   return _longestBranch(tree->root->left) - _longestBranch(treeRoot->right);
-
 }
 
 void BinaryTreeBalanceFactor (BST_TREE* tree) {
@@ -189,7 +199,7 @@ void BinaryTreeBalanceFactor (BST_TREE* tree) {
 void q2 () {
   printf("Start of Q2\n\n");
   
-  int isManual=1;
+  int isManual=0;
   BST_TREE* tree = BST_Create(compareInt);
   fillTree(tree, isManual);
   // printTree (tree);
