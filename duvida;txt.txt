@@ -1,0 +1,12 @@
+No caso, eu me confundi, eu me referia de fato à 4vi (ou 4f no meu pdf).
+
+Você descontou da 4v e não acho que esteja errado. Não estou com dúvidas na correção.
+
+Você disse que:
+"Seu objetivo não é manter a árvore o mais inalterada possível, é  remover mantendo a árvore como árvore de busca binária. Existem duas formas pelo antecessor ou pelo sucessor, uma será mais balanceada, sim. Mas não resolve a questão do balanceamento em geral."
+
+A página 9 do PDF 20 fala sobre a remoção de nós na BST, e eu gostaria de ressaltar os seguintes trechos:
+"o resultado tende a criar uma árvore muito desbalanceada"
+"procura-se manter a estrutura o mais inalterada possível"
+
+Eu havia entendido que durante a remoção, meu foco deveria ser não alterar muito a estrutura da árvore, mas eu não entendi o que isso significaria. Não entendi se isso queria dizer que eu não deveria desbalanceá-la muito ou se eu deveria mexer o mínimo possível em seu fator de balanceamento.

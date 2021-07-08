@@ -56,8 +56,7 @@ BST_TREE* BST_Destroy (BST_TREE* tree)
      Post   data inserted or memory overflow 
      Return Success (true) or Overflow (false)
 */
-bool BST_Insert (BST_TREE* tree, void* dataPtr)
-{
+bool BST_Insert (BST_TREE* tree, void* dataPtr) {
 //  Local Definitions 
   NODE* newPtr;
 

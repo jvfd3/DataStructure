@@ -21,11 +21,11 @@ NODE*  _delete (BST_TREE* tree,    NODE* root,    void*     dataPtr, bool* succe
     return NULL;
   } // if 
   
-  if (tree->compare(dataPtr, root->dataPtr) < 0)
+  if (tree->compare(dataPtr, root->dataPtr) < 0) {
     root->left  = _delete (tree, root->left, dataPtr, success);
-  else if (tree->compare(dataPtr, root->dataPtr) > 0)
+  } else if (tree->compare(dataPtr, root->dataPtr) > 0) {
     root->right = _delete (tree, root->right, dataPtr, success);
-  else { // Delete node found--test for leaf node 
+  } else { // Delete node found--test for leaf node 
     dltPtr = root;
     if (!root->left) { // No left subtree 
       free (root->dataPtr);       // data memory
@@ -34,12 +34,11 @@ NODE*  _delete (BST_TREE* tree,    NODE* root,    void*     dataPtr, bool* succe
       *success = true;
       return newRoot;             // base case 
     } else if (!root->right)  { // Only left subtree 
-        newRoot = root->left;
-        free (dltPtr);
-        *success = true;
-        return newRoot;         // base case 
-      } // if 
-    else { // Delete Node has two subtrees 
+      newRoot = root->left;
+      free (dltPtr);
+      *success = true;
+      return newRoot;         // base case 
+    } else { // Delete Node has two subtrees 
       exchPtr = root->left;
       // Find largest node on left subtree
       while (exchPtr->right) {
