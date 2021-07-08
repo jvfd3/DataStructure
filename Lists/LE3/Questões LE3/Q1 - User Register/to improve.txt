@@ -1,0 +1,3 @@
+Implement txt functions
+solve menu invalid option bug
+solve delete bug (probably changing some pointers)

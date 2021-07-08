@@ -45,10 +45,24 @@ int compareNodesNames (void* user1, void* user2) {
   grab its internal value
 */
 // is this * out of everything really needed?
-  char name1 = *((char*)  ((USER*)user1)->name);
-  char name2 = *((char*)  ((USER*)user2)->name);
-
-  return (strcmp(name1,name2));
+  char* name1 = (char*)  ((USER*)user1)->name;
+  char* name2 = (char*)  ((USER*)user2)->name;
+  int strcmpResult = strcmp(name1,name2);
+  /* switch (strcmpResult) {
+    case -1:  {
+      printf("Comparing names %s and %s. %s is bigger\n", name1, name2, name2);
+      break;
+    }
+    case 1:  {
+      printf("Comparing names %s and %s. %s is bigger\n", name1, name2, name1);
+      break;
+    }
+    default: {
+      printf("Comparing names %s and %s. They are the same.\n", name1, name2);
+      break;
+    }
+  } */
+  return strcmpResult;
 }
 
 /*  ====================== printUserBST ======================  
@@ -58,7 +72,10 @@ int compareNodesNames (void* user1, void* user2) {
 */
 void printUserBST (void* user) {
   //Not sure if name will need the extra *
-  printf("Name: %s \t Phone Number: %d\n", *((char*)(((USER*)user)->name)), *((int*)(((USER*)user)->phoneNumber)));
+  int   phone = *((int *)(((USER*)user)->phoneNumber));
+  char* name  =   (char*)(((USER*)user)->name);
+
+  printf("Name: %s \t Phone Number: %d\n", name, phone);
   return; //NECESSARY? I don't think so
 }
 
@@ -73,7 +90,7 @@ USER* createStruct (char* name, int phone) {//CHECK LATER IF IT'S WORKING
 
   // Do I need to do these mallocs below? or does the USER* already does something like that?
   // or do they come already with different pointers?
-  char* nameElem = (char*) malloc (sizeof(char));
+  char* nameElem = (char*) malloc (sizeof(strlen(name)));
   strcpy(nameElem, name);
   userNode->name = nameElem;
 
@@ -83,24 +100,6 @@ USER* createStruct (char* name, int phone) {//CHECK LATER IF IT'S WORKING
   return userNode;
 }
 
-void manualFillUserTree   (BST_TREE* tree) {
-  int num=0;
-  char name[100];
-  printf("Enter the name and then the phone number;\n");
-  printf("Enter \"break\" to stop.\n");
-
-  do {
-    printf("\nEnter the users name: ");
-    scanf("%s", name);
-    if (strcmp(name, "break")==0) {
-      printf("\nEnter the phone number: ");
-      scanf("%d", &num);
-      insertUser(tree, name, num);
-    } else {
-      printf("You decided to halt the operation. Redirecting to the main menu...\n");
-    }
-  } while (strcmp(name, "break")==0);
-}
  
  
  
@@ -113,7 +112,7 @@ void printTree            (BST_TREE* tree) {
   printf("\n");
 }
  
-void insertUser           (BST_TREE* tree, int phone, char* name) {  //CHECK LATER IF IT'S WORKING
+void insertUser           (BST_TREE* tree, char* name, int phone) {  //CHECK LATER IF IT'S WORKING
   BST_Insert (tree, createStruct(name, phone));
 }
  
@@ -183,14 +182,33 @@ void autoFillUserTree2    (BST_TREE* tree)  {
  
 void autoFillUserTree     (BST_TREE* tree, int choice) {
   switch (choice) {
-    case 1: autoFillTree1(tree); break;
-    case 2: autoFillTree2(tree); break;
+    case 1: autoFillUserTree1(tree); break;
+    case 2: autoFillUserTree2(tree); break;
   }
 }
- 
+
+void manualFillUserTree   (BST_TREE* tree) {
+  int phone=-1;
+  char name[100];
+  printf("Enter the name and then the phone number;\n");
+  printf("Enter \"break\" to stop.\n");
+
+  do {
+    printf("\nEnter the users name (or \"break\" to stop): ");
+    scanf("%s", name);
+    if (strcmp(name, "break")!=0) {
+      printf("\nEnter the phone number: ");
+      scanf("%d", &phone);
+      insertUser(tree, name, phone);
+    } else {
+      printf("You decided to halt the operation. Redirecting to the main menu...\n");
+    }
+  } while (strcmp(name, "break")!=0);
+}
+
 void fillUserTree         (BST_TREE* tree, int isManual) {
   int choice=1;
-  (isManual)?autoFillTree(tree,choice):manualFillTree(tree);
+  (isManual)?manualFillUserTree(tree):autoFillUserTree(tree,choice);
 }
  
 /*  ==================== _delete ==================== 
@@ -225,9 +243,10 @@ NODE*  _check             (BST_TREE* tree, NODE* root, void* dataPtr) {
 
 void checkUser            (BST_TREE* tree) { //WIP
   char name[100];
-  printf("\n\n Type the name you want to be checked: ");
-  scanf("%d", name);
-  NODE* pointerFound = _check (tree, tree->root, createStruct(name, NULL));
+  printf("\n\nType the name you want to be checked: ");
+  scanf("%s", name);
+  int* nullInt = (int*) malloc (sizeof(int));  
+  NODE* pointerFound = _check (tree, tree->root, createStruct(name, *nullInt));
   if (pointerFound) {
     printf("The user %s was found in the tree (%X) at the pointer (%X)\n", name, tree, pointerFound);
   } else {
@@ -239,27 +258,32 @@ void checkUser            (BST_TREE* tree) { //WIP
 void removeUser           (BST_TREE* tree) {
   char name[100];
   printf("\n\n Type the name you want to be removed: ");
-  scanf("%d", name);
-  NODE* pointerFound = _check (tree, tree->root, createStruct(name, NULL));
+  scanf("%s", name);
+  int* nullInt = (int*) malloc (sizeof(int));  
+  NODE* pointerFound = _check (tree, tree->root, createStruct(name, *nullInt));
   if (pointerFound) {
     printf("The user %s was found in the tree (%X) at the pointer (%X) and will be erased\n", name, tree, pointerFound);
+    // printf("user %s||tree (%X)||pointer (%X)||\n", name, tree, pointerFound);
+    // printf("userName %s||userPhoneNumber\n", ((USER*)(pointerFound->dataPtr))->name, ((USER*)(pointerFound->dataPtr))->phoneNumber);
+
+    
     BST_Delete (tree, pointerFound);
   } else {
     printf("The user %s was NOT found in the tree (%X)\n", name, tree, pointerFound);
   }
 }
-
+/* 
 void fillFromTXT          (BST_TREE* tree) {
-  /*Read file, separate strings, turn phone into int, convert to the boat*/
+  // Read file, separate strings, turn phone into int, convert to the boat
 }
 
 void writeTreeToTXT       (BST_TREE* tree) {
-  /*Read tree, traversing, using stocked names, it prints the names in orderm*/
+  // Read tree, traversing, using stocked names, it prints the names in order
 }
- 
+  */
 void menu                 (BST_TREE* tree) {
 
-  int choice;
+  int choice=999;
   do {  //menu texts
     printf("= = = Welcome to the Menu, what do you want to do now? = = =\n\n");
     printf("(Enter \"0\" to stop)\n");
@@ -267,11 +291,15 @@ void menu                 (BST_TREE* tree) {
     printf("1)\t type a name to check if it's in the tree\n");
     printf("2)\t insert a new user\n");
     printf("3)\t remove an existing user using its name\n");
-    printf("4)\t print the whole tree\n");
+    printf("4)\t print the whole tree\n\n");
+    printf("Type your choice:\t");
     scanf("%d", &choice);
+    printf("\nYour choice was %d.\n", choice);
+    
+    //THIS ISN'T WORKING AND I DON'T KNOW WHY
 
-    while ((choice>4)||(choice<0)) {
-      printf("Invalid option, please type another option:\t");
+    while (!(0<choice && choice<5)) {
+      printf("Invalid option, please type a valid one:\t");
       scanf("%d", &choice);
     }
 
@@ -283,7 +311,7 @@ void menu                 (BST_TREE* tree) {
       case 3: removeUser          (tree);  break;
       case 4: printTree           (tree);  break;
 
-      default:printf("Not a valid option.\n");    break;
+      default:printf("X X X X Invalid option X X X X\n");    break;
     }
   } while (choice!=0);
 }
@@ -293,10 +321,10 @@ void q1() {
   
   int isManual=0;
   BST_TREE* tree = BST_Create(compareNodesNames);
-  // fillFromTXT(tree);
-  // menu(tree);
   fillUserTree(tree, isManual);
-  printTree(tree);  
+  // fillFromTXT(tree);
+  menu(tree);
+  // printTree(tree);  
   //  writeTreeToTXT (tree);
   BST_Destroy (tree);
 
