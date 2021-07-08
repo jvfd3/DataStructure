@@ -190,12 +190,9 @@ void autoFillUserTree     (BST_TREE* tree, int choice) {
  
 void fillUserTree         (BST_TREE* tree, int isManual) {
   int choice=1;
-  (isManual)?manualFillTree(tree):autoFillTree(tree,choice);
+  (isManual)?autoFillTree(tree,choice):manualFillTree(tree);
 }
  
- 
-
-
 /*  ==================== _delete ==================== 
   Deletes node from the tree and rebalances 
   tree if necessary. 
@@ -297,10 +294,10 @@ void q1() {
   int isManual=0;
   BST_TREE* tree = BST_Create(compareNodesNames);
   // fillFromTXT(tree);
-  menu(tree);
-  // fillTree(tree, isManual);
-  //  writeTreeToTXT (tree);
+  // menu(tree);
+  fillUserTree(tree, isManual);
   printTree(tree);  
+  //  writeTreeToTXT (tree);
   BST_Destroy (tree);
 
   printf("\nEnd of Q1\n\n");
