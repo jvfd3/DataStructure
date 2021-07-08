@@ -9,22 +9,20 @@
             -or- An error code is returned 
      Return Success (true) or Not found (false)
 */
-bool BST_Delete (BST_TREE* tree, void* dltKey)
-{
+bool BST_Delete (BST_TREE* tree, void* dltKey) {
 //  Local Definitions 
   bool  success;
   NODE* newRoot;
   
 //  Statements 
   newRoot = _delete (tree, tree->root, dltKey, &success);
-  if (success)
-     {
-      tree->root = newRoot;
-      (tree->count)--;
-      if (tree->count == 0)
-          // Tree now empty 
-          tree->root = NULL;
-     } // if 
+  if (success) {
+    tree->root = newRoot;
+    (tree->count)--;
+    if (tree->count == 0) {// Tree now empty 
+      tree->root = NULL;
+    }
+  } // if 
   return success;
 }  // BST_Delete
 

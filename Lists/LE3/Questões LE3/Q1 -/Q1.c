@@ -188,16 +188,44 @@ void fillUserTree (BST_TREE* RootPointer, int isManual) {
   (isManual)?manualFillTree(RootPointer):autoFillTree(RootPointer,choice);
 }
 
-
-void printTree(BST_TREE* RootPointer) {
+void printTree (BST_TREE* RootPointer) {
 
   printf("The tree (%X) contains the users:\n", RootPointer->root);
   BST_Traverse (RootPointer, printUserBST);
   printf("\n");
 }
 
-void checkUser (BST_TREE* RootPointer) {
-  
+void removeUser (BST_TREE* RootPointer) {
+  char name[100];
+  printf("\n\n Type the name you want to be removed: ");
+  scanf("%d", name);
+  BST_Delete (RootPointer, (NODE*) checkUserTraversing (RootPointer, name));
+}
+
+void matches (void* nodeName) { //WIP
+  printf("Still WIP, don't bother\n\n");
+  /*I should do something here so that the code could traverse the BST comparing it*/
+}
+
+void checkUserTraversing (BST_TREE* RootPointer, char* name) { //WIP
+  // somewhere during those traverses, I should receive a pointer to the node that is equal
+  BST_Traverse (RootPointer, matches);
+}
+
+/*Should somehow return the pointer, so it can be used to erase a user*/
+void checkUser (BST_TREE* RootPointer) { //WIP
+  char name[100];
+  printf("\n\n Type the name you want to be checked: ");
+  scanf("%d", name);
+  checkUserTraversing (RootPointer, name);
+}
+
+void fillFromTXT(tree) {
+  /*Read file, separate strings, turn phone into int, convert to the boat*/
+}
+
+void writeTreeToTXT(tree) {
+  /*Read tree, traversing, using stocked names, it prints the names in orderm*/
 }
 
 void menu (BST_TREE* RootPointer) {
@@ -240,7 +268,7 @@ void q1() {
   // fillFromTXT(tree);
   menu(tree);
   // fillTree(tree, isManual);
-  //
+  //  writeTreeToTXT (tree);
   // printTree(tree);  
   BST_Destroy (tree);
 
@@ -248,18 +276,18 @@ void q1() {
 
 /*
   Cria árvore       X
-  FillFromText      
+  FillFromText      O
 
-  Menu:             
+  Menu:             X
     Fill            X
       AutoFill      X
       ManualFill    X
     Print           X
     Insert          X
-    Remove          
-    Search          
-  endMenu           
-  WriteToText       
+    Remove          +-
+    Search          +-
+  endMenu           X
+  WriteToText       O
   Destroy           X
 
   
