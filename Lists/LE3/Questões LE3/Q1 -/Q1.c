@@ -61,12 +61,12 @@ int compareNodesPhoneNumbers (void* user1, void* user2) {
 }
 
 
-/*  ====================== printBST ======================  
+/*  ====================== printUserBST ======================  
   Print Name and PhoneNumber from BST.
       Pre  user is a pointer to an USER struct
       Post "Name: Name_of_USER \t Phone Number: phone_number_of_the_user\n"
 */
-void printBST (void* user) {
+void printUserBST (void* user) {
   //Not sure if name will need the extra *
   printf("Name: %s \t Phone Number: %d\n", *((char*)(((USER*)user)->name)), *((int*)(((USER*)user)->phoneNumber)));
   return; //NECESSARY? I don't think so
@@ -189,16 +189,59 @@ void fillUserTree (BST_TREE* RootPointer, int isManual) {
 }
 
 
+void printTree(BST_TREE* RootPointer) {
+
+  printf("The tree (%X) contains the users:\n", RootPointer->root);
+  BST_Traverse (RootPointer, printUserBST);
+  printf("\n");
+}
+
+void checkUser (BST_TREE* RootPointer) {
+  
+}
+
+void menu (BST_TREE* RootPointer) {
+  
+  int choice=-1;
+  do {
+
+    printf("= = = Welcome to the Menu, what do you want to do now? = = =\n\n");
+    printf("(Enter \"0\" to stop)\n");
+    printf("Type \t to\n");
+    printf("1)\t type a name to check if it's in the tree\n");
+    printf("2)\t insert a new user\n");
+    printf("3)\t remove an existing user using its name\n");
+    printf("4)\t print the whole tree\n");
+    scanf("%d", &choice);
+
+    while ((choice>4)||(choice<0)) {
+      printf("Invalid option, please type another option:\t");
+      scanf("%d", &choice);
+    }
+
+    switch (choice) {
+      case 0: printf("EXIT input, ending Menu...\n\n"); break;
+
+      case 1: checkUser           (RootPointer);  break;
+      case 2: manualFillUserTree  (RootPointer);  break;
+      case 3: removeUser          (RootPointer);  break;
+      case 4: printTree           (RootPointer);  break;
+
+      default:printf("Not a valid option.\n");    break;
+    }
+  } while (choice!=0);
+}
+
 void q1() {
   printf("Start of Q1\n\n");
   
   int isManual=0;
   BST_TREE* tree = BST_Create(compareNodesPhoneNumbers);
   // fillFromTXT(tree);
-
+  menu(tree);
   // fillTree(tree, isManual);
   //
-  
+  // printTree(tree);  
   BST_Destroy (tree);
 
   printf("\nEnd of Q1\n\n");
@@ -211,7 +254,7 @@ void q1() {
     Fill            X
       AutoFill      X
       ManualFill    X
-    Print           
+    Print           X
     Insert          X
     Remove          
     Search          

@@ -108,7 +108,7 @@ void _destroy (NODE* root)
 NODE* _insert (BST_TREE* tree, NODE* root, NODE* newPtr) {
 //  Statements 
   if (!root) {// if NULL tree 
-     return newPtr;
+    return newPtr;
   }
 
   if (tree->compare(newPtr->dataPtr,  root->dataPtr) < 0) {// Locate null subtree for insertion 
@@ -136,22 +136,19 @@ NODE* _insert (BST_TREE* tree, NODE* root, NODE* newPtr) {
      Return  Address of data in matching node 
              If not found, NULL returned 
 */
-void* _retrieve (BST_TREE* tree,    void* dataPtr, NODE* root)
-{
+void* _retrieve (BST_TREE* tree,    void* dataPtr, NODE* root) {
 //  Statements 
-  if (root)
-      {
-       if (tree->compare(dataPtr, root->dataPtr) < 0)
-           return _retrieve(tree, dataPtr, root->left);
-       else if (tree->compare(dataPtr, root->dataPtr) > 0)
-           return _retrieve(tree, dataPtr, root->right);
-       else
-           // Found equal key 
-           return root->dataPtr;
-      }  // if root 
-  else
-      // Data not in tree 
-      return NULL;
+  if (root) {
+    if (tree->compare(dataPtr, root->dataPtr) < 0)
+      return _retrieve(tree, dataPtr, root->left);
+    else if (tree->compare(dataPtr, root->dataPtr) > 0)
+      return _retrieve(tree, dataPtr, root->right);
+    else
+      // Found equal key 
+      return root->dataPtr;
+  }
+  // Data not in tree 
+  return NULL;
 }  // _retrieve 
 
 
@@ -162,14 +159,12 @@ void* _retrieve (BST_TREE* tree,    void* dataPtr, NODE* root)
      Pre   Tree has been created (may be null) 
      Post  All nodes processed 
 */
-void _traverse (NODE* root,   void (*process) (void* dataPtr)) 
-{
+void _traverse (NODE* root,   void (*process) (void* dataPtr)) {
 //  Statements 
-if  (root)
-    {
-     _traverse (root->left, process);
-     process   (root->dataPtr);
-     _traverse (root->right, process);
-    } // if 
-return;
+  if  (root) {
+    _traverse (root->left, process);
+    process   (root->dataPtr);
+    _traverse (root->right, process);
+  } // if 
+// return;
 }  // _traverse

@@ -94,13 +94,15 @@ bool BST_Insert (BST_TREE* tree, void* dataPtr)
      Return  Address of matching node returned 
              If not found, NULL returned 
 */
-void* BST_Retrieve  (BST_TREE* tree, void* keyPtr)
-{
+void* BST_Retrieve  (BST_TREE* tree, void* keyPtr) {
 //  Statements 
-  if (tree->root)
-      return _retrieve (tree, keyPtr, tree->root);
-  else
-      return NULL;
+  // return (tree->root)?_retrieve (tree, keyPtr, tree->root):NULL;  //ternary way
+  
+  if (tree->root) {
+    return _retrieve (tree, keyPtr, tree->root);
+  }
+  return NULL;
+  
 }  // BST_Retrieve 
 
 
@@ -111,9 +113,8 @@ void* BST_Retrieve  (BST_TREE* tree, void* keyPtr)
            process �visits� nodes during traversal 
      Post  Nodes processed in LNR (inorder) sequence 
 */
-void BST_Traverse (BST_TREE* tree,   void (*process) (void* dataPtr)) 
-{
+void BST_Traverse (BST_TREE* tree,   void (*process) (void* dataPtr)) {
 //  Statements 
   _traverse (tree->root, process);
-  return;
+  // return;
 }  // end BST_Traverse 
