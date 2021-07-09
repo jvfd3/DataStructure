@@ -41,8 +41,8 @@ Utilize o texto da sua escolha, com pelo menos 2 linhas, para testar o programa.
 */
 
 typedef struct table {
-  char* char1;
   char* code; //not really sure if code is needed here
+  char* token;
   int*  frequency;
 } TABLE;
 
@@ -91,32 +91,41 @@ int createHuffNode () {
   return 0;
 }
 
-int createHuffStruct () {
-  return 0;
-
-}
 
 int _huffRecursive () {
   return 0;
 
 } */
 
-void  autoSelectString     (char* string, int choice) {   //Create all strings that are going to be tested
 
-  // Selecting which string will be chosen
-  switch (choice) {
+//  ################### START INDEPENDENT FUNTIONS ###################
+
+
+void message(char* string, int number) {
+  printf("\n\n = = = %s of Q%d = = = \n\n", string, number);
+}
+
+
+//  ################### END INDEPENDENT FUNTIONS ###################
+
+//  ################### START STRING SELECTION ###################
+
+void  autoSelectString    (char* string, int choice) {   //Create all strings that are going to be tested
+  
     // I manually cleaned strings for simplification
     // The goal of the code is not to actually cleand the string
     // so why complicate it even more?
-    case 1:   strcpy(string,      "a base do teto desaba");                    break;
-    case 2:   strcpy(string,      "a diva em argel alegra me a vida");         break;
-    case 3:   strcpy(string,      "adias a data da saida");                    break;
-    case 4:   strcpy(string,      "socorram me subi no onibus em marrocos");  break;
-    default:  strcpy(string,      ""); break;
+    
+  switch (choice) {     // Selecting which string will be chosen
+    case 1:   strcpy(string, "a base do teto desaba");                     break;
+    case 2:   strcpy(string, "a diva em argel alegra me a vida");          break;
+    case 3:   strcpy(string, "adias a data da saida");                     break;
+    case 4:   strcpy(string, "socorram me subi no onibus em marrocos");    break;
+    default:  strcpy(string, "Invalid option");                            break;
   }
 }
 
-void  manualSelectString   (char* string) {
+void  manualSelectString  (char* string) {
   printf("Enter the String you want to encrypt using Huffman's algorith:\n");
   scanf("%s", string);
   //Should I do the below code instead?
@@ -128,28 +137,156 @@ void  manualSelectString   (char* string) {
 
 }
 
-void selectString         (char* string, int isManual) {
+void  selectString        (char* string, int isManual) {
   int choice=1;
   (isManual)?manualSelectString(string):autoSelectString(string, choice);
 }
 
+void  printChosenString   (char* string) {
+  printf("\nYour chosen string is \"%s\" with sizeof (%d)\n", string, strlen(string));
+}
+
+//  ################### END STRING SELECTION ###################
+
+
+//  ################### START CHARACTER COUNT ###################
+
+TABLE* createHuffStruct (char token) {
+  TABLE* tableNode = (TABLE*) malloc (sizeof(TABLE));
+
+
+  char* code            = (char*) malloc (sizeof(char));
+  char* tokenToInsert   = (char*) malloc (sizeof(char));
+  int*  frequency       = (int*)  malloc (sizeof(int ));
+
+  strcpy(code, "NotYetDefined");
+  *tokenToInsert  = token;
+  *frequency      = 1;
+
+  tableNode->token = tokenToInsert;
+  tableNode->frequency = frequency;
+  tableNode->code = code;
+
+  return tableNode;
+}
+
+char toknGetFromNode (QUEUE_NODE* node) {
+  char tempChar = *((char*)(((TABLE*)(node->dataPtr))->token));
+  // printf("The node to be returned is %c\n", tempChar);
+  return tempChar;
+}
+
+void setNewFrequency (QUEUE_NODE* tempNode) {
+  TABLE* tempTable = tempNode->dataPtr;
+  int* tempFrequency = tempTable->frequency;
+  *tempFrequency = *tempFrequency+1;
+  // *((int*)(((TABLE*)(tempNode->dataPtr))->frequency))++;
+}
+
+void updadeFrequency (QUEUE* queue, TABLE* tableNode) {
+  char tokenToCompare = *(tableNode->token);
+  char tokenFromNode;
+  int isPresent = 0;
+  QUEUE_NODE* tempNode;
+  if (queueCount(queue)!=0) {                          // if the queueCount is not empty
+    tempNode = queue->front;                          // tempNode will receive the first node pointer
+    while (!((tempNode== NULL) || isPresent) ) {     // it will loop while the node is not null, nor the token has been found
+      tokenFromNode = toknGetFromNode(tempNode);   // simplification of some messy pointer stuff
+      if (tokenFromNode == tokenToCompare) {       // if the token has been found
+        setNewFrequency (tempNode);               // set the new frequency
+        isPresent=1;                             // and say it's present (it will stop the loop)
+      } else {                                  // else...
+        tempNode = tempNode->next;             // (if it is not the same), advance one node (if node is Null, it will stop the loop)
+      }
+    }
+  }
+  if (!isPresent) {
+    // maybe I'll change that to a function that enqueue and also orders it
+    enqueue(queue, tableNode);                                    // if it scanned all queue and didn't find the token, it will enqueue the new one
+  }
+}
+
+void characterCount (char* string, QUEUE* queue) {
+  int i;
+  char token;
+  TABLE* tableNode;
+
+  for (i=0; i<(int)strlen(string); i++) {
+    token = string[i];
+    // printf(" %c ", token);
+    tableNode = createHuffStruct(token);
+    updadeFrequency(queue, tableNode);
+
+    //updadeFrequency(queue, createHuffStruct(string[i]));
+  }
+
+}
+
+//  ################### END CHARACTER COUNT ###################
+
+//  ################### START PRINT HUFF QUEUE ###################
+
+int   freqGetFromNode (QUEUE_NODE* node) {
+  int tempFrequency = *((int*)(((TABLE*)(node->dataPtr))->frequency));
+  // printf("The frequency to be returned is %d\n", tempFrequency);
+  return tempFrequency;
+}
+
+char* codeGetFromNode (QUEUE_NODE* node) {
+  char* tempCode = (char*)(((TABLE*)(node->dataPtr))->code);
+  // printf("The code to be returned is %s\n", tempCode);
+  return tempCode;
+}
+
+void  printHuffQueue  (QUEUE* queue) {
+
+  QUEUE_NODE*    tempNode;
+
+  char  tokn;
+  int   freq;
+  char* code;
+
+  if (queueCount(queue)!=0) {                                // if the queueCount is not empty
+    tempNode = queue->front;                                // tempNode will receive the first node pointer
+    printf("Printing Huffman Queue (%X):\n", queue);
+    while (!(tempNode== NULL) ) {                          // it will loop while the node is not null, nor the token has been found
+      tokn = toknGetFromNode(tempNode);         // simplification of some messy pointer stuff
+      freq = freqGetFromNode(tempNode);
+      code = codeGetFromNode(tempNode);
+
+      printf("(Token: %c||Freq: %d||Code: %s)\n", tokn, freq, code);
+
+      tempNode = tempNode->next;             // (if it is not the same), advance one node (if node is Null, it will stop the loop)
+      
+    }
+  } else {
+    printf("The Queue is Empty. \n");
+  }
+}
+
+//  ################### END PRINT HUFF QUEUE ###################
+
 void q3 () {
-  printf("\n\n = = = Start of Q3 = = = \n\n");
+  message("Start",3);
 
   int isManual = 0;
-  char* str;
+  char* str = (char*) malloc (sizeof(char));
+  QUEUE* queue = createQueue();
+
   selectString(str, isManual);
-  printf("\n%s\n", str);
-  // QUEUE* queue = characterCount(str);
+  printChosenString (str);
+  characterCount(str, queue);
+  printHuffQueue(queue);
   // orderQueue(queue);
   // BST_TREE* huffmanTree = BST_Create(huffCompare);
   // createHuffmanTree (huffmanTree, queue);
   // char* code = getCode (huffmanTree, queue);
   // solveCode (code);
 
-  printf("\n\n = = = End of Q3 = = = \n\n");
+  message("End",3);
 }
 
 int main () {
   q3();
+  printf(".");  //why does it not stop if I don't put a dot here?
 }
