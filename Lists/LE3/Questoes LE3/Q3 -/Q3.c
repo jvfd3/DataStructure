@@ -138,7 +138,7 @@ void  manualSelectString  (char* string) {
 }
 
 void  selectString        (char* string, int isManual) {
-  int choice=1;
+  int choice=3;
   (isManual)?manualSelectString(string):autoSelectString(string, choice);
 }
 
@@ -266,6 +266,71 @@ void  printHuffQueue  (QUEUE* queue) {
 
 //  ################### END PRINT HUFF QUEUE ###################
 
+//  ################### START ORDER QUEUE ###################
+/* 
+int isOrdered (QUEUE* queue) {
+
+  QUEUE_NODE*    node;
+
+  int   freq1, freq2;
+  
+  if (queueCount(queue)!=0) {                                // if the queueCount is not empty
+    node = queue->front;                                // tempNode will receive the first node pointer
+    while (!(node== NULL) ) {                          // it will loop while the node is not null, nor the token has been found
+      freq1 = freqGetFromNode(node);
+      if (node->next != NULL) {
+        freq2 = freqGetFromNode(node->next);
+      }
+
+      if (freq2>freq1) {
+        return 0;
+      }
+      
+      node = node->next;             // (if it is not the same), advance one node (if node is Null, it will stop the loop)
+      
+    }
+  }
+  return 1;
+}
+ */
+void changeNodePosition (QUEUE_NODE* node) {
+  // That is actually not changing the node position ;p
+  // I was trying to, but it seemed complex, so I thought a little more and realized:
+  // changing the dataPtr positions would be much simpler
+
+  void*    tempTable;
+
+  tempTable           = node->dataPtr;
+  node->dataPtr       = node->next->dataPtr;
+  node->next->dataPtr = tempTable;
+}
+
+void  orderQueue  (QUEUE* queue) {
+
+  QUEUE_NODE*    node;
+
+  int   freq1, freq2, isOrdered=0;
+  
+  if (queueCount(queue)!=0) {
+    node = queue->front;
+    while (!(node== NULL) ) {
+      freq1 = freqGetFromNode(node);
+      if (node->next != NULL) {
+        freq2 = freqGetFromNode(node->next);
+      }
+
+      if (freq2>freq1) {
+        changeNodePosition(node);
+        node = queue->front;
+      }
+      
+      node = node->next;
+    }
+  }
+}
+
+//  ################### END ORDER QUEUE ###################
+
 void q3 () {
   message("Start",3);
 
@@ -277,12 +342,14 @@ void q3 () {
   printChosenString (str);
   characterCount(str, queue);
   printHuffQueue(queue);
-  // orderQueue(queue);
+  orderQueue(queue);
+  printHuffQueue(queue);
   // BST_TREE* huffmanTree = BST_Create(huffCompare);
   // createHuffmanTree (huffmanTree, queue);
   // char* code = getCode (huffmanTree, queue);
   // solveCode (code);
 
+  destroyQueue(queue);
   message("End",3);
 }
 
