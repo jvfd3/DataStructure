@@ -317,7 +317,7 @@ void menu                 (BST_TREE* tree) {
 }
 
 void q1() {
-  printf("Start of Q1\n\n");
+  printf("\n\n = = = Start of Q1 = = = \n\n");
   
   int isManual=0;
   BST_TREE* tree = BST_Create(compareNodesNames);
@@ -328,28 +328,27 @@ void q1() {
   //  writeTreeToTXT (tree);
   BST_Destroy (tree);
 
-  printf("\nEnd of Q1\n\n");
 
 /*
-  Cria árvore       X
-  FillFromText      O
+  Cria árvore       O
+  FillFromText      X
 
-  Menu:             X
-    Fill            X
-      AutoFill      X
-      ManualFill    X
-    Print           X
-    Insert          X
+  Menu:             O
+    Fill            O
+      AutoFill      O
+      ManualFill    O
+    Print           O
+    Insert          O
     Remove          +-
-    Search          X
-  endMenu           X
-  WriteToText       O
-  Destroy           X
+    Search          O
+  endMenu           O
+  WriteToText       X
+  Destroy           O
 
   
 */
   
-
+  printf("\n\n = = = End of Q1 = = = \n\n");
 }
 
 int main () {

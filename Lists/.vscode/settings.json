@@ -1,6 +1,8 @@
 {
   "files.associations": {
     "bst_adt.h": "c",
-    "filajv.h": "c"
+    "filajv.h": "c",
+    "stdbool.h": "c",
+    "bst_declarations.h": "c"
   }
 }

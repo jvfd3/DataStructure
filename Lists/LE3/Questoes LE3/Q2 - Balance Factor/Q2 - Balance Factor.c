@@ -197,7 +197,7 @@ void BinaryTreeBalanceFactor (BST_TREE* tree) {
 }
 
 void q2 () {
-  printf("Start of Q2\n\n");
+  printf("\n\n = = = Start of Q2 = = = \n\n");
   
   int isManual=0;
   BST_TREE* tree = BST_Create(compareInt);
@@ -206,6 +206,6 @@ void q2 () {
   BinaryTreeBalanceFactor (tree);
   BST_Destroy (tree);
 
-  printf("\nEnd of Q2\n\n");
+  printf("\n\n = = = End of Q2 = = = \n\n");
 }
 
