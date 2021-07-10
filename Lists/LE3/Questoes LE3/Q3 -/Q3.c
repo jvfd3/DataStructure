@@ -248,13 +248,15 @@ void  printHuffQueue  (QUEUE* queue) {
 
   if (queueCount(queue)!=0) {                                // if the queueCount is not empty
     tempNode = queue->front;                                // tempNode will receive the first node pointer
-    printf("Printing Huffman Queue (%X):\n", queue);
+    // printf("Printing Huffman Queue (%X):\n", queue);
     while (!(tempNode== NULL) ) {                          // it will loop while the node is not null, nor the token has been found
       tokn = toknGetFromNode(tempNode);         // simplification of some messy pointer stuff
       freq = freqGetFromNode(tempNode);
       code = codeGetFromNode(tempNode);
 
-      printf("(Token: %c||Freq: %d||Code: %s)\n", tokn, freq, code);
+      // printf("(Token: %c||Freq: %d||Code: %s)\n", tokn, freq, code);
+      printf("%d ", freq);  //DEBUGGING PURPOSE
+
 
       tempNode = tempNode->next;             // (if it is not the same), advance one node (if node is Null, it will stop the loop)
       
@@ -262,6 +264,7 @@ void  printHuffQueue  (QUEUE* queue) {
   } else {
     printf("The Queue is Empty. \n");
   }
+  printf("\n"); //DEBUGGING PURPOSE
 }
 
 //  ################### END PRINT HUFF QUEUE ###################
@@ -299,17 +302,18 @@ void changeNodePosition (QUEUE_NODE* node) {
   // changing the dataPtr positions would be much simpler
 
   void*    tempTable;
-
+  // printf("(%c/%c)->", freqGetFromNode(node), freqGetFromNode(node->next));  //not working but I don't know why
   tempTable           = node->dataPtr;
   node->dataPtr       = node->next->dataPtr;
   node->next->dataPtr = tempTable;
+  // printf("(%c/%c)\n", freqGetFromNode(node), freqGetFromNode(node->next));  //not working but I don't know why
 }
 
 void  orderQueue  (QUEUE* queue) {
 
   QUEUE_NODE*    node;
 
-  int   freq1, freq2, isOrdered=0;
+  int   freq1, freq2;
   
   if (queueCount(queue)!=0) {
     node = queue->front;
@@ -319,12 +323,14 @@ void  orderQueue  (QUEUE* queue) {
         freq2 = freqGetFromNode(node->next);
       }
 
-      if (freq2>freq1) {
+      // if (freq1<freq2) { //this is for decrescent order, I need crescent
+      if (freq1>freq2) {
         changeNodePosition(node);
+        printHuffQueue(queue);
         node = queue->front;
+      } else {
+        node = node->next;
       }
-      
-      node = node->next;
     }
   }
 }
@@ -343,14 +349,18 @@ void q3 () {
   characterCount(str, queue);
   printHuffQueue(queue);
   orderQueue(queue);
+  printf("%X", queue);
   printHuffQueue(queue);
+  printf("%X", queue);
   // BST_TREE* huffmanTree = BST_Create(huffCompare);
   // createHuffmanTree (huffmanTree, queue);
   // char* code = getCode (huffmanTree, queue);
   // solveCode (code);
-
+printf("a");
   destroyQueue(queue);
+printf("a");
   message("End",3);
+printf("a");
 }
 
 int main () {
