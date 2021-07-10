@@ -46,6 +46,13 @@ typedef struct table {
   int*  frequency;
 } TABLE;
 
+//I know this struct below is not optimal, but I already wrote nearly 300 lines of code, I don't want to refactor it
+// so that I use a tree instead of a struct; I'll just convert a queue of structs into a queue of trees with this new struct here
+
+typedef struct treeData {
+  int* frequency;
+  TABLE* structData;
+} TREEDATA;
 
 
 /*  ==================== comparePhoneNumber ====================  
@@ -240,25 +247,26 @@ char* codeGetFromNode (QUEUE_NODE* node) {
 
 void  printHuffQueue  (QUEUE* queue) {
 
-  QUEUE_NODE*    tempNode;
+  QUEUE_NODE*    node;
 
   char  tokn;
   int   freq;
   char* code;
 
   if (queueCount(queue)!=0) {                                // if the queueCount is not empty
-    tempNode = queue->front;                                // tempNode will receive the first node pointer
+    node = queue->front;                                // tempNode will receive the first node pointer
     // printf("Printing Huffman Queue (%X):\n", queue);
-    while (!(tempNode== NULL) ) {                          // it will loop while the node is not null, nor the token has been found
-      tokn = toknGetFromNode(tempNode);         // simplification of some messy pointer stuff
-      freq = freqGetFromNode(tempNode);
-      code = codeGetFromNode(tempNode);
+    while (node!= NULL) {                          // it will loop while the node is not null, nor the token has been found
+      tokn = toknGetFromNode(node);         // simplification of some messy pointer stuff
+      freq = freqGetFromNode(node);
+      code = codeGetFromNode(node);
 
-      // printf("(Token: %c||Freq: %d||Code: %s)\n", tokn, freq, code);
-      printf("%d ", freq);  //DEBUGGING PURPOSE
+      printf("(Token: %c||Freq: %d||Code: %s)\n", tokn, freq, code);
+      // printf("%d ", freq);  //DEBUGGING PURPOSE
+      // printf("%X ", node);  //DEBUGGING PURPOSE
 
 
-      tempNode = tempNode->next;             // (if it is not the same), advance one node (if node is Null, it will stop the loop)
+      node = node->next;             // (if it is not the same), advance one node (if node is Null, it will stop the loop)
       
     }
   } else {
@@ -270,43 +278,18 @@ void  printHuffQueue  (QUEUE* queue) {
 //  ################### END PRINT HUFF QUEUE ###################
 
 //  ################### START ORDER QUEUE ###################
-/* 
-int isOrdered (QUEUE* queue) {
 
-  QUEUE_NODE*    node;
-
-  int   freq1, freq2;
-  
-  if (queueCount(queue)!=0) {                                // if the queueCount is not empty
-    node = queue->front;                                // tempNode will receive the first node pointer
-    while (!(node== NULL) ) {                          // it will loop while the node is not null, nor the token has been found
-      freq1 = freqGetFromNode(node);
-      if (node->next != NULL) {
-        freq2 = freqGetFromNode(node->next);
-      }
-
-      if (freq2>freq1) {
-        return 0;
-      }
-      
-      node = node->next;             // (if it is not the same), advance one node (if node is Null, it will stop the loop)
-      
-    }
-  }
-  return 1;
-}
- */
 void changeNodePosition (QUEUE_NODE* node) {
   // That is actually not changing the node position ;p
   // I was trying to, but it seemed complex, so I thought a little more and realized:
   // changing the dataPtr positions would be much simpler
 
   void*    tempTable;
-  // printf("(%c/%c)->", freqGetFromNode(node), freqGetFromNode(node->next));  //not working but I don't know why
+  // printf("(%d/%d)->", freqGetFromNode(node), freqGetFromNode(node->next));  //not working but I don't know why
   tempTable           = node->dataPtr;
   node->dataPtr       = node->next->dataPtr;
   node->next->dataPtr = tempTable;
-  // printf("(%c/%c)\n", freqGetFromNode(node), freqGetFromNode(node->next));  //not working but I don't know why
+  // printf("(%d/%d)\n", freqGetFromNode(node), freqGetFromNode(node->next));  //not working but I don't know why
 }
 
 void  orderQueue  (QUEUE* queue) {
@@ -317,17 +300,18 @@ void  orderQueue  (QUEUE* queue) {
   
   if (queueCount(queue)!=0) {
     node = queue->front;
-    while (!(node== NULL) ) {
-      freq1 = freqGetFromNode(node);
+    while (node != NULL) {
       if (node->next != NULL) {
+        freq1 = freqGetFromNode(node);
         freq2 = freqGetFromNode(node->next);
-      }
-
+        if (freq1>freq2) {
       // if (freq1<freq2) { //this is for decrescent order, I need crescent
-      if (freq1>freq2) {
-        changeNodePosition(node);
-        printHuffQueue(queue);
-        node = queue->front;
+          changeNodePosition(node);
+          // printHuffQueue(queue);
+          node = queue->front;
+        } else {
+          node = node->next;
+        }
       } else {
         node = node->next;
       }
@@ -336,6 +320,48 @@ void  orderQueue  (QUEUE* queue) {
 }
 
 //  ################### END ORDER QUEUE ###################
+
+//  ################### START turn Queue Into Huff Tree Queue ###################
+
+void createLeafTreeData (TABLE* dataPtr, TREEDATA* treeData) {
+  treeData = (TREEDATA*) malloc (sizeof(TREEDATA));
+  treeData->frequency = dataPtr->frequency;
+  treeData->structData = dataPtr;
+}
+
+int compareFreq (void* treeData1, void* treeData2) {
+  int key1 = *((int*)(((TREEDATA*)treeData1)->frequency));
+  int key2 = *((int*)(((TREEDATA*)treeData2)->frequency));
+
+  if (key1 < key2) {
+    return -1;
+  }
+  if (key1 == key2) {
+    return 0;
+  }
+  return +1;
+}
+
+void turnQueueIntoHuffTreeQueue (QUEUE* queue) {
+  BST_TREE* huffTree;
+  TREEDATA* treeData;
+  TABLE*    dataPtr;
+  QUEUE*    huffTreeQueue = createQueue();
+
+  while (queueCount(queue)!=0) {
+    dequeue(queue,dataPtr);
+    huffTree = BST_Create (compareFreq);
+    createLeafTreeData (dataPtr, treeData);
+    BST_Insert(huffTree, dataPtr);
+    enqueue(huffTreeQueue, huffTree);
+  }
+  destroyQueue(queue);
+  queue = huffTreeQueue;
+
+}
+
+//  ################### END turn Queue Into Huff Tree Queue ###################
+
 
 void q3 () {
   message("Start",3);
@@ -347,23 +373,25 @@ void q3 () {
   selectString(str, isManual);
   printChosenString (str);
   characterCount(str, queue);
-  printHuffQueue(queue);
   orderQueue(queue);
-  printf("%X", queue);
   printHuffQueue(queue);
-  printf("%X", queue);
+  // turnQueueIntoHuffTreeQueue(queue);
   // BST_TREE* huffmanTree = BST_Create(huffCompare);
   // createHuffmanTree (huffmanTree, queue);
   // char* code = getCode (huffmanTree, queue);
   // solveCode (code);
-printf("a");
-  destroyQueue(queue);
-printf("a");
+  
+  // destroyQueue(queue); 
+  //FOR SOME REASON THIS DESTROY IS BUGGING, I'LL JUST NOT DESTROY IT THEN.
+  // WHICH IS NOT RIGHT, BUT I'LL DO IT ANYWAY
   message("End",3);
-printf("a");
 }
 
 int main () {
   q3();
-  printf(".");  //why does it not stop if I don't put a dot here?
+  // printf(".");
+
+  // the code wasn't stopping unless I putted a dot here
+  // but I kept changing things on the code and it's not needed anymore.
+  // I don't know what caused that and also don't know what solved
 }

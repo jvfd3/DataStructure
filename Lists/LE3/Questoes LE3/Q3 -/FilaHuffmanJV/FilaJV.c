@@ -182,16 +182,20 @@ QUEUE* destroyQueue (QUEUE* queue) {
   //  Statements 
   if (queue) {
     while (queue->front != NULL) {
+      // printHuffQueue(queue);  //debug purpose, delete it later
       free (queue->front->dataPtr);
       deletePtr    = queue->front;
       queue->front = queue->front->next; 
       free (deletePtr); 
-    } // while 
-    free (queue);
+    } // while
+    // printf("going to delete (%X)\n", queue); 
+    free (queue);   
+    //FOR SOME REASON, SOMETHING IS GOING WRONG WITH THIS FREE WHEN FREEING A HUFFQUEUE AT LE3 - Q3
+    // printf("deleted (%X)\n", queue); 
   } // if 
+  // printf("deleted");
   return NULL;
 }  // destroyQueue 
-
 
 /*  ===================== my little mess ===================
 
