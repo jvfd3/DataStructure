@@ -7,8 +7,10 @@
 // #include "../../LE2/Questoes/5-7 Filas/FilaJV/FilaJV.h"
 // #include "..\..\..\LE2\Questões\5-7 Filas\FilaJV\FilaJV.h"
 
+
 // I couldn't import Queue from LE2, I'll copy the file here for now
 #include "FilaHuffmanJV/FilaJV.h"
+
 
 /* Q3 - 
 Escreva um programa em C,
@@ -39,6 +41,9 @@ Utilize o texto da sua escolha, com pelo menos 2 linhas, para testar o programa.
 
 
 */
+
+
+// I GUESS THAT I HAVE PARTIALLY DONE TASKS 1 AND 2
 
 typedef struct table {
   char* code; //not really sure if code is needed here
@@ -211,16 +216,20 @@ void updadeFrequency (QUEUE* queue, TABLE* tableNode) {
     // maybe I'll change that to a function that enqueue and also orders it
     enqueue(queue, tableNode);                                    // if it scanned all queue and didn't find the token, it will enqueue the new one
   }
+  // printHuffQueue(queue);
 }
 
 void characterCount (char* string, QUEUE* queue) {
   int i;
   char token;
   TABLE* tableNode;
-
-  for (i=0; i<(int)strlen(string); i++) {
+  // printf("%s\n", string);
+  // printf("%c\n", string[0]);
+  for (i=0; i<strlen(string); i++) {  // SOMEHOW THIS FUNCTION BROKEN OUT OF A SUDDEN.
+    //It used to do everything correctly, but after I coded "turnQueueIntoHuffTreeQueue" it broke
     token = string[i];
-    // printf(" %c ", token);
+
+    printf(" (%d/%c) ", i, token);
     tableNode = createHuffStruct(token);
     updadeFrequency(queue, tableNode);
 
@@ -255,13 +264,13 @@ void  printHuffQueue  (QUEUE* queue) {
 
   if (queueCount(queue)!=0) {                                // if the queueCount is not empty
     node = queue->front;                                // tempNode will receive the first node pointer
-    // printf("Printing Huffman Queue (%X):\n", queue);
+    printf("Printing Huffman Queue (%X):\n", queue);
     while (node!= NULL) {                          // it will loop while the node is not null, nor the token has been found
       tokn = toknGetFromNode(node);         // simplification of some messy pointer stuff
       freq = freqGetFromNode(node);
       code = codeGetFromNode(node);
 
-      printf("(Token: %c||Freq: %d||Code: %s)\n", tokn, freq, code);
+      // printf("(Token: %c||Freq: %d||Code: %s)\n", tokn, freq, code);
       // printf("%d ", freq);  //DEBUGGING PURPOSE
       // printf("%X ", node);  //DEBUGGING PURPOSE
 
@@ -321,7 +330,7 @@ void  orderQueue  (QUEUE* queue) {
 
 //  ################### END ORDER QUEUE ###################
 
-//  ################### START turn Queue Into Huff Tree Queue ###################
+//  ################### START TURN QUEUE INTO HUFF TREE QUEUE ###################
 
 void createLeafTreeData (TABLE* dataPtr, TREEDATA* treeData) {
   treeData = (TREEDATA*) malloc (sizeof(TREEDATA));
@@ -342,6 +351,9 @@ int compareFreq (void* treeData1, void* treeData2) {
   return +1;
 }
 
+/* This will turn the dataPtr from the queue that are TABLE* into BST_TREE*
+and also inserting the frequency in its node
+*/
 void turnQueueIntoHuffTreeQueue (QUEUE* queue) {
   BST_TREE* huffTree;
   TREEDATA* treeData;
@@ -352,7 +364,7 @@ void turnQueueIntoHuffTreeQueue (QUEUE* queue) {
     dequeue(queue,dataPtr);
     huffTree = BST_Create (compareFreq);
     createLeafTreeData (dataPtr, treeData);
-    BST_Insert(huffTree, dataPtr);
+    BST_Insert(huffTree, treeData);
     enqueue(huffTreeQueue, huffTree);
   }
   destroyQueue(queue);
@@ -360,7 +372,94 @@ void turnQueueIntoHuffTreeQueue (QUEUE* queue) {
 
 }
 
-//  ################### END turn Queue Into Huff Tree Queue ###################
+//  ################### END TURN QUEUE INTO HUFF TREE QUEUE ###################
+
+
+//  ################### START REDUCE QUEUE TO ONE ELEMENT ###################
+/*  The goal of this block is to turn the queue of HuffTree Leaves into one tree
+    I think there might be a good recursive way, but I'm not sure I'm up to it
+
+*/
+//  I'm already tired of Q3, it has already been 3 days. Am I doing much more than I should?
+
+void justToRememberTheMessIMade_MyMatrioska (QUEUE* queue) {
+
+  QUEUE_NODE* firstQueueNode = queue->front;
+  BST_TREE* treeHeader = (BST_TREE*) firstQueueNode->dataPtr; //do I need to cast it?
+  NODE* treeNode = (NODE*) treeHeader->root;
+  TREEDATA* treeDataPtr = (TREEDATA*) treeNode->dataPtr;
+  TABLE*  tableStruct = (TABLE*) treeDataPtr->structData;
+  int freq1 = *((int*) treeDataPtr->frequency);
+  int freq2 =  *((int*) tableStruct->frequency);
+  char token =  *((char*) tableStruct->token);
+  char* code =  tableStruct->code;
+}
+
+void dequeueTwice (QUEUE* queue, BST_TREE* treeHeader1, BST_TREE* treeHeader2) {
+  void* data;
+  dequeue(queue, &data);
+  treeHeader1 = (BST_TREE*) data;
+  dequeue(queue, &data);
+  treeHeader2 = (BST_TREE*) data;
+}
+
+void mergeTwoTrees (BST_TREE* treeHeader1, BST_TREE* treeHeader2) {
+  
+  TREEDATA* treeData1 = ((NODE*)(treeHeader1->root))->dataPtr;
+  TREEDATA* treeData2 = ((NODE*)(treeHeader2->root))->dataPtr;
+
+  BST_Insert(treeHeader1, treeData2);
+  /*This is not working fine
+  What it should do is:
+  grab two trees with some frequency
+  sum those frequency
+  create a new tree with that sum
+  
+  */
+
+}
+
+void insertOrdered (QUEUE* queue, BST_TREE* treeHeader) {
+  /* This function is not functional (pun intended)
+  what it should do is:
+  It inserts the tree (not sure if a header or a node) back to the queue
+  but inserting it based on it's sum of frequencies
+  */
+}
+
+void dequeueTwiceMergeEnqueueOrdered (QUEUE* queue) {
+  BST_TREE* treeHeader1;
+  BST_TREE* treeHeader2;
+  dequeueTwice (queue, treeHeader1, treeHeader2);
+  mergeTwoTrees (treeHeader1, treeHeader2);
+  insertOrdered(queue, treeHeader1);
+}
+
+void reduceQueueToOneElement(QUEUE* queue) {
+  while(queueCount(queue)>1) {
+    dequeueTwiceMergeEnqueueOrdered(queue);
+  }
+  /* This should end with the following:
+  A queue header pointing to its first and only node
+  this node contains a dataPtr that is a tree header
+  This tree Header contains a tree node with the sum of all frequencies
+  aka strlen(originalString)
+  */
+}
+
+
+//  ################### END REDUCE QUEUE TO ONE ELEMENT ###################
+
+//  ################### START setCodes ###################
+
+void setCodes (QUEUE* queue) {
+  /* This functions should set the codes for each one of the TABLE* of the tree,
+  based on their location on the tree
+  It would traverse (using a custom function) to go through it and set their codes.
+  */
+}
+
+//  ################### END setCodes ###################
 
 
 void q3 () {
@@ -368,17 +467,18 @@ void q3 () {
 
   int isManual = 0;
   char* str = (char*) malloc (sizeof(char));
+  char* code = (char*) malloc (sizeof(char));
   QUEUE* queue = createQueue();
 
   selectString(str, isManual);
   printChosenString (str);
-  characterCount(str, queue);
+  characterCount(str, queue);   //this one is broken
+  printHuffQueue(queue);
   orderQueue(queue);
   printHuffQueue(queue);
-  // turnQueueIntoHuffTreeQueue(queue);
-  // BST_TREE* huffmanTree = BST_Create(huffCompare);
-  // createHuffmanTree (huffmanTree, queue);
-  // char* code = getCode (huffmanTree, queue);
+  turnQueueIntoHuffTreeQueue(queue);
+  reduceQueueToOneElement(queue);
+  setCodes(queue);
   // solveCode (code);
   
   // destroyQueue(queue); 
@@ -388,6 +488,8 @@ void q3 () {
 }
 
 int main () {
+
+
   q3();
   // printf(".");
 
