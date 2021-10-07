@@ -3,21 +3,21 @@
 #include <time.h>
 
 /*
-	clock_t fullTimer;
-	double fullTimeTaken;
-    fullTimer = clock();
-    fun();
-    fullTimer = clock() - fullTimer;
-    fullTimeTaken = ((double)fullTimer)/CLOCKS_PER_SEC; // in seconds
-    printf("Sum took %f seconds to execute.\n", time_taken);
+  clock_t fullTimer;
+  double fullTimeTaken;
+  fullTimer = clock();
+  fun();
+  fullTimer = clock() - fullTimer;
+  fullTimeTaken = ((double)fullTimer)/CLOCKS_PER_SEC; // in seconds
+  printf("Sum took %f seconds to execute.\n", time_taken);
 */
 
 
 /*
-	Considerando os conceitos de eficiência de algoritmos realize as seguintes tarefas:
-	6.	Implemente código para medir o desempenho desses algoritmos, considerando:
-		i)	O tempo de execução de cada algoritmo em milissegundos;
-		ii)	O número de operações realizadas (somas + multiplicações) por cada algoritmo.
+	Considerando os conceitos de eficiï¿½ncia de algoritmos realize as seguintes tarefas:
+	6.	Implemente cï¿½digo para medir o desempenho desses algoritmos, considerando:
+		i)	O tempo de execuï¿½ï¿½o de cada algoritmo em milissegundos;
+		ii)	O nï¿½mero de operaï¿½ï¿½es realizadas (somas + multiplicaï¿½ï¿½es) por cada algoritmo.
 */
 
 

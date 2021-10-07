@@ -1,0 +1,10 @@
+Tang, essa 3 está toda capenga. Embora eu tenha feito muita coisa, ainda falta muita coisa.
+Não sei se eu não entendi a forma mais correta/eficiente de fazer, ou se de fato ela era tão trabalhosa assim.
+
+A ideia do algoritmo de Huffman na teoria não me pareceu tão complicado, mas na hora de implementar foi uma doideira.
+
+Praticamente tudo relacionado à codificação de Huffman em si não foi feita.
+Apenas a conversão de um texto em uma queue de frequência, praticamente
+Tentei tornar essa queue uma só árvore, mas não consegui.
+
+Quando fiz essa função de transformar a queue em árvore, uma outra função bugou, a partir daí eu comecei a tentar seguir mais a ideia do que o código deveria fazer do que de fato fazer o código funcionar. Tanto que do jeito que ele está atualmente ele não só está incompleto como também não roda (minha ideia inicial era que ele, mesmo incompleto, pelo menos rodasse).
